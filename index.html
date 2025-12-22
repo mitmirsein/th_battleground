@@ -199,6 +199,21 @@
                 document.getElementById('panel-chart').classList.add('flex');
                 document.getElementById('panel-story').classList.remove('hidden');
                 document.getElementById('panel-story').classList.add('flex');
+            } else {
+                // 모바일로 전환 시: 차트만 보이고 나머지 숨김
+                document.getElementById('panel-layers').classList.add('hidden');
+                document.getElementById('panel-layers').classList.remove('flex');
+                document.getElementById('panel-story').classList.add('hidden');
+                document.getElementById('panel-story').classList.remove('flex');
+                document.getElementById('panel-chart').classList.remove('hidden');
+                document.getElementById('panel-chart').classList.add('flex');
+                // 탭 상태 초기화
+                document.getElementById('tab-chart').classList.add('border-indigo-500', 'text-indigo-600');
+                document.getElementById('tab-chart').classList.remove('border-transparent', 'text-slate-400');
+                document.getElementById('tab-layers').classList.remove('border-indigo-500', 'text-indigo-600');
+                document.getElementById('tab-layers').classList.add('border-transparent', 'text-slate-400');
+                document.getElementById('tab-story').classList.remove('border-indigo-500', 'text-indigo-600');
+                document.getElementById('tab-story').classList.add('border-transparent', 'text-slate-400');
             }
         });
         // 카테고리별 그룹화된 7축
