@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+@theme {
+  --color-advent-primary: #2E1065;
+  --color-advent-accent: #F59E0B;
+  --color-advent-bg: #0F172A;
+  --color-advent-text: #F8FAFC;
+  --color-advent-muted: #94A3B8;
+
+  --font-serif: "Noto Serif KR", serif;
+  --font-sans: "Noto Sans KR", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-advent-bg text-advent-text font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif;
+  }
+}

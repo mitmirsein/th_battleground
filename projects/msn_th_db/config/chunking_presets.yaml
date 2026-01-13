@@ -1,0 +1,84 @@
+# Chunking Presets for msn_th_db
+# Document type-specific chunking parameters
+
+presets:
+  dictionary_small:
+    description: "소형 사전류 (EKL 등)"
+    chunk_size: 2500
+    overlap: 500
+    rationale: "항목이 비교적 짧음, 작은 청크로 정밀 검색"
+    examples:
+      - EKL
+      - DBI
+
+  dictionary_large:
+    description: "대형 사전/백과사전 (TRE, RGG 등)"
+    chunk_size: 4000
+    overlap: 700
+    rationale: "긴 항목, 충분한 컨텍스트 유지 필요"
+    examples:
+      - TRE
+      - RGG
+      - HWPh
+      - ABD
+
+  lexicon:
+    description: "어휘 사전류 (TDNT, ThWAT 등)"
+    chunk_size: 3500
+    overlap: 600
+    rationale: "어휘별 상세 설명, 중간 크기"
+    examples:
+      - ThWAT
+      - EWNT
+      - TDNT
+      - NIDNTT
+      - EDNT
+      - TLOT
+      - NIDOTTE
+
+  monograph:
+    description: "단행본 (KD 등)"
+    chunk_size: 6000
+    overlap: 1000
+    rationale: "논증 흐름 유지가 중요, 큰 청크 권장"
+    examples:
+      - KD
+      - CD
+      - DBW
+
+  commentary:
+    description: "주석서 (BK, EKK 등)"
+    chunk_size: 4000
+    overlap: 700
+    rationale: "절별 해설, 충분한 컨텍스트"
+    examples:
+      - BK
+      - EKK
+      - WBC
+      - ICC
+
+  translation:
+    description: "번역용 (문단 기반, 각주 분리)"
+    strategy: paragraph
+    paragraph_markers:
+      primary: ["\n\n", "\n\s*\n"]
+      secondary: ["^\\d+\\.", "^[A-Z][a-z]"]
+    constraints:
+      max_chars: 6000
+      min_chars: 300
+      preserve_sentence: true
+    footnote_handling:
+      detect_pattern: "\\[\\d+\\]|\\(\\d+\\)|^\\d+\\s"
+      separate_storage: true
+    rationale: "번역 시 문맥 단절 방지 및 각주 독립 관리"
+    examples: []
+
+  default:
+    description: "기본값 (미분류 문서)"
+    chunk_size: 4000
+    overlap: 700
+    rationale: "중간 크기로 범용 적용"
+    examples: []
+
+# 참고: chunk_size와 overlap은 문자 수 (characters) 기준
+# 한글/독일어/영어 혼합 텍스트에서 토큰 수는 약 chunk_size / 2 ~ 3 정도

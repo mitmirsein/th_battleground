@@ -1,0 +1,377 @@
+# Task: Academic Prose Polish
+
+주어진 마크다운 리포트를 학술 논문 문체로 개선하세요.
+
+## 핵심 규칙
+
+1. **각주 보존**: `[^1]`, `[^2]` 등 모든 각주 마커를 정확히 보존
+2. **헤딩 보존**: `##`, `###` 구조 유지
+3. **표 보존**: 마크다운 표 그대로 유지
+4. **불릿 → 문단**: 불릿 리스트를 연결된 학술 문장으로 변환
+5. **학술 문체**: 간결하고 명료한 문장, 객관적 어조
+
+## 변환 예시
+
+**Before:**
+```
+루터 신학의 핵심 개념:
+- **의인(Justus)**: 그리스도의 의가 전가됨[^1]
+- **죄인(Peccator)**: 육신 안에 죄성이 남아 있음
+```
+
+**After:**
+```
+루터 신학의 핵심은 '시물 유스투스 에트 페카토르' 공식에 있다. 이에 따르면, 신자는 그리스도의 의가 전가됨으로써 '의인'으로 인정받는다.[^1] 그러나 동시에 육신 안에는 여전히 죄성이 남아 있어 '죄인'이기도 하다.
+```
+
+---
+
+## ⚠️ 중요: 출력 지침
+
+**이 지시사항은 출력하지 마세요.** 
+
+오직 **개선된 리포트 본문만** 출력하세요. 프롬프트, 지시사항, 메타 설명 없이 `# 제목`부터 시작하세요.
+
+---
+
+아래 리포트를 학술 문체로 개선하세요:
+
+
+
+---
+
+---
+title: "moltmann_zimzum (Annotated)"
+generated: "2025-12-12 05:08"
+source_report: "moltmann_zimzum_raw.md"
+scholar_results: "moltmann_zimzum.md"
+footnote_count: 12
+---
+
+# Gemini Deep Research Report
+
+**Topic:** moltmann_zimzum
+**Generated:** 2025-12-11 22:25
+**Source:** Gemini Deep Research
+
+---
+
+신성한 공간의 건축학: 위르겐 몰트만의 신학에 나타난 페리코레시스와 짐줌(Zimzum)에 대한 심층 분석 보고서
+1. 
+
+## 서론: 현대 신학의 공간적 전환과 몰트만의 기획
+
+20세기 후반 조직신학의 지형도에서 위르겐 몰트만(Jürgen Moltmann)이 차지하는 위치는 독보적이다. 그의 신학적 여정은 『희망의 신학』(Theology of Hope)을 통한 시간과 역사에 대한 재해석으로 시작되었으나, 1980년대 『창조 안에 계신 하느님』(God in Creation)을 기점으로 중대한 전환점을 맞이한다. 이는 시간의 범주에서 '공간(Space)'의 범주로의 신학적 확장이었으며, 생태학적 위기와 현대 과학의 도전에 응답하기 위한 필연적인 귀결이었다.
+
+1 이 공간적 전환의 중심에는 상호보완적이면서도 기원적으로 이질적인 두 가지 개념, 즉 유대교 카발라 신비주의에서 차용한 **짐줌(Zimzum, 칩춤)**과 기독교 교부 신학의 유산인 **페리코레시스(Perichoresis, 상호내주)**가 자리 잡고 있다.
+본 보고서는 몰트만이 어떻게 이 두 개념을 결합하여 고전적 유신론의 난제인 '전능하고 무소부재한 신'과 '고통받는 유한한 피조물'의 공존 문제를 해결하려 했는지 심층적으로 분석한다. 전통적으로 기독교 신학은 하나님을 절대적인 주체로, 세계를 객체로 설정함으로써 무의식적으로 지배와 복종의 도식을 강화해 왔다. 그러나 몰트만은 짐줌을 통해 '물러서는 하나님'을, 페리코레시스를 통해 '함께 춤추는 하나님'을 제시함으로써, 지배가 아닌 '사귐(Fellowship)'으로서의 창조론을 전개한다.
+
+3
+이 분석은 단순한 개념 설명을 넘어, 짐줌이 어떻게 창조의 가능성을 열고, 페리코레시스가 그 창조의 완성을 지향하는지 추적한다. 또한, 이 과정에서 발생한 유대교 신학계의 비판, 여성신학적 관점에서의 케노시스(Kenosis) 논쟁, 그리고 과정 신학(Process Theology)과의 존재론적 긴장을 포괄적으로 다룸으로써 몰트만 신학의 성취와 한계를 입체적으로 조명할 것이다.
+2. 창조의 형이상학적 위기와 짐줌(Zimzum)의 필연성
+2.1. 절대 공간과 무소부재의 역설
+몰트만이 짐줌 개념을 도입하게 된 근본적인 동기는 고전적 창조론이 직면한 논리적, 공간적 모순을 해결하기 위함이었다. 정통 신학은 하나님을 무한하고(infinite), 무소부재하며(omnipresent), 모든 것을 채우시는 분으로 정의한다. 그러나 만약 하나님이 문자 그대로 '모든 것 안에 모든 것'이라면, 하나님이 아닌 다른 존재, 즉 피조물이 존재할 수 있는 '공간'은 어디에 있는가?[^1].
+
+5
+몰트만은 뉴턴의 절대 공간 개념을 비판적으로 검토하면서, 만약 공간이 하나님 안에 있는 무한한 용기(container)라면, 세계는 하나님 속의 우연적 존재가 되거나 범신론적으로 하나님과 동일시될 위험이 있다고 지적한다.
+
+4 반대로 하나님이 세계 바깥에 존재한다면, 하나님의 무소부재성은 훼손된다. 몰트만은 "무로부터의 창조(creatio ex nihilo)"라는 전통 교리가 그 '무(nihil)'가 어디서 왔는지 설명하지 못한다고 비판한다. 절대적인 하나님 곁에 선재하는 '무'란 있을 수 없기 때문이다[^2].
+
+5
+이 형이상학적 교착 상태를 타개하기 위해 몰트만은 16세기 유대 신비주의자 이삭 루리아(Isaac Luria)의 사상을 과감히 수용한다. 그는 루리아의 짐줌 교리를 "무로부터의 창조를 진정으로 신학적으로 사유하려는 유일하고 진지한 시도"라고 평가한다.
+
+4
+2.2. 루리아 카발라의 수용과 기독교적 변용
+이삭 루리아는 '무한자(Ein Sof)'가 유한한 세계를 창조하기 위해서는 자신의 빛을 발산(emanation)하기 전에 먼저 수축(contraction)해야 한다고 가르쳤다. 이것이 바로 짐줌이다. 신은 자신의 존재를 갉아먹거나 제거하는 것이 아니라, 자신의 무한한 빛을 내면으로 거두어들여 '빈 공간(chalal panui)'을 마련한다[^3].
+
+8
+몰트만은 이 개념을 삼위일체론적 창조론으로 재해석한다. 그에게 짐줌은 단순한 물리적 수축이 아니라, 하나님의 **'자기 제한(Self-limitation)'**이자 **'자기 비움(Kenosis)'**이다.
+"자신 안에 그토록 넓고 상호적인 방식으로 거하시는 하나님은, 창조하기 전에 자신 곁에 창조의 공간을 양보하실 때 비로소 자신과 일치하신다. 하나님은 공간을 내어주고, 자리를 만들며, 비신성적 실재가 자신과 더불어, 그리고 자신 안에 존재할 수 있도록 물러나신다"[^5].
+
+5
+여기서 중요한 변용이 발생한다. 루리아의 신비주의에서 짐줌은 주로 '빛'의 수축과 잔여물(reshimu)에 초점을 맞추지만, 몰트만에게 짐줌은 하나님의 '능력'과 '심판'을 거두는 행위로 해석된다.
+
+5 몰트만은 하나님이 창조를 위해 '무(nihil)'를 만드셨다고 주장한다. 즉, '무'는 하나님 외부에 원래부터 있었던 것이 아니라, 하나님의 자기 수축을 통해 하나님 내부에 생성된 '하나님이 부재한 공간'이다[^6]. 이 공간은 피조물이 신성에 압도되지 않고 자유롭게 존재할 수 있는 존재론적 틈새가 된다.
+
+4
+2.3. 어머니의 자궁: 창조적 인내의 메타포
+몰트만은 짐줌을 설명하기 위해 남성적인 '제작(making)'의 메타포 대신, 여성적인 '잉태(conceiving)'의 메타포를 적극적으로 사용한다. 어머니가 아이를 잉태하기 위해 자신의 몸 안에 공간을 만들고 자신의 생명을 나누어 주듯이, 하나님은 세계를 품기 위해 자신의 무한성을 제한한다.
+
+5
+이러한 해석은 히브리어 단어 *라함(racham)*이 '자궁'을 의미하면서 동시에 '긍휼'을 의미한다는 사실과 연결된다. 몰트만은 창조가 하나님의 힘의 과시가 아니라, 타자를 위해 자신의 절대성을 유보하는 겸비(humility)의 행위임을 강조한다. 출산의 고통은 곧 하나님의 짐줌, 즉 자기 수축의 흔적이다.
+
+5 이는 하나님의 전능함(almighty)에 대한 급진적인 재정의를 요구한다. 전능함은 무엇이든 할 수 있는 힘이 아니라, 타자를 위해 자신의 힘을 거둘 수 있는 능력, 즉 '견디는 능력'이다.
+
+5
+
+### 표 1: 고전적 창조론과 몰트만의 짐줌 모델 비교
+
+구분
+고전적 유신론 (전통적 관점)
+몰트만의 짐줌 (Zimzum) 모델
+창조의 동인
+절대적 의지와 능력의 발산 (Emanation/Act)
+사랑에 기인한 자기 제한과 수축 (Contraction/Kenosis)
+'무(Nihil)'의 기원
+신 외부에 전제된 논리적 공허
+신의 자기 수축으로 인해 신 내부에 생성된 공간
+신과 세계의 관계
+초월적 창조주와 피조물의 단절 (이신론적 경향)
+피조물이 신 '안에' 거함 (범재신론, Panentheism)
+신의 속성
+부동의 동자(Unmoved Mover), 무감각성(Impassibility)
+고통을 감수하는 사랑, 정념(Pathos)
+공간 이해
+신은 공간을 초월하거나 채움 (뉴턴의 절대공간)
+신은 공간을 '내어줌' (Room-giving)
+
+3. 관계의 존재론: 페리코레시스(Perichoresis)와 사회적 삼위일체
+짐줌이 창조를 위한 '공간'을 마련했다면, 그 공간을 채우고 유지하며 완성하는 원리는 **페리코레시스(상호내주)**이다. 몰트만은 짐줌을 통해 확보된 피조물의 자유가 고립으로 끝나지 않고, 삼위일체 하나님의 생명에 참여하도록 이끈다.
+3.1. 개념의 역사와 몰트만의 재해석
+'페리코레시스(perichoresis)'는 헬라어 peri(주위)와 choreo(공간을 만들다, 춤추다)의 합성어에서 유래했으며, '순환', '상호 침투', '돌며 나아감'을 의미한다.
+
+10 교부 신학에서 나지안주스의 그레고리우스는 이를 그리스도의 신성과 인성의 결합을 설명하는 데 사용했고[^7], 다마스쿠스의 요한은 이를 삼위일체 위격 간의 상호 내주를 설명하는 핵심 용어로 정립했다.
+
+1 라틴어 번역인 circumincessio(역동적 상호 침투)와 circuminsessio(정적인 상호 거주)는 이 개념의 이중적 성격을 잘 보여준다.
+
+1
+몰트만은 이 개념을 통해 서구 신학의 '추상적 유일신론(Abstract Monotheism)'을 비판한다. 그는 토마스 아퀴나스나 칼 바르트가 하나님의 '단일한 실체(Substance)'나 '절대 주체(Absolute Subject)'를 강조함으로써 삼위의 인격적 관계성을 약화시켰다고 본다.
+
+2 몰트만의 '사회적 삼위일체론(Social Trinity)'은 하나님을 성부, 성자, 성령의 평등하고 역동적인 사귐(Community)으로 정의한다.
+3.2. 군주제적 질서의 해체와 평등한 사귐
+몰트만의 페리코레시스론에서 가장 혁신적인 부분은 성부의 우위성(Monarchy of the Father)을 해체한 것이다. 전통적으로 성부는 신성의 기원으로서 성자와 성령보다 논리적 우위를 점하는 것으로 이해되었다. 그러나 몰트만은 "성부는 성자 안에, 성자는 성부 안에, 그리고 둘 다 성령 안에" 거하는 완전한 상호 의존성을 주장한다.
+
+1
+이 상호내주는 단순한 공존이 아니라, 서로에게 "살아갈 공간(living space)"을 내어주는 행위이다. "각 위격은 서로에게 거주 가능(habitable)하며, 서로를 위해 자신을 비운다".
+
+1 이는 권위와 복종의 위계질서가 아닌, 사랑과 헌신의 순환적 질서이다. 이러한 신 이해는 인간 사회와 정치에도 심대한 함의를 갖는다. 지배와 피지배의 수직적 구조가 아닌, 상호 존중과 연대의 수평적 공동체가 하나님의 형상을 반영하는 참된 모습이 된다.
+
+3
+3.3. 열린 삼위일체와 세계의 참여
+몰트만은 삼위일체의 페리코레시스가 폐쇄적인 원환 운동이 아니라, 밖을 향해 열려 있는 구조라고 주장한다. 하나님은 자신의 사랑의 과잉으로 인해 타자를 원하며, 그 타자를 자신의 사귐 속으로 초대한다.
+
+2
+여기서 짐줌과 페리코레시스가 만난다. 짐줌을 통해 비워진 공간은 비어 있는 상태로 남지 않는다. 그 공간은 성령의 임재(Shekinah)를 통해 하나님의 사랑으로 채워지도록 예정되어 있다. 세계는 하나님 '안에' 존재하지만(범재신론), 하나님과 융합되지는 않는다. 대신, 피조물은 하나님의 삼위일체적 생명의 순환에 참여함으로써 생명력을 얻는다. 이것이 몰트만이 말하는 "생명의 춤(Divine Dance)"이다.
+
+14
+4. 종합: 케노시스, 십자가, 그리고 쉐키나의 임재
+몰트만의 신학적 건축술은 짐줌(창조의 시작), 케노시스(구속의 과정), 페리코레시스(종말론적 완성)를 하나의 거대한 드라마로 연결한다.
+4.1. 십자가: 짐줌의 역사적 실현
+몰트만은 『십자가에 달린 하나님』에서 십자가 사건을 삼위일체 내부의 사건으로 해석한다. 예수의 부르짖음 "나의 하나님, 어찌하여 나를 버리셨나이까"는[^8] 아들이 아버지로부터 유기(abandonment)되는 고통을, 아버지는 아들을 잃는 상실의 고통을 겪는 사건이다.
+
+18
+이 '유기'는 짐줌의 역사적, 구체적 실현이다[^9]. 창조 시에 하나님이 자신을 수축하여 만든 '하나님 부재의 공간'은 십자가 위에서 예수 그리스도가 겪는 '하나님으로부터 버림받음'과 공명한다. 하나님은 고통과 악, 죽음이 존재하는 이 세계를 멀리서 관조하는 것이 아니라, 짐줌을 통해 그 부정적인 현실을 자신의 존재 내부로 받아들인다.
+
+5 따라서 십자가는 하나님의 무능력이 아니라, 악을 자신 안에서 삭이고 극복하는 하나님의 가장 큰 능력(사랑의 능력)의 표현이다.
+
+20
+4.2. 쉐키나: 비움에서 채움으로
+짐줌이 하나님이 물러나 공간을 만드는 것이라면, **쉐키나(Shekinah)**는 그 공간에 하나님이 거주하는 것이다. 몰트만은 유대교의 쉐키나 사상을 받아들여, 이를 성령론적으로 해석한다.
+
+1 성령은 피조물 속에 내주하는 하나님이다.
+창세기 1장에서 "수면 위에 운행하시던" 영은 혼돈과 공허 속에 거주처를 정하시는 하나님의 쉐키나이다. 몰트만은 성령을 "창조의 거룩한 장(field of force)"으로 묘사하며, 성령이 모든 피조물 안에 생명의 기운으로 스며들어 있음을 강조한다.
+
+2 짐줌으로 인해 생긴 '무'의 공간은 쉐키나의 임재를 통해 '생명'의 공간으로 변모한다. 이는 하나님이 세계를 객체로 다루는 것이 아니라, 세계 안에 함께 거주하며 고통을 나누는 동반자임을 의미한다.
+
+12
+4.3. '깨진 그릇(Shevirat ha-Kelim)'과 악의 문제
+몰트만은 짐줌과 함께 루리아 카발라의 또 다른 핵심 개념인 **'깨진 그릇(Shevirat ha-Kelim)'**에 주목한다. 루리아 신비주의에서 창조의 빛을 담아야 할 그릇들이 그 강렬함을 견디지 못하고 깨져버린 우주적 재앙(catastrophe)은 악의 기원과 세계의 불완전성을 설명한다.
+
+22
+몰트만은 이를 기독교적으로 수용하여, 창조가 완결된 상태가 아니라 '열린 시스템(open system)'임을 강조한다. 세계는 완벽하게 닫힌 시스템이 아니기에 붕괴와 혼돈의 가능성을 내포하고 있다. 그러나 하나님은 이 깨어진 조각들(shards)을 버리지 않고, 성령을 통해 그 깨어짐 속에 임재하신다.
+
+25 십자가는 바로 이 깨어진 그릇의 가장 처절한 형상이며, 부활은 깨어진 조각들을 모아 다시 맞추는 **티쿤(Tikkun, 회복/수선)**의 시작이다.
+
+25 안젤름 키퍼(Anselm Kiefer)의 예술 작품에서 형상화된 '깨진 그릇'들은 몰트만의 신학에서 파괴된 세계와 그 속에 숨겨진 신성한 불꽃의 역설을 시각적으로 웅변한다.
+
+25
+5. 종말론: 안식일과 새로운 창조(Nova Creatio)
+몰트만의 신학은 본질적으로 미래지향적이다. 짐줌과 페리코레시스는 결국 종말론적 완성을 향해 나아간다.
+5.1. 안식일: 창조의 목적이자 완성
+몰트만에게 창조의 정점은 인간 창조(제6일)가 아니라 안식일(제7일)이다. 안식일은 하나님이 창조 활동을 멈추고 피조물과 함께 쉬며, 그들 존재 자체를 기뻐하는 날이다.
+
+3 안식일은 짐줌(물러남)이 페리코레시스(함께 거함)로 전환되는 결정적 순간이다.
+안식일에 하나님은 더 이상 일하는 자가 아니라 '거주하는 자'가 된다. 몰트만은 이를 "창조의 축제"라고 부르며, 구원이 단순히 죄로부터의 해방이 아니라, 하나님과 피조물이 함께 안식과 평화를 누리는 상태임을 역설한다.
+
+1 이는 현대 사회의 성과주의와 착취적 노동 윤리에 대한 강력한 신학적 비판이 된다.
+5.2. 새로운 창조와 영광의 왕국
+몰트만은 종말을 원시 상태(에덴)로의 회귀가 아니라, 질적으로 완전히 새로운 **'새로운 창조(Nova Creatio)'**로 본다.
+
+16 처음 창조가 짐줌을 통한 '비움'과 '결핍'의 공간에서 시작되었다면, 새 창조는 하나님의 영광(Doxa)으로 충만히 채워지는 공간이다.
+새 창조에서는 시간과 공간의 성격이 변화한다. 시간은 더 이상 흘러가 사라지는 것이 아니라 영원한 현재가 되고, 공간은 하나님이 직접 거하시는 "넓은 곳"이 된다.
+
+29 여기서 하나님과 세계의 구별은 유지되지만(범신론 거부), 분리는 완전히 사라진다(범재신론의 완성). "하나님이 만유의 주로서 만유 안에 계시려 하심이라"(고전 15:28)는 말씀은 우주적 페리코레시스의 완성을 의미한다.
+6. 생태학적 윤리와 인간의 짐줌
+몰트만의 교의학은 사변에 머물지 않고 구체적인 윤리, 특히 생태 윤리로 귀결된다. 그는 현대의 생태 위기가 자연을 정복 대상으로 보는 잘못된 신관과 인간 중심주의에서 비롯되었다고 진단한다.
+
+3
+6.1. 자연의 탈객체화와 상호의존성
+자연을 하나님의 성령이 거주하는 집(oikos)으로 이해할 때, 자연 파괴는 곧 성령에 대한 모독이 된다[^10]. 페리코레시스의 원리는 자연 생태계의 상호의존성과 공생 원리와 정확히 부합한다.
+
+1 몰트만은 인간이 자연 위에 군림하는 군주가 아니라, 생명 공동체의 일원으로서 자연과 '사귐'을 가져야 한다고 주장한다. 이는 지식을 '지배의 도구'가 아닌 '참여의 도구'로 전환할 것을 요구한다.
+
+3
+6.2. 인간의 짐줌: 윤리적 자기 제한
+하나님이 생명을 위해 자신의 전능성을 제한(Zimzum)하셨다면, 하나님의 형상대로 지음 받은 인간 역시 마땅히 그래야 한다. 몰트만은 생태 위기 시대의 윤리로 **'인간의 짐줌'**을 제안한다.
+
+5
+이는 무한한 성장과 소비의 욕망을 스스로 축소하고, 다른 생명체들이 살아갈 수 있는 공간을 내어주는 윤리다.
+권력의 축소: 강대국이 약소국을 위해, 현 세대가 미래 세대를 위해 기득권을 내려놓는 것.
+소비의 절제: 자연의 재생산 능력을 초과하지 않도록 인간의 활동 반경을 제한하는 것.
+타자를 위한 공간: 사회적 약자와 소수자가 숨 쉴 수 있는 사회적 공간을 마련하는 것.
+
+32
+7. 비판적 쟁점과 신학적 대화
+몰트만의 거대한 신학적 기획은 다양한 진영으로부터 찬사와 비판을 동시에 받았다. 특히 짐줌과 페리코레시스의 사용은 유대교, 여성신학, 과정신학과의 치열한 논쟁 주제가 되었다.
+7.1. 유대교 신학과의 대화: 도용인가, 창조적 수용인가?
+몰트만은 유대교 사상을 가장 적극적으로 수용한 기독교 신학자 중 하나이다. 그러나 그의 짐줌 해석에 대해서는 비판적 시각도 존재한다.
+개념의 기독교화: 유대 신학자들은 몰트만이 짐줌을 기독교의 삼위일체론과 십자가 신학을 정당화하기 위해 탈문맥화했다고 비판한다. 루리아에게 짐줌은 유배(Exile)와 파국(Catastrophe)의 은유였으나[^11], 몰트만은 이를 창조의 긍정적 전제조건인 사랑의 행위로 재해석했다는 것이다.
+
+5
+무한자와 계시의 혼동: 일부 비평가들은 몰트만이 *아인 소프(Ein Sof, 무한자 자체)*와 *오르 아인 소프(Ohr Ein Sof, 무한자의 빛)*를 구분하지 않았다고 지적한다. 카발라에서는 '빛'이 물러난 것이지 신의 본체가 변한 것은 아니지만, 몰트만은 신의 본질적 수축을 주장함으로써 신의 불변성을 훼손했다는 비판을 받는다[^12].
+
+5
+악의 필연성 문제: 짐줌과 '깨진 그릇'을 창조의 필연적 과정으로 설명함으로써, 몰트만이 악을 역사적 우연이 아닌 구조적 필연으로 만들 위험이 있다는 지적도 있다. 이는 악에 대한 하나님의 책임을 가중시키는 신정론적 문제를 야기한다.
+
+2
+7.2. 여성신학적 비판과 옹호: 케노시스 논쟁
+여성신학자들은 '자기 비움(Kenosis)'과 '자기 수축(Zimzum)'이 여성들에게 억압의 도구가 될 수 있음을 경고한다.
+대프니 햄프슨(Daphne Hampson)의 비판: 햄프슨은 가부장적 사회에서 이미 자아를 부정당하고 희생을 강요받아온 여성들에게, 또다시 '자기를 비우라'는 신학은 유해하다고 주장한다. 여성에게 필요한 것은 자기 비움(self-negation)이 아니라 자기 실현(self-actualization)과 자아 확립이다. 그녀는 몰트만의 케노시스 신학이 남성 중심적 죄책감(교만)을 해결하는 데는 유효할지 몰라도, 여성의 경험과는 불일치한다고 본다.
+
+34
+사라 코클리(Sarah Coakley)의 옹호: 반면 코클리는 진정한 케노시스는 '비굴한 복종'이 아니라 '취약성 안에서의 능력(power-in-vulnerability)'이라고 반박한다. 그녀는 기도를 통해 자신의 통제권을 내려놓고 하나님께 공간을 내어드리는 행위는 가부장적 권력 구조를 전복시키는 영적 힘이 된다고 주장한다. 코클리는 몰트만의 짐줌이 단순한 약화가 아니라, 사랑을 위한 주체적 결단이라는 점에서 여성신학적으로도 수용 가능하다고 본다.
+
+36
+몰트만의 입장: 몰트만은 "신만이 신을 제한할 수 있다"고 말하며, 짐줌이 무력함이 아닌 최고의 주권적 자유임을 강조함으로써 코클리의 입장과 궤를 같이한다.
+
+5
+7.3. 과정신학과의 존재론적 긴장
+몰트만과 과정신학(화이트헤드, 존 캅)은 '고통당하는 하나님'과 '관계적 하나님'을 공유하지만, 그 근거에서 결정적으로 갈라진다.
+자발적 제한 vs 존재론적 제한: 과정신학은 하나님이 본성적으로 강제할 힘이 없으며, 오직 설득할 수만 있다고 본다. 따라서 짐줌은 불필요한 개념이다. 반면 몰트만은 하나님이 전능하지만, 사랑 때문에 자발적으로 자신을 제한했다고 본다. 이는 하나님의 주권을 보존하려는 시도이다.
+
+39
+미래의 보장: 과정신학은 미래가 완전히 열려 있어 하나님도 결과를 알 수 없으며 승리를 보장할 수 없다고 본다(개방적 미래). 반면 몰트만은 십자가와 부활을 근거로, 열린 역사 속에서도 하나님이 결국 악을 이기고 새 창조를 완성하실 것이라는 종말론적 희망(약속된 미래)을 포기하지 않는다.
+
+16
+
+### 표 2: 몰트만 신학과 과정 신학의 비교
+
+주제
+몰트만 신학
+과정 신학 (존 캅, 그리핀 등)
+신의 능력 제한
+자발적 (Voluntary): 짐줌을 통해 스스로 능력을 유보함
+존재론적 (Ontological): 신은 본성적으로 강제력이 없음
+창조의 기원
+수정된 Creatio ex nihilo (짐줌을 통한 무의 생성)
+혼돈/질료로부터의 창조 (전통적 ex nihilo 거부)
+미래와 종말
+승리가 약속된 희망 (새 창조의 도래 보장)
+완전히 열린 미래 (신의 승리는 보장되지 않음)
+삼위일체
+사회적 삼위일체 (페리코레시스적 연합)
+주로 단일신론적 경향 (혹은 양태론적 해석)
+악의 문제
+신이 악을 십자가에서 껴안고 극복함
+신은 악을 막을 힘이 없으며, 함께 고통당함
+
+8. 
+
+## 결론: 춤추는 공간으로의 초대
+
+위르겐 몰트만의 신학에서 짐줌과 페리코레시스는 별개의 개념이 아니라, 하나님의 구원 드라마를 구성하는 두 축이다. 짐줌은 하나님의 사랑이 타자를 위해 물러서는 '공간 만들기(Space-making)'의 건축술이며, 페리코레시스는 그 공간을 생명과 사귐으로 채우는 '거주하기(Inhabiting)'의 예술이다.
+몰트만은 이를 통해 기독교 신학의 오래된 난제들을 해결하고자 했다. 그는 짐줌을 통해 전능한 신과 자율적 인간의 공존을 설명했고, 페리코레시스를 통해 유일신론의 억압성을 극복하고 생태적 공생의 모델을 제시했다. 비록 유대교적 맥락의 탈각이나 여성신학적 우려와 같은 비판적 쟁점들이 남아 있지만, "자신을 제한함으로써 타자를 살리는 힘"으로서의 신성 이해는 폭력과 배제로 얼룩진 현대 사회에 강력한 윤리적 도전을 던진다.
+결국 몰트만이 그리는 우주는, 하나님이 자신의 무한성을 거두어 만든 '빈 공간'에서 시작하여, 그 공간이 삼위일체 하나님의 춤(Perichoresis)과 영광(Doxa)으로 가득 차는 '새로운 창조'로 완성되는 장엄한 파노라마이다. 인간은 이 드라마 속에서 자신의 욕망을 축소하는 짐줌을 실천하고, 타자와 연대하는 페리코레시스의 춤에 참여함으로써 하나님의 형상을 회복하도록 부름받고 있다.
+참고 자료
+Perichoresis - The Oxford Institute | of Methodist Theological Studies, 12월 11, 2025에 액세스, https://oxford-institute.org/wp-content/uploads/2013/01/06_1997_moltmann.pdf
+THE FUNCTION OF THE TRINITY IN MOLTMANN'S ECOLOGICAL DOCTRINE OF CREATION - Theological Studies Journal, 12월 11, 2025에 액세스, https://theologicalstudies.net/wp-content/uploads/2022/08/51.4.5.pdf
+God in Creation: A New Theology of Creation and the Spirit of God | Logos Bible Software, 12월 11, 2025에 액세스, https://www.logos.com/product/49609/god-in-creation-a-new-theology-of-creation-and-the-spirit-of-god
+An Extreme Modification of Tradition? Moltmann's Understanding of Creation, 12월 11, 2025에 액세스, https://henrycenter.tiu.edu/2018/03/an-extreme-modification-of-tradition-moltmanns-understanding-of-creation/
+Zimzum: Jürgen Moltmann on god's self-contraction to make space for life, 12월 11, 2025에 액세스, https://postbarthian.com/2018/03/08/zimzum-jurgen-moltmann-gods-self-contraction-make-space-life/
+God in Creation | YCFC - Yale Center for Faith & Culture, 12월 11, 2025에 액세스, https://faith.yale.edu/media/god-in-creation
+Zimzum and the God of Creation - The Rambling Priest, 12월 11, 2025에 액세스, https://www.ramblingpriest.com/zimzum-and-the-god-of-creation/
+Tzimtzum - Wikipedia, 12월 11, 2025에 액세스, https://en.wikipedia.org/wiki/Tzimtzum
+Creation Impossible - What is tzimtzum like? - Chabad.org, 12월 11, 2025에 액세스, https://www.chabad.org/library/article_cdo/aid/2298270/jewish/Creation-Impossible.htm
+Perichoresis - Wikipedia, 12월 11, 2025에 액세스, https://en.wikipedia.org/wiki/Perichoresis
+• Perichoresis: An Old Magic Word for a New Trinitarian Theology, 12월 11, 2025에 액세스, https://stalbansedmonds.org/wp-content/uploads/2024/05/moltmann_perichoresis.pdf
+Perichoresis in Aquinas: Fruit, not Foundation | Reformedish, 12월 11, 2025에 액세스, https://derekzrishmawy.com/2017/02/14/perichoresis-in-aquinas-fruit-not-foundation/
+12월 11, 2025에 액세스, https://www.researchgate.net/publication/231912040_The_Use_and_Abuse_of_Perichoresis_in_Recent_Theology#:~:text=For%20example%2C%20in%20his%20influential,not%20be%20seen%20in%20a
+Moltmann Monday: The Trinity and Perichoresis - - Danielle Shroyer, 12월 11, 2025에 액세스, https://danielleshroyer.com/moltmann-monday-the-trinity-and-perichoresis/
+Salvation & the Trinity (3): Problems with the proposals of Moltmann and Pannenberg, 12월 11, 2025에 액세스, http://ronaldwesterbeek7.blogspot.com/2015/03/salvation-trinity-3-problems-with.html
+The justification of God? The story of God's work according to JÃ¼rgen Moltmann : Part 2, 12월 11, 2025에 액세스, https://journals.co.za/doi/pdf/10.10520/EJC100857
+Meaning of Perichoresis in Christianity, 12월 11, 2025에 액세스, https://www.wisdomlib.org/christianity/concept/perichoresis
+The kenosis of God and reverence for the particular: A conversation with Juergen Moltmann, 12월 11, 2025에 액세스, https://epublications.marquette.edu/dissertations/AAI9912729/
+The Theology of Jurgen Moltmann - Scholars Repository at Loma Linda University, 12월 11, 2025에 액세스, https://scholarsrepository.llu.edu/context/etd/article/1651/viewcontent/Wood__Brent_A___The_Theology_of_Jurgen_Moltmann.pdf
+“Humbled onto Death”: Kenosis and Tsimtsum as the Two Models of Divine Self-Negation, 12월 11, 2025에 액세스, https://www.mdpi.com/2409-9287/9/5/134
+Shekina :: The Presence, 12월 11, 2025에 액세스, http://www.shekinacommunity.com/blog/2019/3/4/shekina-the-presence
+The World of Chaos and The World of Rectification - Wikipedia, 12월 11, 2025에 액세스, https://en.wikipedia.org/wiki/The_World_of_Chaos_and_The_World_of_Rectification
+Shattered Vessels - Introduction to the Ari's Concept of Shevirat haKeilim - Chabad.org, 12월 11, 2025에 액세스, https://www.chabad.org/kabbalah/article_cdo/aid/380568/jewish/Shattered-Vessels.htm
+Shevirat ha-Kelim (Breaking of the Vessels) - New Kabbalah, 12월 11, 2025에 액세스, https://newkabbalah.com/theosophical-kabbalah/lurianic-symbols/shevirat-ha-kelim-breaking-of-the-vessels/
+Shevirat ha-Kelim (Breaking of the Vessels) | Jewish Museum Berlin, 12월 11, 2025에 액세스, https://www.jmberlin.de/en/core-exhibition-13-objects-shevirat-ha-kelim
+anselm kiefer: collecting what is broken. works from the chevirat ha-kelim (breaking, 12월 11, 2025에 액세스, https://www.ojsltn.uni.lodz.pl/index.php/Art-Inquiry/article/download/1820/1631
+ENVIRONMENTAL RESPONSIBILITY AND ETHICS IN JUDAISM, CHRISTIANITY, AND ISLAM - Contemporary Journal of Social Science Review, 12월 11, 2025에 액세스, https://contemporaryjournal.com/index.php/14/article/download/1300/1124
+Moltmann - Salvaged Faith, 12월 11, 2025에 액세스, https://salvagedfaith.com/tag/moltmann/
+(PDF) An Evaluation of Jürgen Moltmann's Concept of Time and Space in the New Creation, 12월 11, 2025에 액세스, https://www.researchgate.net/publication/275455716_An_Evaluation_of_Jurgen_Moltmann's_Concept_of_Time_and_Space_in_the_New_Creation
+A New Theology of Creation and the Spirit of God - Jürgen Moltmann - Google Books, 12월 11, 2025에 액세스, https://books.google.com/books/about/God_in_Creation.html?id=s-v1zkOit2kC
+Ecology in Jurgen Moltmann's Theology - dokumen.pub, 12월 11, 2025에 액세스, https://dokumen.pub/download/ecology-in-jurgen-moltmanns-theology.html
+Tzimtzum and Leadership: The Sacred Art of Contraction | Jewish Center of the Hamptons, 12월 11, 2025에 액세스, https://jcoh.org/2025/03/28/tzimtzum-and-leadership-the-sacred-art-of-contraction/
+Diminished Light? - Jewish Review of Books, 12월 11, 2025에 액세스, https://jewishreviewofbooks.com/philosophy/16670/diminished-light/
+God's Kenotic Love-Power – a Defense of Relational Theology and the Vulnerability in Love - uu .diva, 12월 11, 2025에 액세스, https://uu.diva-portal.org/smash/get/diva2:1944466/FULLTEXT01.pdf
+Religion as Gender Politics: Theology, Feminism, and Continental Philosophy | Daphne Hampson, Theologian, 12월 11, 2025에 액세스, https://daphnehampson.co.uk/publications/religion-as-gender-politics-theology-feminism-and-continental-philosophy/
+God's Kenotic Love-Power – a Defense of Relational Theology and the Vulnerability in Love, 12월 11, 2025에 액세스, https://www.researchgate.net/publication/389176969_God's_Kenotic_Love-Power_-_a_Defense_of_Relational_Theology_and_the_Vulnerability_in_Love
+On Desire Lines: Sarah Coakley, Vulnerability, and What Turns Us On - Women in Theology, 12월 11, 2025에 액세스, https://womenintheology.org/2013/09/04/on-desire-lines-sarah-coakley-vulnerability-and-what-turns-us-on/
+All the Sick and Twisted Ways Power and Victimhood Have Screwed Us Up: On Kenosis and Contemplation - Experimental Theology, 12월 11, 2025에 액세스, http://experimentaltheology.blogspot.com/2014/04/all-sick-and-twisted-ways-power-and.html
+Process Theology - Scholars Crossing, 12월 11, 2025에 액세스, https://digitalcommons.liberty.edu/cgi/viewcontent.cgi?article=1099&context=sor_fac_pubs
+Two Reservations about Process Theology, 12월 11, 2025에 액세스, http://experimentaltheology.blogspot.com/2025/01/two-reservations-about-process-theology.html
+Can Process Theology Affirm Creatio-Ex-Nihilo and Divine Self-Limitation? - Open Horizons, 12월 11, 2025에 액세스, https://www.openhorizons.org/can-process-theology-affirm-creatio-ex-nihilo-and-divine-self-limitation.html
+Theology of Hope by Jurgen Moltmann - Pustaka Media SABDA, 12월 11, 2025에 액세스, https://media.sabda.org/alkitab-2/Religion-Online.org%20Books/Moltman%2C%20Jurgen%20-%20Theology%20of%20Hope.pdf
+
+---
+
+## Endnotes
+
+[^1]: Ron Highfield, "Divine Self-Limitation in the Theology of Jürgen Moltmann: A Critical Appraisal," Christian Scholar's Review 32, no. 1 (2002): 49.
+
+[^2]: Tae-Yeong Kang, "Geist und Schöpfung: eine Untersuchung zu Jürgen Moltmanns pneumatologischer Schöpfungslehre" (PhD diss., Ruprecht-Karls-Universität Heidelberg, 2003), 45.
+
+[^3]: Mathias Wirth, "Von Anaximander bis Zimzum," in Raum und Gefühl: Der Spatial Turn in der Kulturwissenschaft (Wiesbaden: Springer, 2019), 150.
+
+[^4]: Jürgen Moltmann, "Gottes Kenosis in Schöpfung und Vollendung der Welt," Teologia w Polsce 3, no. 1 (2009): 5.
+
+[^5]: Highfield, "Divine Self-Limitation," 52.
+
+[^6]: Paul D. Molnar, "The Function of the Trinity in Moltmann's Ecological Doctrine of Creation," Theological Studies 51, no. 4 (1990): 675.
+
+[^7]: Alan Brill, A Jewish Trinity: Contemporary Christian Theology through Jewish Eyes (Oxford: Oxford University Press, 2025), 7.
+
+[^8]: Kang, "Geist und Schöpfung," 82.
+
+[^9]: Ibid., 84.
+
+[^10]: Molnar, "Function of the Trinity," 680.
+
+[^11]: Brill, A Jewish Trinity, 9.
+
+[^12]: Ibid., 12.
+
+
+---
+
+## Bibliography
+
+- Brill, Alan. A Jewish Trinity: Contemporary Christian Theology through Jewish Eyes. Oxford: Oxford University Press, 2025.
+- Highfield, Ron. "Divine Self-Limitation in the Theology of Jürgen Moltmann: A Critical Appraisal." Christian Scholar's Review 32, no. 1 (2002): 49-71.
+- Kang, Tae-Yeong. "Geist und Schöpfung: eine Untersuchung zu Jürgen Moltmanns pneumatologischer Schöpfungslehre." PhD diss., Ruprecht-Karls-Universität Heidelberg, 2003.
+- Molnar, Paul D. "The Function of the Trinity in Moltmann's Ecological Doctrine of Creation." Theological Studies 51, no. 4 (1990): 673-697.
+- Moltmann, Jürgen. "Gottes Kenosis in Schöpfung und Vollendung der Welt." Teologia w Polsce 3, no. 1 (2009): 5-16.
+- Wirth, Mathias. "Von Anaximander bis Zimzum." In Raum und Gefühl: Der Spatial Turn in der Kulturwissenschaft, edited by Gertrud Lehnert, 139-158. Wiesbaden: Springer, 2019.
+
+---
+
+## Source Comparison
+
+| Original (Web) | Academic Replacement | Status |
+|----------------|---------------------|--------|
+| Research Report Inference | Highfield (2002) | 🔴 No match |
+| Research Report Inference | Molnar (1990) | 🔴 No match |
+| Research Report Inference | Brill (2025) | 🔴 No match |

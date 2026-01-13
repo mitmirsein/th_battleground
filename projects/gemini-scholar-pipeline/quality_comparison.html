@@ -1,0 +1,134 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pipeline Quality Comparison</title>
+        
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --text: #1a1a1a;
+            --accent: #0f172a;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 4rem 2rem;
+            line-height: 1.5;
+        }
+        .container {
+            max_width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            border-bottom: 4px solid var(--text);
+            padding-bottom: 1rem;
+        }
+        .meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 3rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            table-layout: fixed;
+        }
+        th, td {
+            text-align: left;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        th {
+            background: var(--text);
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            width: 200px;
+        }
+        th:first-child {
+            width: 150px;
+            background: white;
+            color: var(--text);
+            border-bottom: 4px solid var(--text);
+        }
+        .metric-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+        .value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .diff-positive { color: #059669; font-size: 0.8em; margin-left: 0.5em; }
+        .diff-negative { color: #dc2626; font-size: 0.8em; margin-left: 0.5em; }
+        
+        .chart-bar {
+            height: 4px;
+            background: #e2e8f0;
+            margin-top: 0.5rem;
+            position: relative;
+            width: 100%;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .chart-fill {
+            height: 100%;
+            background: var(--text);
+        }
+        .missing-file {
+            color: #dc2626;
+            font-style: italic;
+        }
+    </style>
+    
+    </head>
+    <body>
+        <div class="container">
+            <div class="meta">
+                GENERATED: 2025-12-06 08:36:27<br>
+                PROJECT: GEMINI SCHOLAR PIPELINE
+            </div>
+            <h1>Quality Metrics Comparison</h1>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+    <th>Raw Output</th><th>Enhanced (Phase 1.5)</th><th>Annotated (Phase 4)</th><th>Final Article (Phase 5)</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr><td class='metric-label'>Size (KB)</td><td><span class='value'>42.5</span><div class='chart-bar'><div class='chart-fill' style='width: 93.4065934065934%'></div></div></td><td><span class='value'>42.5</span><div class='chart-bar'><div class='chart-fill' style='width: 93.4065934065934%'></div></div></td><td><span class='value'>45.5</span><div class='chart-bar'><div class='chart-fill' style='width: 100.0%'></div></div></td><td><span class='value'>13.7</span><div class='chart-bar'><div class='chart-fill' style='width: 30.10989010989011%'></div></div></td></tr><tr><td class='metric-label'>Character Count</td><td><span class='value'>29500</span><div class='chart-bar'><div class='chart-fill' style='width: 90.6492947792152%'></div></div></td><td><span class='value'>29500</span><div class='chart-bar'><div class='chart-fill' style='width: 90.6492947792152%'></div></div></td><td><span class='value'>32543</span><div class='chart-bar'><div class='chart-fill' style='width: 100.0%'></div></div></td><td><span class='value'>7345</span><div class='chart-bar'><div class='chart-fill' style='width: 22.570137971299513%'></div></div></td></tr><tr><td class='metric-label'>Word Count</td><td><span class='value'>3393</span><div class='chart-bar'><div class='chart-fill' style='width: 88.47457627118645%'></div></div></td><td><span class='value'>3393</span><div class='chart-bar'><div class='chart-fill' style='width: 88.47457627118645%'></div></div></td><td><span class='value'>3835</span><div class='chart-bar'><div class='chart-fill' style='width: 100.0%'></div></div></td><td><span class='value'>1346</span><div class='chart-bar'><div class='chart-fill' style='width: 35.097783572359845%'></div></div></td></tr><tr><td class='metric-label'>Footnotes / Refs</td><td><span class='value'>0</span><div class='chart-bar'><div class='chart-fill' style='width: 0.0%'></div></div></td><td><span class='value'>0</span><div class='chart-bar'><div class='chart-fill' style='width: 0.0%'></div></div></td><td><span class='value'>10</span><div class='chart-bar'><div class='chart-fill' style='width: 100.0%'></div></div></td><td><span class='value'>0</span><div class='chart-bar'><div class='chart-fill' style='width: 0.0%'></div></div></td></tr><tr><td class='metric-label'>Greek/Hebrew Chars</td><td><span class='value'>49</span><div class='chart-bar'><div class='chart-fill' style='width: 100.0%'></div></div></td><td><span class='value'>49</span><div class='chart-bar'><div class='chart-fill' style='width: 100.0%'></div></div></td><td><span class='value'>49</span><div class='chart-bar'><div class='chart-fill' style='width: 100.0%'></div></div></td><td><span class='value'>20</span><div class='chart-bar'><div class='chart-fill' style='width: 40.816326530612244%'></div></div></td></tr><tr><td class='metric-label'>Section Structure</td><td>H1:1 / H2:8 / H3:16</td><td>H1:1 / H2:8 / H3:16</td><td>H1:1 / H2:11 / H3:16</td><td>H1:1 / H2:6 / H3:8</td></tr>
+                </tbody>
+            </table>
+            
+            <div style="margin-top: 3rem; padding: 2rem; background: white; border: 1px solid #e2e8f0;">
+                <h3 style="font-weight: 800; text-transform: uppercase;">Analysis Summary</h3>
+                <ul style="line-height: 1.8; color: #475569;">
+                    <li><strong>Raw -> Enhanced:</strong> Checks for expansion in content and academic depth (footnotes/greek terms).</li>
+                    <li><strong>Enhanced -> Annotated:</strong> Expect significant increase in annotations and structure clarity.</li>
+                    <li><strong>Annotated -> Final:</strong> Expect refinement, removal of meta-commentary, and polished final structure.</li>
+                </ul>
+            </div>
+        </div>
+    </body>
+    </html>
+    

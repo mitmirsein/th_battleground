@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영단어 쑥쑥</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- style.css 연결 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-white">
+    <div id="app-container" class="min-h-screen flex flex-col items-center justify-center p-4 relative">
+        <!-- Header with enhanced styling -->
+        <header class="text-center mb-12 float-card">
+            <div class="relative">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 mx-auto text-white mb-4 pulse-icon drop-shadow-lg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6-2.292m0 0V21M12 6.042A8.967 8.967 0 0118 3.75m-6 2.292A8.966 8.966 0 006 3.75" />
+                </svg>
+                <div class="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full animate-bounce">
+                    <span class="text-xs">🚀</span>
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black title-gradient mb-4 drop-shadow-2xl">영단어 쑥쑥</h1>
+            <p class="text-white/80 text-lg md:text-xl font-light">영어 단어 실력을 키워보세요!</p>
+            <div class="mt-4 flex justify-center space-x-2">
+                <div class="w-2 h-2 bg-white/50 rounded-full animate-pulse"></div>
+                <div class="w-2 h-2 bg-white/50 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                <div class="w-2 h-2 bg-white/50 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+            </div>
+        </header>
+
+        <!-- Word Set Selector (단어장 선택 화면) -->
+        <div id="word-set-selector-container" class="w-full max-w-md glass p-8 md:p-10 text-center float-card">
+            <h2 class="text-3xl font-bold mb-8 text-white drop-shadow-lg">학습할 단어장 선택</h2>
+            <div class="flex flex-col space-y-4">
+                <button data-wordsfile="words_beginner.js" class="word-set-button btn-primary text-white font-bold py-3 px-6 rounded-xl text-lg shadow-lg">
+                    🌟 초급 단어장 (words_beginner.js)
+                </button>
+                <button data-wordsfile="words_intermediate.js" class="word-set-button btn-secondary text-white font-bold py-3 px-6 rounded-xl text-lg shadow-lg">
+                    ⚡ 중급 단어장 (words_intermediate.js)
+                </button>
+                <button data-wordsfile="words_advanced.js" class="word-set-button btn-success text-white font-bold py-3 px-6 rounded-xl text-lg shadow-lg">
+                    🔥 고급 단어장 (words_advanced.js)
+                </button>
+            </div>
+            <p id="word-set-loading-message" class="mt-6 text-white/70" style="display:none;">단어장 로딩 중...</p>
+            <p id="word-set-error-message" class="mt-6 text-red-300 font-semibold" style="display:none;"></p>
+        </div>
+
+
+        <!-- Main content with glassmorphism (Initially hidden) -->
+        <main id="quiz-area" class="w-full max-w-2xl glass p-8 md:p-10 float-card" style="display:none;">
+            <!-- 1. Level Selector -->
+            <div id="level-selector-container" class="text-center">
+                <h2 class="text-3xl font-bold mb-10 text-white drop-shadow-lg">레벨 선택</h2> 
+                <div id="level-buttons-wrapper" class="flex flex-col space-y-6"> 
+                    <!-- Level buttons are dynamically added by JavaScript -->
+                </div>
+
+                <!-- Quiz Mode Selector (Hidden by default, shown after level selection) -->
+                <div id="quiz-mode-selector" style="display:none;" class="text-center mt-10">
+                    <h3 class="text-2xl font-bold mb-6 text-white drop-shadow-lg" id="selected-level-quiz-mode-text"></h3>
+                    <div class="flex flex-col space-y-4">
+                        <button id="start-random-quiz-button" class="btn-primary text-white font-bold py-4 px-8 rounded-2xl text-xl shadow-xl">
+                            📚 랜덤 퀴즈 시작
+                        </button>
+                        <button id="start-incorrect-quiz-button" class="btn-warning text-white font-bold py-4 px-8 rounded-2xl text-xl shadow-xl">
+                            📝 오답 노트 풀기 (0개)
+                        </button>
+                        <button id="back-to-level-select-button" class="glass text-white font-bold py-3 px-6 rounded-2xl text-lg shadow-xl">
+                            ⬅️ 레벨 선택으로
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Quiz View -->
+            <div id="quiz-view-container" style="display:none;">
+                <div class="flex justify-between items-center mb-4 text-white/90">
+                    <span id="current-level-display" class="text-xl font-bold glass-dark px-4 py-2 rounded-full">Level 1</span>
+                    <span id="score-display" class="text-xl font-bold glass-dark px-4 py-2 rounded-full">0/10</span>
+                </div>
+                
+                <div id="progress-bar-container" class="w-full bg-white/20 rounded-full h-4 overflow-hidden shadow-inner mb-2 backdrop-blur">
+                    <div id="progress-bar" class="progress-bar h-full rounded-full transition-all duration-500 ease-out" style="width: 0%;"></div>
+                </div>
+                <p id="question-number-display" class="text-sm text-white/70 text-right mb-6">문제 0/0</p>
+                
+                <div id="question-card" class="glass-dark p-8 rounded-3xl mb-6">
+                    <h3 id="question-text" class="text-4xl md:text-5xl font-black text-center text-white mb-4 drop-shadow-lg"></h3>
+                    <p class="text-center text-white/80 text-lg mb-8">위 영어 단어의 뜻으로 알맞은 것은?</p>
+                    <div id="options-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Options buttons are dynamically added by JavaScript -->
+                    </div>
+                </div>
+                
+                <div id="feedback-message" class="text-white p-4 rounded-2xl text-center font-bold text-lg shadow-xl" style="display:none;">
+                    <!-- Feedback message dynamically added by JavaScript -->
+                </div>
+                
+                <button id="next-question-button" class="mt-6 w-full btn-primary text-white font-bold py-4 px-6 rounded-2xl text-xl shadow-xl" style="display:none;">
+                    <span class="flex items-center justify-center">
+                        다음 문제로
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+
+            <!-- 3. Result Screen -->
+            <div id="result-screen-container" style="display:none;" class="text-center">
+                <div class="mb-8">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h2 id="result-title" class="text-4xl font-black mb-4 text-white">퀴즈 완료!</h2>
+                    <p id="result-level" class="text-xl text-white/80 mb-6">Level 결과</p>
+                </div>
+                
+                <div id="result-details" class="glass-dark p-8 rounded-3xl mb-8">
+                    <p id="result-percentage" class="text-7xl font-black text-white mb-2">0%</p>
+                    <p id="result-score" class="text-2xl text-white/80">0/0 정답</p>
+                </div>
+                
+                <p id="result-message" class="font-bold text-xl mb-8 flex items-center justify-center text-white">
+                    <span id="result-message-icon" class="text-3xl mr-3"></span> 
+                    <span id="result-message-text"></span>
+                </p>
+                
+                <div class="space-y-4">
+                    <button id="retry-quiz-button" class="w-full btn-primary text-white font-bold py-4 px-8 rounded-2xl text-lg shadow-xl">
+                        <span class="flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            다시 도전하기
+                        </span>
+                    </button>
+                    <button id="proceed-next-level-button" class="w-full btn-success text-white font-bold py-4 px-8 rounded-2xl text-lg shadow-xl" style="display:none;">
+                        <span class="flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                            다음 레벨
+                        </span>
+                    </button>
+                    <button id="back-to-levels-button" class="w-full glass text-white font-bold py-4 px-8 rounded-2xl text-lg shadow-xl">
+                        <span class="flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                            </svg>
+                            레벨 선택으로
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Enhanced Footer (Initially hidden) -->
+        <footer id="app-footer" class="mt-12 text-center" style="display:none;">
+            <button id="reset-progress-button" class="glass text-white/80 hover:text-white transition-all duration-300 inline-flex items-center px-4 py-3 rounded-2xl hover:bg-red-500/20 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mr-2"> 
+                  <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.178 2.625-1.516 2.625H3.72c-1.337 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+                진행 상황 초기화
+            </button>
+            <p class="text-white/60 text-sm">© 2025 Sunny • Made with ❤️</p>
+        </footer>
+    </div>
+
+    <!-- app.js는 여기에 위치하며, words.js는 app.js 내부에서 동적으로 로드됩니다. -->
+    <script src="app.js"></script>
+</body>
+</html>

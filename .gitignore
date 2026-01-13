@@ -1,0 +1,46 @@
+# System
+.DS_Store
+.checkpoints
+.Trashes
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+shared_venv/
+.pytest_cache/
+.coverage
+
+# IDE
+.vscode/
+.idea/
+
+# Data & Large Files (Track code, ignore heavy data)
+*.pdf
+*.epub
+*.mp3
+*.wav
+*.zip
+*.tar.gz
+*.jsonl
+*.sqlite
+*.db
+/data/
+/projects/*/data/
+/projects/*/output/
+/temp/
+
+# User Data & Secrets
+secrets.json
+secrets.yaml
+.env
+*.pem
+*.key
+google_params.pkl
+
+# Logs
+*.log

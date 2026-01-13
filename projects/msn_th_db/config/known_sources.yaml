@@ -1,0 +1,244 @@
+# Known Sources Database for msn_th_db
+# Pre-defined metadata for known theological documents
+# Used for auto-detection during Pre-Chunking workflow
+
+sources:
+  # === 독일어 사전류 (German Dictionaries) ===
+  RGG:
+    full_title: "Religion in Geschichte und Gegenwart"
+    language: de
+    doc_type: dictionary_large
+    editions:
+      4: { year_range: [1998, 2007], volumes: 8 }
+      3: { year_range: [1957, 1965], volumes: 7 }
+    chunk_preset: dictionary_large
+    citation_template: "{abbr}, {ed}. Aufl., Bd. {vol}, {page}"
+    filename_patterns:
+      - "RGG"
+      - "Religion in Geschichte"
+
+  TRE:
+    full_title: "Theologische Realenzyklopädie"
+    language: de
+    doc_type: dictionary_large
+    editions:
+      1: { year_range: [1977, 2007], volumes: 36 }
+    chunk_preset: dictionary_large
+    citation_template: "{abbr}, Bd. {vol}, {page}"
+    filename_patterns:
+      - "TRE"
+      - "Theologische Realenzyklopädie"
+
+  EKL:
+    full_title: "Evangelisches Kirchenlexikon"
+    language: de
+    doc_type: dictionary_small
+    editions:
+      3: { year_range: [1986, 1997], volumes: 5 }
+      1: { year_range: [1956, 1961], volumes: 4 }
+    chunk_preset: dictionary_small
+    citation_template: "{abbr}, {ed}. Aufl., Bd. {vol}, {page}"
+    filename_patterns:
+      - "EKL"
+      - "Evangelisches Kirchenlexikon"
+      - "Kirchenlexikon"
+
+  HWPh:
+    full_title: "Historisches Wörterbuch der Philosophie"
+    language: de
+    doc_type: dictionary_large
+    editions:
+      1: { year_range: [1971, 2007], volumes: 13 }
+    chunk_preset: dictionary_large
+    citation_template: "{abbr}, Bd. {vol}, {page}"
+    filename_patterns:
+      - "HWPh"
+      - "Historisches Wörterbuch"
+
+  ThWAT:
+    full_title: "Theologisches Wörterbuch zum Alten Testament"
+    language: de
+    doc_type: lexicon
+    editions:
+      1: { year_range: [1973, 2000], volumes: 10 }
+    chunk_preset: lexicon
+    citation_template: "{abbr}, Bd. {vol}, {page}"
+    filename_patterns:
+      - "ThWAT"
+      - "TWAT"
+
+  EWNT:
+    full_title: "Exegetisches Wörterbuch zum Neuen Testament"
+    language: de
+    doc_type: lexicon
+    editions:
+      2: { year_range: [1992, 1992], volumes: 3 }
+    chunk_preset: lexicon
+    citation_template: "{abbr}, Bd. {vol}, {page}"
+    filename_patterns:
+      - "EWNT"
+      - "Exegetisches Wörterbuch"
+
+  # === 영어 사전류 (English Dictionaries) ===
+  TDNT:
+    full_title: "Theological Dictionary of the New Testament"
+    language: en
+    doc_type: lexicon
+    editions:
+      1: { year_range: [1964, 1976], volumes: 10 }
+    chunk_preset: lexicon
+    citation_template: "{abbr}, Vol. {vol}, {page}"
+    filename_patterns:
+      - "TDNT"
+      - "Theological Dictionary of the New Testament"
+      - "Kittel"
+
+  NIDNTT:
+    full_title: "New International Dictionary of New Testament Theology"
+    language: en
+    doc_type: lexicon
+    editions:
+      2: { year_range: [2014, 2014], volumes: 4 }
+      1: { year_range: [1975, 1978], volumes: 3 }
+    chunk_preset: lexicon
+    citation_template: "{abbr}, Vol. {vol}, {page}"
+    filename_patterns:
+      - "NIDNTT"
+
+  EDNT:
+    full_title: "Exegetical Dictionary of the New Testament"
+    language: en
+    doc_type: lexicon
+    editions:
+      1: { year_range: [1990, 1993], volumes: 3 }
+    chunk_preset: lexicon
+    citation_template: "{abbr}, Vol. {vol}, {page}"
+    filename_patterns:
+      - "EDNT"
+
+  TLOT:
+    full_title: "Theological Lexicon of the Old Testament"
+    language: en
+    doc_type: lexicon
+    editions:
+      1: { year_range: [1997, 1997], volumes: 3 }
+    chunk_preset: lexicon
+    citation_template: "{abbr}, Vol. {vol}, {page}"
+    filename_patterns:
+      - "TLOT"
+
+  NIDOTTE:
+    full_title: "New International Dictionary of Old Testament Theology and Exegesis"
+    language: en
+    doc_type: lexicon
+    editions:
+      1: { year_range: [1997, 1997], volumes: 5 }
+    chunk_preset: lexicon
+    citation_template: "{abbr}, Vol. {vol}, {page}"
+    filename_patterns:
+      - "NIDOTTE"
+
+  ABD:
+    full_title: "Anchor Bible Dictionary"
+    language: en
+    doc_type: dictionary_large
+    editions:
+      1: { year_range: [1992, 1992], volumes: 6 }
+    chunk_preset: dictionary_large
+    citation_template: "{abbr}, Vol. {vol}, {page}"
+    filename_patterns:
+      - "ABD"
+      - "Anchor Bible Dictionary"
+
+  DBI:
+    full_title: "Dictionary of Biblical Imagery"
+    language: en
+    doc_type: dictionary_small
+    editions:
+      1: { year_range: [1998, 1998], volumes: 1 }
+    chunk_preset: dictionary_small
+    citation_template: "{abbr}, {page}"
+    filename_patterns:
+      - "DBI"
+      - "Dictionary of Biblical Imagery"
+
+  # === 단행본 (Monographs) ===
+  KD:
+    full_title: "Kirchliche Dogmatik"
+    author: "Karl Barth"
+    language: de
+    doc_type: monograph
+    editions:
+      1: { year_range: [1932, 1967], volumes: 13 }
+    chunk_preset: monograph
+    citation_template: "Barth, {abbr} {vol}/{part}, {page}"
+    filename_patterns:
+      - "KD"
+      - "Kirchliche Dogmatik"
+      - "Barth"
+
+  CD:
+    full_title: "Church Dogmatics"
+    author: "Karl Barth"
+    language: en
+    doc_type: monograph
+    editions:
+      1: { year_range: [1936, 1977], volumes: 14 }
+    chunk_preset: monograph
+    citation_template: "Barth, {abbr} {vol}/{part}, {page}"
+    filename_patterns:
+      - "CD"
+      - "Church Dogmatics"
+
+  DBW:
+    full_title: "Dietrich Bonhoeffer Werke"
+    author: "Dietrich Bonhoeffer"
+    language: de
+    doc_type: monograph
+    editions:
+      1: { year_range: [1986, 1999], volumes: 17 }
+    chunk_preset: monograph
+    citation_template: "{abbr} {vol}, {page}"
+    filename_patterns:
+      - "DBW"
+      - "Bonhoeffer Werke"
+
+  # === 주석서 (Commentaries) ===
+  BK:
+    full_title: "Biblischer Kommentar: Altes Testament"
+    language: de
+    doc_type: commentary
+    chunk_preset: commentary
+    citation_template: "{abbr}, {page}"
+    filename_patterns:
+      - "BK"
+      - "Biblischer Kommentar"
+
+  EKK:
+    full_title: "Evangelisch-Katholischer Kommentar zum Neuen Testament"
+    language: de
+    doc_type: commentary
+    chunk_preset: commentary
+    citation_template: "{abbr}, {page}"
+    filename_patterns:
+      - "EKK"
+
+  WBC:
+    full_title: "Word Biblical Commentary"
+    language: en
+    doc_type: commentary
+    chunk_preset: commentary
+    citation_template: "{abbr}, {page}"
+    filename_patterns:
+      - "WBC"
+      - "Word Biblical Commentary"
+
+  ICC:
+    full_title: "International Critical Commentary"
+    language: en
+    doc_type: commentary
+    chunk_preset: commentary
+    citation_template: "{abbr}, {page}"
+    filename_patterns:
+      - "ICC"
+      - "International Critical Commentary"

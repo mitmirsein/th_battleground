@@ -1,0 +1,276 @@
+/* style.css */
+
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+* { font-family: 'Inter', sans-serif; }
+
+/* 기본 body 스타일 (from sample.html) */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    color: white; /* Added based on sample.html's body class 'text-white' */
+}
+
+/* Animated background particles (from sample.html) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+    animation: float 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-30px) rotate(2deg); }
+    66% { transform: translateY(-10px) rotate(-2deg); }
+}
+
+/* Glassmorphism effect (from sample.html) */
+.glass {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+.glass-dark {
+    background: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced button animations (from sample.html) */
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+.btn-primary:hover::before { left: 100%; }
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
+}
+.btn-secondary { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.btn-success { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.btn-warning { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+
+/* Level selector buttons & Word set buttons (공통 스타일 적용 가능) */
+.level-button, .word-set-button {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; 
+    overflow: hidden; 
+}
+
+.level-button:hover, .word-set-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
+}
+.level-button::before, .word-set-button::before { 
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+.level-button:hover::before, .word-set-button:hover::before { left: 100%; }
+
+/* Stagger animation for level buttons (from sample.html) */
+.level-button { /* .word-set-button 에도 적용 가능 */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideInUp 0.6s ease-out forwards;
+}
+.level-button:nth-child(1) { animation-delay: 0.1s; }
+.level-button:nth-child(2) { animation-delay: 0.2s; }
+.level-button:nth-child(3) { animation-delay: 0.3s; }
+.level-button:nth-child(4) { animation-delay: 0.4s; }
+.level-button:nth-child(5) { animation-delay: 0.5s; }
+
+/* Word set buttons staggered animation (if needed, copy from .level-button) */
+.word-set-button {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideInUp 0.6s ease-out forwards;
+}
+#word-set-selector-container .word-set-button:nth-child(1) { animation-delay: 0.1s; }
+#word-set-selector-container .word-set-button:nth-child(2) { animation-delay: 0.2s; }
+#word-set-selector-container .word-set-button:nth-child(3) { animation-delay: 0.3s; }
+#word-set-selector-container .word-set-button:nth-child(4) { animation-delay: 0.4s; }
+
+
+@keyframes slideInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Quiz option buttons (combined from provided style.css and sample.html) */
+.quiz-option-button {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    border-radius: 20px; 
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+    @apply w-full p-4 text-center font-semibold text-lg text-white;
+    
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.quiz-option-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+.quiz-option-button:hover::after {
+    width: 300px;
+    height: 300px;
+}
+.quiz-option-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Correct/Incorrect/Answered states */
+.quiz-option-button.correct { 
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); 
+    border: 1px solid rgba(17, 153, 142, 0.5); 
+    box-shadow: 0 5px 15px -3px rgba(17, 153, 142, 0.5); 
+    @apply text-white cursor-default; 
+}
+.quiz-option-button.incorrect { 
+    background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%); 
+    border: 1px solid rgba(252, 70, 107, 0.5); 
+    box-shadow: 0 5px 15px -3px rgba(252, 70, 107, 0.5); 
+    @apply text-white cursor-default; 
+}
+.quiz-option-button.unselected-after-reveal { 
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.05); 
+    box-shadow: none; 
+    @apply text-white/50 cursor-default opacity-65; 
+    backdrop-filter: blur(10px); 
+}
+.quiz-option-button.answered { 
+    @apply pointer-events-none; 
+}
+
+/* Title animation (from sample.html) */
+.title-gradient {
+    background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+    background-size: 300% 300%;
+    animation: gradientShift 4s ease infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Progress bar enhancement (from sample.html) */
+.progress-bar {
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    background-size: 200% 100%;
+    animation: progressShine 2s linear infinite;
+}
+@keyframes progressShine {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Floating animation for cards (from sample.html) */
+.float-card { animation: floatCard 3s ease-in-out infinite; }
+@keyframes floatCard {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Pulse animation for icons (from sample.html) */
+.pulse-icon { animation: pulseIcon 2s ease-in-out infinite; }
+@keyframes pulseIcon {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Success/Error feedback animations (from sample.html) */
+.feedback-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    animation: successPulse 0.6s ease-out;
+}
+.feedback-error {
+    background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+    animation: errorShake 0.6s ease-out;
+}
+@keyframes successPulse {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Custom scrollbar (from sample.html) */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+}
+
+/* Loading spinner (from sample.html) */
+.spinner {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid #fff;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

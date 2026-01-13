@@ -1,0 +1,11 @@
+# Page | Location Hint | Type | Details
+# --------------------------------------------------------------------------------------------------
+S. XII | Z. 10 | HINZUFÜGEN | Register: "S. 35* Basis Capitolina." hinzufügen.
+S. 21 | Z. 10 | ÄNDERN | Der Brief des Plinius...; s. Wilcken im „Hermes“ Bd. 49 (1914) S. 120 ff.
+S. 27 ff. | ANMERKUNG | Hier ist hervorzuheben, daß u. W. zuerst Marcion ein Buch „das Evangelium“ genannt hat.
+S. 36 | Z. 4 | ÄNDERN | Marcion hat nach II Kor. 2, 17 ... τὸ καπηλεύειν τὸν λόγον τοῦ θεοῦ vorgeworfen.
+S. 51 | nach Z. 12 | HINZUFÜGEN | Luk. 12, 4f. absichtlich verändert.
+S. 89 | Z. 2 v. u. | ÄNDERN | Lies "γενέσεως". [Original-Wort zur Identifizierung benötigt]
+S. 90 | Z. 9 v. u. | ÄNDERN | Lies "inenarrabilis". [Original-Wort zur Identifizierung benötigt]
+S. 112 | Zeilen 23 u. 24 | TILGEN | Zeilen 23 und 24 sind zu tilgen (gehören zu Tertullian).
+S. 115 | Z. 2 v. u. | ANMERKUNG | Das „in sabbato“ stammt vielleicht aus Joh. 5, 8ff. (v. Soden), gehört also nicht Marcion an.

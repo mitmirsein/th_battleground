@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "data": {
+    "refs": {
+      "e1": {
+        "name": "Cloudflare",
+        "role": "link"
+      }
+    },
+    "snapshot": "- link \"Cloudflare\" [ref=e1]"
+  },
+  "error": null
+}

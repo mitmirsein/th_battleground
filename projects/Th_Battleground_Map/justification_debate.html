@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theological Warfare Map: Justification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Serif KR', serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains+Mono', monospace;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid #334155;
+        }
+
+        .axis-label-blue {
+            color: #60a5fa;
+            font-weight: bold;
+        }
+
+        .axis-label-red {
+            color: #f87171;
+            font-weight: bold;
+        }
+
+        .axis-label-green {
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        .layer-btn.active {
+            border-left: 4px solid;
+        }
+
+        .step-pill {
+            transition: all 0.3s;
+        }
+
+        .step-pill.active {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-slate-900 overflow-x-hidden">
+
+    <!-- 헤더 -->
+    <header
+        class="h-14 lg:h-16 border-b border-gray-700 flex items-center justify-between px-4 lg:px-6 bg-slate-900 z-20 shrink-0">
+        <div class="flex items-center gap-2 lg:gap-3">
+            <span class="text-xl lg:text-2xl">🛡️</span>
+            <div>
+                <h1 class="text-sm lg:text-lg font-bold text-gray-100 tracking-wider">WARFARE MAP: <span
+                        class="text-yellow-500">JUSTIFICATION</span></h1>
+                <p class="text-[10px] text-gray-400 font-mono hidden sm:block">Kerygma Press Analytical Engine v3.1</p>
+            </div>
+        </div>
+
+        <div class="hidden md:flex flex-col items-center">
+            <div id="mode-indicator" class="text-xs font-mono text-blue-400 mb-1">STORY MODE ACTIVE</div>
+            <div class="flex gap-1">
+                <div id="step-pills" class="flex gap-1"></div>
+            </div>
+        </div>
+
+        <button id="mode-toggle"
+            class="px-3 lg:px-4 py-1.5 lg:py-2 bg-slate-700 hover:bg-slate-600 rounded text-[10px] lg:text-xs font-mono border border-slate-500 transition">
+            COMPARE
+        </button>
+    </header>
+
+    <!-- 모바일 탭 네비게이션 -->
+    <div class="lg:hidden flex border-b border-gray-700 bg-slate-800">
+        <button onclick="showMobileTab('chart')" id="tab-chart"
+            class="flex-1 py-2 text-xs font-mono text-center border-b-2 border-blue-500 text-blue-400">차트</button>
+        <button onclick="showMobileTab('layers')" id="tab-layers"
+            class="flex-1 py-2 text-xs font-mono text-center border-b-2 border-transparent text-gray-400">레이어</button>
+        <button onclick="showMobileTab('story')" id="tab-story"
+            class="flex-1 py-2 text-xs font-mono text-center border-b-2 border-transparent text-gray-400">스토리</button>
+    </div>
+
+    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+
+        <!-- 좌측: 레이어 선택 (데스크톱) / 모바일 탭 -->
+        <aside id="panel-layers"
+            class="hidden lg:flex w-full lg:w-64 bg-slate-900 border-r border-gray-700 flex-col z-10 lg:max-h-full overflow-y-auto">
+            <div class="p-4 border-b border-gray-800 shrink-0">
+                <h2 class="text-xs font-mono text-gray-500 uppercase mb-2">Theologian Layers</h2>
+                <div class="text-[10px] text-gray-400">Select to compare specific positions.</div>
+            </div>
+            <div id="layer-list" class="flex-1 overflow-y-auto p-2 space-y-1"></div>
+        </aside>
+
+        <!-- 중앙: 차트 -->
+        <section id="panel-chart"
+            class="flex-1 relative flex items-center justify-center bg-slate-800/50 p-4 min-h-[50vh] lg:min-h-0">
+            <div class="absolute inset-0 opacity-10 pointer-events-none"
+                style="background-image: linear-gradient(#334155 1px, transparent 1px), linear-gradient(90deg, #334155 1px, transparent 1px); background-size: 20px 20px;">
+            </div>
+
+            <div class="relative w-full max-w-lg lg:max-w-3xl aspect-square p-2 lg:p-4">
+                <canvas id="warfareChart"></canvas>
+            </div>
+
+            <div
+                class="absolute bottom-2 left-2 lg:bottom-4 lg:left-4 p-2 lg:p-3 glass-panel rounded-lg text-[10px] lg:text-xs font-mono space-y-1">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-blue-400"></div><span>OBJECTIVE</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-red-400"></div><span>SUBJECTIVE</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-green-400"></div><span>TRANSCENDENT</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 우측: 스토리 + 인사이트 -->
+        <aside id="panel-story"
+            class="hidden lg:flex w-full lg:w-96 bg-slate-900 border-l border-gray-700 flex-col z-10 max-h-[50vh] lg:max-h-full">
+
+            <div class="flex-[7] flex flex-col border-b border-gray-700 overflow-hidden">
+                <div
+                    class="p-3 lg:p-4 border-b border-gray-800 bg-slate-800/50 flex justify-between items-center shrink-0">
+                    <h2 class="text-xs lg:text-sm font-bold text-yellow-500 flex items-center gap-2">
+                        <span id="info-icon">📖</span> <span id="info-title">SITUATION REPORT</span>
+                    </h2>
+                </div>
+                <div id="info-content"
+                    class="p-4 lg:p-5 overflow-y-auto text-sm leading-relaxed text-gray-300 space-y-4 flex-1"></div>
+            </div>
+
+            <div class="flex-[3] bg-slate-950 flex flex-col">
+                <div class="p-2 lg:p-3 border-b border-gray-800 flex justify-between items-center shrink-0">
+                    <span class="text-[10px] lg:text-xs font-mono text-cyan-400">AI TACTICAL INSIGHT</span>
+                    <div id="story-controls" class="flex gap-2">
+                        <button id="prev-btn"
+                            class="px-2 lg:px-3 py-1 bg-slate-800 hover:bg-slate-700 rounded text-xs">◀</button>
+                        <button id="next-btn"
+                            class="px-2 lg:px-3 py-1 bg-blue-900 hover:bg-blue-800 text-blue-100 rounded text-xs">▶</button>
+                    </div>
+                </div>
+                <div id="ai-insight"
+                    class="p-3 lg:p-4 text-xs font-mono text-cyan-100/80 leading-5 overflow-y-auto flex-1"></div>
+            </div>
+        </aside>
+
+    </main>
+
+    <script>
+        // 모바일 탭 전환
+        function showMobileTab(tab) {
+            const tabs = ['chart', 'layers', 'story'];
+            tabs.forEach(t => {
+                const panel = document.getElementById('panel-' + t);
+                const tabBtn = document.getElementById('tab-' + t);
+                if (t === tab) {
+                    panel.classList.remove('hidden');
+                    panel.classList.add('flex');
+                    tabBtn.classList.add('border-blue-500', 'text-blue-400');
+                    tabBtn.classList.remove('border-transparent', 'text-gray-400');
+                } else {
+                    if (window.innerWidth < 1024) {
+                        panel.classList.add('hidden');
+                        panel.classList.remove('flex');
+                    }
+                    tabBtn.classList.remove('border-blue-500', 'text-blue-400');
+                    tabBtn.classList.add('border-transparent', 'text-gray-400');
+                }
+            });
+        }
+
+        // 윈도우 리사이즈 시 데스크톱 레이아웃 복원
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('panel-layers').classList.remove('hidden');
+                document.getElementById('panel-layers').classList.add('flex');
+                document.getElementById('panel-chart').classList.remove('hidden');
+                document.getElementById('panel-chart').classList.add('flex');
+                document.getElementById('panel-story').classList.remove('hidden');
+                document.getElementById('panel-story').classList.add('flex');
+            }
+        });
+
+        // --- Data Definition ---
+        const axes = [
+            '법정적 선언 (Forensic)', // Blue
+            '의의 전가 (Imputation)', // Blue
+            '오직 믿음 (Sola Fide)',  // Blue
+            '구원의 확신 (Assurance)', // Red
+            '수동성 (Passivity)',     // Red
+            '외부성 (Extra Nos)',     // Green
+            '종말론 (Eschatology)'    // Green
+        ];
+
+        const theologians = {
+            'augustine': {
+                id: 'augustine', name: '아우구스티누스', era: 'Patristic', color: 'rgba(234, 179, 8, 1)', fill: 'rgba(234, 179, 8, 0.2)',
+                data: [2, 2, 3, 3, 6, 3, 4],
+                desc: "서구 신학의 기초. 그는 칭의를 '의롭게 됨(making righteous)'의 실제적 변화 과정으로 보았다. 하나님의 은혜가 주입(Infusion)되어 인간의 본성을 치료하고, 의지가 회복되어 사랑으로 역사하는 믿음을 통해 구원에 이른다."
+            },
+            'aquinas': {
+                id: 'aquinas', name: '토마스 아퀴나스', era: 'Medieval', color: 'rgba(217, 119, 6, 1)', fill: 'rgba(217, 119, 6, 0.2)',
+                data: [1, 1, 2, 2, 4, 2, 3],
+                desc: "중세 스콜라 신학의 정점. 은혜는 인간 본성을 파괴하지 않고 완성한다. '사랑으로 형성된 믿음(Fides caritate formata)'을 주장하며, 칭의는 죄 사함과 내적 쇄신을 포함하는 과정이다. 공로 개념을 체계화했다."
+            },
+            'luther': {
+                id: 'luther', name: '마르틴 루터', era: 'Reformation', color: 'rgba(239, 68, 68, 1)', fill: 'rgba(239, 68, 68, 0.2)',
+                data: [10, 10, 10, 9, 10, 10, 8],
+                desc: "코페르니쿠스적 전환. 칭의는 법정적 선언이며, 그리스도의 '낯선 의(Alien Righteousness)'가 전가되는 것이다. 우리 안의 그 어떤 변화도 칭의의 근거가 될 수 없다. '동시에 의인이자 죄인(Simul justus et peccator)'."
+            },
+            'trent': {
+                id: 'trent', name: '트렌트 공의회', era: 'Counter-Ref', color: 'rgba(168, 85, 247, 1)', fill: 'rgba(168, 85, 247, 0.2)',
+                data: [1, 1, 1, 2, 3, 2, 2],
+                desc: "가톨릭의 공식 반격. '오직 믿음'을 저주(Anathema)하고, 칭의가 죄 사함뿐 아니라 인간 내면의 성화와 쇄신임을 재확인했다. 전가된 의가 아니라 주입된 은혜가 칭의의 유일한 형상적 원인이다."
+            },
+            'calvin': {
+                id: 'calvin', name: '존 칼뱅', era: 'Reformation', color: 'rgba(249, 115, 22, 1)', fill: 'rgba(249, 115, 22, 0.2)',
+                data: [9, 9, 9, 9, 9, 9, 7],
+                desc: "이중 은혜(Duplex Gratia). 그리스도와의 신비적 연합을 통해 칭의와 성화라는 두 가지 은혜를 동시에 받는다. 둘은 구별되지만 분리될 수 없다. 성령의 내적 증거를 통한 확신을 강조했다."
+            },
+            'wesley': {
+                id: 'wesley', name: '존 웨슬리', era: 'Modern', color: 'rgba(59, 130, 246, 1)', fill: 'rgba(59, 130, 246, 0.2)',
+                data: [6, 4, 6, 9, 3, 5, 5],
+                desc: "복음주의적 종합. 종교개혁의 칭의론(믿음으로 말미암는 구원)을 수용하되, 성화와 완전(Christian Perfection)을 강력히 주장했다. 선행 은총(Prevenient Grace)을 통한 인간의 응답 가능성을 열어두었다."
+            },
+            'schleiermacher': {
+                id: 'schleiermacher', name: '슐라이어마허', era: 'Modern', color: 'rgba(14, 165, 233, 1)', fill: 'rgba(14, 165, 233, 0.2)',
+                data: [2, 1, 3, 8, 4, 2, 2],
+                desc: "근대 신학의 아버지. 교리를 객관적 사실에서 주관적 종교 의식(절대의존감정)의 표현으로 전환했다. 칭의는 개인이 공동체 안에서 그리스도의 구속적 의식을 공유하며 하나님과 화해된 상태를 느끼는 것이다."
+            },
+            'barth': {
+                id: 'barth', name: '칼 바르트', era: 'Modern', color: 'rgba(20, 184, 166, 1)', fill: 'rgba(20, 184, 166, 0.2)',
+                data: [9, 9, 8, 9, 10, 10, 9],
+                desc: "신정통주의의 거포. 인간의 종교성을 부정하고, 오직 위로부터 오는 하나님의 말씀과 결단을 강조했다. 칭의는 영원 속에서 이미 이루어진 그리스도의 객관적 화해 사건이다."
+            },
+            'bultmann': {
+                id: 'bultmann', name: '루돌프 불트만', era: 'Modern', color: 'rgba(99, 102, 241, 1)', fill: 'rgba(99, 102, 241, 0.2)',
+                data: [3, 2, 9, 5, 8, 4, 9],
+                desc: "실존론적 해석. 칭의는 객관적 교리가 아니라, 매 순간 결단을 통해 자기 의존을 버리고 하나님을 신뢰하는 실존적 사건이다. 역사적 사실보다 '지금 여기'에서의 말씀 선포(Kerygma)가 중요하다."
+            },
+            'wright': {
+                id: 'wright', name: '톰 라이트', era: 'Contemporary', color: 'rgba(34, 197, 94, 1)', fill: 'rgba(34, 197, 94, 0.2)',
+                data: [7, 3, 7, 7, 6, 6, 10],
+                desc: "바울의 새 관점(NPP). 칭의는 '누가 하나님의 언약 백성인가'를 선언하는 멤버십의 문제다. '법정적' 의미를 인정하나, '의의 전가' 교리를 비판하고 종말론적, 언약적 맥락을 강조한다."
+            }
+        };
+
+        const storySteps = [
+            {
+                title: "서막: 칭의의 전장",
+                activeLayers: [],
+                text: "칭의(Justification). '죄인이 어떻게 거룩하신 하나님 앞에 설 수 있는가?' 이 질문은 기독교 역사상 가장 치열한 신학적 전쟁을 촉발했습니다. 7가지 핵심 척도를 통해 이 거대한 드라마를 추적합니다. 파란색 축은 객관적 법정성, 붉은색 축은 주관적 체험, 초록색 축은 초월적 신비를 나타냅니다.",
+                insight: "모든 레이어가 비활성화되었습니다. 각 축의 의미를 확인하고 역사의 시작을 준비하십시오."
+            },
+            {
+                title: "고대의 종합: 아우구스티누스",
+                activeLayers: ['augustine'],
+                text: "서방 신학의 거인 아우구스티누스는 칭의를 '의인(making righteous)'의 과정으로 이해했습니다. 인간은 원죄로 병들었기에, 은혜가 주입(Infusion)되어야만 치료될 수 있습니다. 법정적 선언보다는 실질적인 내적 변화가 핵심입니다.",
+                insight: "낮은 법정성(1축)과 높은 주관적 변화의 가능성이 보입니다. 이것이 1000년간 서구 신학의 표준이 됩니다."
+            },
+            {
+                title: "중세의 체계화: 아퀴나스",
+                activeLayers: ['augustine', 'aquinas'],
+                text: "토마스 아퀴나스는 아리스토텔레스 철학을 도입하여 이를 체계화합니다. '은혜는 자연을 파괴하지 않고 완성한다.' 믿음은 사랑으로 형성(Formata)될 때 비로소 구원의 효력을 가집니다. 공로와 은혜의 정교한 조화가 이루어집니다.",
+                insight: "두 학자의 레이어가 거의 겹칩니다. 중세 가톨릭 신학의 견고한 연속성을 확인할 수 있습니다."
+            },
+            {
+                title: "종교개혁의 폭발: 루터",
+                activeLayers: ['aquinas', 'luther'],
+                text: "마르틴 루터의 '탑의 체험'은 모든 것을 뒤집었습니다. '하나님의 의'는 내 안의 자질이 아니라, 외부에서 주어지는 선물입니다. 법정적 선언, 오직 믿음, 낯선 의(Alien Righteousness). 차트의 파란색(객관)과 초록색(초월) 축이 급격히 팽창합니다.",
+                insight: "극적인 대조를 보십시오. 아퀴나스의 내재적 축소와 루터의 외적 팽창은 신학적 지각 변동을 시각적으로 증명합니다."
+            },
+            {
+                title: "제국(가톨릭)의 역습: 트렌트",
+                activeLayers: ['luther', 'trent'],
+                text: "트렌트 공의회는 루터의 '오직 믿음'을 저주하며 반격합니다. 그들은 칭의가 죄 사함뿐 아니라 성화와 쇄신을 포함한다고 못 박았습니다. 전가가 아닌 주입. 차트는 다시 중심으로 수축하며 루터와 정면으로 대치합니다.",
+                insight: "가장 날카로운 대립각입니다. 1, 2, 3번 축(법정, 전가, 믿음)에서 루터와 트렌트는 양극단에 위치합니다."
+            },
+            {
+                title: "개혁의 정교화: 칼뱅",
+                activeLayers: ['luther', 'calvin'],
+                text: "칼뱅은 루터의 통찰을 이어받으면서도 '그리스도와의 연합'으로 종합합니다. 칭의와 성화는 구별되지만 분리되지 않습니다(이중 은혜). 루터보다 균형 잡힌 형태를 보이나, 여전히 법정적 토대 위에 있습니다.",
+                insight: "루터와 유사한 형상이지만, 성화의 필연성을 강조하며 약간의 미세 조정이 이루어진 것을 볼 수 있습니다."
+            },
+            {
+                title: "뜨거운 복음주의: 웨슬리",
+                activeLayers: ['calvin', 'wesley'],
+                text: "존 웨슬리는 종교개혁의 '믿음'에 '거룩한 삶'을 다시 연결합니다. 그는 성화를 강조하다 못해 '완전'을 논했습니다. 선행 은총을 통한 인간의 책임 있는 응답을 강조하여 수동성 축(5번)이 낮아집니다.",
+                insight: "칼뱅의 높은 수동성(Monergism)과 대비되는 웨슬리의 신인협력적(Synergistic) 패턴이 5번 축에서 드러납니다."
+            },
+            {
+                title: "주관적 전환: 슐라이어마허",
+                activeLayers: ['wesley', 'schleiermacher'],
+                text: "계몽주의 이후, 슐라이어마허는 신학의 기초를 '절대의존감정'으로 옮깁니다. 교리는 객관적 사실이 아니라 신앙 공동체의 경험에 대한 기술이 됩니다. 객관성 축(1-3)이 붕괴되고 주관성(4)이 강조됩니다.",
+                insight: "객관적 진리(파란색)가 사라지고 내면의 감정으로 쏠리는 근대 신학의 특징적인 '찌그러진' 차트입니다."
+            },
+            {
+                title: "말씀의 귀환: 바르트",
+                activeLayers: ['schleiermacher', 'barth'],
+                text: "자유주의 신학의 놀이터에 바르트가 폭탄을 던집니다. '아니오(Nein)!' 그는 인간의 종교적 체험을 부정하고, 하나님의 수직적 말씀을 다시 세웁니다. 루터의 형상이 현대적으로, 더욱 급진적으로 부활합니다.",
+                insight: "슐라이어마허와 정반대입니다. 바르트의 차트는 '외부성(6번)'과 '법정성(1번)'에서 극한의 값을 찍습니다."
+            },
+            {
+                title: "실존적 결단: 불트만",
+                activeLayers: ['barth', 'bultmann'],
+                text: "불트만은 바르트와 동지였으나 길을 달리합니다. 그에게 칭의는 객관적 사실이 아니라, 매 순간 나의 옛 자아를 버리고 하나님을 선택하는 실존적 결단입니다. 종말론(7번)은 미래가 아닌 '현재의 순간'이 됩니다.",
+                insight: "오직 믿음(3번)은 높지만, 법정적 객관성(1,2번)은 낮습니다. 이것이 실존주의적 해석의 기형적인 특징입니다."
+            },
+            {
+                title: "현대의 전선: 톰 라이트 (NPP)",
+                activeLayers: ['luther', 'wright'],
+                text: "현대 신학계의 뜨거운 감자, '바울의 새 관점'. 톰 라이트는 칭의를 구원론이 아닌 교회론(언약의 멤버십)으로 재해석합니다. 전통적 개혁주의자들은 이를 '전가 교리의 포기'라며 비판합니다.",
+                insight: "루터와 비교해 보십시오. 2번(전가) 축이 푹 꺼져있고, 7번(종말론/새창조)이 확장되었습니다. 이것이 현대의 갈등 지점입니다."
+            }
+        ];
+
+        // --- Application Logic ---
+        let currentStep = 0;
+        let isStoryMode = true;
+        let chartInstance = null;
+        let activeLayerIds = new Set();
+
+        function initChart() {
+            const ctx = document.getElementById('warfareChart').getContext('2d');
+
+            chartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: axes,
+                    datasets: []
+                },
+                options: {
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            pointLabels: {
+                                font: { size: 11, family: 'Noto Serif KR', weight: 'bold' },
+                                color: (ctx) => {
+                                    const index = ctx.index;
+                                    if (index <= 2) return '#60a5fa'; // Blue
+                                    if (index <= 4) return '#f87171'; // Red
+                                    return '#4ade80'; // Green
+                                }
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10,
+                            ticks: { display: false, stepSize: 2 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleFont: { family: 'Noto Serif KR' },
+                            bodyFont: { family: 'JetBrains Mono' },
+                            padding: 10,
+                            borderColor: '#334155',
+                            borderWidth: 1
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    animation: { duration: 1000, easing: 'easeOutQuart' }
+                }
+            });
+        }
+
+        function updateChart() {
+            const datasets = Array.from(activeLayerIds).map(id => {
+                const t = theologians[id];
+                return {
+                    label: t.name,
+                    data: t.data,
+                    backgroundColor: t.fill,
+                    borderColor: t.color,
+                    borderWidth: 2,
+                    pointBackgroundColor: t.color,
+                    pointRadius: 3
+                };
+            });
+            chartInstance.data.datasets = datasets;
+            chartInstance.update();
+        }
+
+        function renderLayerList() {
+            const list = document.getElementById('layer-list');
+            list.innerHTML = '';
+
+            // Group by era for better UX
+            const eras = { 'Patristic': '고대', 'Medieval': '중세', 'Reformation': '종교개혁', 'Counter-Ref': '반종교개혁', 'Modern': '근대', 'Contemporary': '현대' };
+
+            let currentEra = '';
+
+            Object.values(theologians).forEach(t => {
+                if (t.era !== currentEra) {
+                    const eraHeader = document.createElement('div');
+                    eraHeader.className = 'text-[10px] font-bold text-gray-600 mt-2 mb-1 px-2 uppercase';
+                    eraHeader.innerText = eras[t.era];
+                    list.appendChild(eraHeader);
+                    currentEra = t.era;
+                }
+
+                const btn = document.createElement('button');
+                btn.className = `layer-btn w-full text-left px-3 py-2 text-xs font-mono text-gray-300 hover:bg-slate-800 transition border-l-0 border-transparent`;
+                btn.style.borderColor = activeLayerIds.has(t.id) ? t.color : 'transparent';
+                if (activeLayerIds.has(t.id)) {
+                    btn.classList.add('bg-slate-800', 'active');
+                }
+
+                btn.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span>${t.name}</span>
+                        <div class="w-2 h-2 rounded-full" style="background-color: ${t.color}"></div>
+                    </div>
+                `;
+
+                btn.onclick = () => {
+                    if (isStoryMode) return; // Disable manual toggle in story mode
+                    if (activeLayerIds.has(t.id)) activeLayerIds.delete(t.id);
+                    else activeLayerIds.add(t.id);
+                    renderLayerList(); // Re-render to update styles
+                    updateChart();
+                    generateInsight();
+                };
+
+                list.appendChild(btn);
+            });
+        }
+
+        function renderStory() {
+            const step = storySteps[currentStep];
+
+            // Update Text
+            document.getElementById('info-title').innerText = step.title;
+            document.getElementById('info-content').innerHTML = `<p>${step.text}</p>`;
+            document.getElementById('ai-insight').innerHTML = `<span class="text-yellow-400">>_ ANALYTICAL ENGINE:</span><br>${step.insight}`;
+
+            // Update Pills
+            const pillsContainer = document.getElementById('step-pills');
+            pillsContainer.innerHTML = '';
+            storySteps.forEach((_, idx) => {
+                const pill = document.createElement('div');
+                pill.className = `w-8 h-1 rounded-full bg-gray-700 ${idx === currentStep ? 'bg-blue-500' : ''}`;
+                pillsContainer.appendChild(pill);
+            });
+
+            // Update Active Layers
+            activeLayerIds = new Set(step.activeLayers);
+            renderLayerList();
+            updateChart();
+        }
+
+        function generateInsight() {
+            const ids = Array.from(activeLayerIds);
+            const content = document.getElementById('info-content');
+            const insight = document.getElementById('ai-insight');
+
+            if (ids.length === 0) {
+                content.innerHTML = "<div class='text-gray-500 text-center mt-10'>학자를 선택하여 분석을 시작하십시오.</div>";
+                insight.innerHTML = "대기 중...";
+                return;
+            }
+
+            if (ids.length === 1) {
+                const t = theologians[ids[0]];
+                content.innerHTML = `<h3 class="text-lg font-bold text-gray-200 mb-2">${t.name}</h3><p>${t.desc}</p>`;
+
+                // Find highest axis
+                let maxVal = -1;
+                let maxIdx = -1;
+                t.data.forEach((v, i) => { if (v > maxVal) { maxVal = v; maxIdx = i; } });
+
+                insight.innerHTML = `>_ 주요 특징 식별:<br>이 학자는 <strong>'${axes[maxIdx]}'</strong> 항목에서 가장 높은 수치(${maxVal})를 보입니다.`;
+            } else {
+                // Comparison Logic
+                content.innerHTML = "<h3 class='text-md font-bold text-gray-300 mb-4'>비교 분석 모드</h3>";
+                ids.forEach(id => {
+                    content.innerHTML += `<div class="mb-4 p-3 rounded-lg bg-slate-800/50 border-l-2" style="border-color:${theologians[id].color}"><strong class="text-base" style="color:${theologians[id].color}">${theologians[id].name}</strong><p class="mt-2 text-gray-300 text-sm leading-relaxed">${theologians[id].desc}</p></div>`;
+                });
+
+                // Calculate biggest difference
+                let maxDiff = 0;
+                let diffAxisIndex = 0;
+
+                // Compare first two for simplicity or average
+                const t1 = theologians[ids[0]];
+                const t2 = theologians[ids[1]]; // Simple compare logic
+
+                t1.data.forEach((v1, i) => {
+                    const v2 = t2.data[i];
+                    const diff = Math.abs(v1 - v2);
+                    if (diff > maxDiff) {
+                        maxDiff = diff;
+                        diffAxisIndex = i;
+                    }
+                });
+
+                insight.innerHTML = `>_ 전선 충돌 감지:<br>두 진영은 <strong>'${axes[diffAxisIndex]}'</strong> 축에서 가장 극명한 차이(${maxDiff}점)를 보입니다. 이것이 논쟁의 핵입니다.`;
+            }
+        }
+
+        // --- Event Listeners ---
+        document.getElementById('mode-toggle').onclick = () => {
+            isStoryMode = !isStoryMode;
+            const btn = document.getElementById('mode-toggle');
+            const indicator = document.getElementById('mode-indicator');
+            const controls = document.getElementById('story-controls');
+
+            if (isStoryMode) {
+                btn.innerText = "SWITCH TO COMPARE";
+                indicator.innerText = "STORY MODE ACTIVE";
+                controls.style.display = 'flex';
+                currentStep = 0;
+                renderStory();
+            } else {
+                btn.innerText = "BACK TO STORY";
+                indicator.innerText = "COMPARE MODE ACTIVE";
+                controls.style.display = 'none';
+                activeLayerIds.clear();
+                renderLayerList();
+                updateChart();
+                generateInsight();
+            }
+        };
+
+        document.getElementById('next-btn').onclick = () => {
+            if (currentStep < storySteps.length - 1) {
+                currentStep++;
+                renderStory();
+            }
+        };
+
+        document.getElementById('prev-btn').onclick = () => {
+            if (currentStep > 0) {
+                currentStep--;
+                renderStory();
+            }
+        };
+
+        // --- Init ---
+        initChart();
+        renderStory(); // Start in Story Mode
+
+    </script>
+</body>
+
+</html>
