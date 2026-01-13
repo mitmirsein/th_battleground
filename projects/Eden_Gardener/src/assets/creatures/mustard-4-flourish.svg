@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Mustard Seed - Stage 4: Flourishing (무성) -->
+  <defs>
+    <linearGradient id="soil" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8B6914"/>
+      <stop offset="100%" stop-color="#5D4A0E"/>
+    </linearGradient>
+    <linearGradient id="trunkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6D4C41"/>
+      <stop offset="50%" stop-color="#8D6E63"/>
+      <stop offset="100%" stop-color="#5D4037"/>
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8BC34A"/>
+      <stop offset="100%" stop-color="#689F38"/>
+    </linearGradient>
+    <radialGradient id="canopyGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#9CCC65"/>
+      <stop offset="70%" stop-color="#7CB342"/>
+      <stop offset="100%" stop-color="#558B2F"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Soil -->
+  <ellipse cx="50" cy="90" rx="35" ry="8" fill="url(#soil)"/>
+  
+  <!-- Trunk -->
+  <path d="M50 88 Q50 65 50 50" stroke="url(#trunkGrad)" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- Branch structure -->
+  <path d="M50 60 Q40 55 35 50" stroke="url(#trunkGrad)" stroke-width="3" fill="none"/>
+  <path d="M50 60 Q60 55 65 50" stroke="url(#trunkGrad)" stroke-width="3" fill="none"/>
+  <path d="M50 50 Q42 45 38 40" stroke="url(#trunkGrad)" stroke-width="2" fill="none"/>
+  <path d="M50 50 Q58 45 62 40" stroke="url(#trunkGrad)" stroke-width="2" fill="none"/>
+  
+  <!-- Full canopy (like a tree) -->
+  <ellipse cx="50" cy="35" rx="30" ry="25" fill="url(#canopyGrad)"/>
+  
+  <!-- Canopy texture (leaf clusters) -->
+  <circle cx="35" cy="35" r="10" fill="url(#leafGrad)" opacity="0.8"/>
+  <circle cx="65" cy="35" r="10" fill="url(#leafGrad)" opacity="0.8"/>
+  <circle cx="50" cy="25" r="12" fill="url(#leafGrad)" opacity="0.9"/>
+  <circle cx="42" cy="45" r="8" fill="url(#leafGrad)" opacity="0.7"/>
+  <circle cx="58" cy="45" r="8" fill="url(#leafGrad)" opacity="0.7"/>
+</svg>

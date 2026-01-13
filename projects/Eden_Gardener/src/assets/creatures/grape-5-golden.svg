@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Grapevine - Stage 5: Golden -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#FFF8E1" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFD54F" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8D6E63"/>
+      <stop offset="100%" stop-color="#5D4037"/>
+    </linearGradient>
+    <radialGradient id="goldenGrape" cx="30%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFD54F"/>
+      <stop offset="100%" stop-color="#FF8F00"/>
+    </radialGradient>
+    <linearGradient id="goldenLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFEB3B"/>
+      <stop offset="100%" stop-color="#FFC107"/>
+    </linearGradient>
+  </defs>
+  
+  <ellipse cx="50" cy="50" rx="45" ry="40" fill="url(#glow)"/>
+  <path d="M50 90 Q48 70 50 50 Q55 30 60 20" stroke="url(#vineGrad)" stroke-width="5" fill="none"/>
+  <path d="M50 60 Q35 55 25 45" stroke="url(#vineGrad)" stroke-width="3" fill="none"/>
+  <path d="M55 40 Q70 35 80 30" stroke="url(#vineGrad)" stroke-width="2" fill="none"/>
+  
+  <path d="M25 45 Q20 35 25 30 Q30 35 35 30 Q40 35 35 45 Q30 50 25 45" fill="url(#goldenLeaf)"/>
+  <path d="M75 30 Q70 20 75 15 Q80 20 85 15 Q90 20 85 30 Q80 35 75 30" fill="url(#goldenLeaf)"/>
+  <path d="M55 25 Q50 18 55 12 Q60 18 65 12 Q70 18 65 25 Q60 30 55 25" fill="url(#goldenLeaf)"/>
+  
+  <g transform="translate(30, 55)">
+    <circle cx="0" cy="0" r="5" fill="url(#goldenGrape)"/>
+    <circle cx="8" cy="2" r="5" fill="url(#goldenGrape)"/>
+    <circle cx="4" cy="8" r="5" fill="url(#goldenGrape)"/>
+    <circle cx="-4" cy="6" r="4" fill="url(#goldenGrape)"/>
+    <circle cx="2" cy="14" r="4" fill="url(#goldenGrape)"/>
+  </g>
+  
+  <g transform="translate(65, 42)">
+    <circle cx="0" cy="0" r="4" fill="url(#goldenGrape)"/>
+    <circle cx="6" cy="2" r="4" fill="url(#goldenGrape)"/>
+    <circle cx="3" cy="7" r="4" fill="url(#goldenGrape)"/>
+  </g>
+  
+  <circle cx="25" cy="20" r="2" fill="white" opacity="0.8"/>
+  <circle cx="80" cy="45" r="1.5" fill="white" opacity="0.7"/>
+  <path d="M52 5 L55 2 L58 5 L56 5 L55 3 L54 5 Z" fill="#FFD700"/>
+</svg>

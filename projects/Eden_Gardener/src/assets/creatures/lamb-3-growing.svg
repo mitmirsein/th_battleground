@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Lamb - Stage 3: Growing -->
+  <defs>
+    <radialGradient id="woolGrad" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E0E0E0"/>
+    </radialGradient>
+  </defs>
+  
+  <ellipse cx="50" cy="60" rx="22" ry="15" fill="url(#woolGrad)"/>
+  <circle cx="35" cy="56" r="7" fill="#FAFAFA"/>
+  <circle cx="50" cy="52" r="8" fill="#FAFAFA"/>
+  <circle cx="65" cy="56" r="7" fill="#FAFAFA"/>
+  <circle cx="42" cy="66" r="6" fill="#F5F5F5"/>
+  <circle cx="58" cy="66" r="6" fill="#F5F5F5"/>
+  
+  <ellipse cx="72" cy="48" rx="10" ry="8" fill="#FAFAFA"/>
+  <ellipse cx="66" cy="42" rx="4" ry="2.5" fill="#FFCCBC" transform="rotate(-25, 66, 42)"/>
+  <ellipse cx="78" cy="42" rx="4" ry="2.5" fill="#FFCCBC" transform="rotate(25, 78, 42)"/>
+  <circle cx="70" cy="46" r="2" fill="#424242"/>
+  <circle cx="71" cy="45" r="0.5" fill="white"/>
+  <ellipse cx="76" cy="50" rx="2.5" ry="1.5" fill="#FFAB91"/>
+  
+  <rect x="38" y="72" width="3.5" height="12" rx="1.5" fill="#BDBDBD"/>
+  <rect x="47" y="72" width="3.5" height="12" rx="1.5" fill="#BDBDBD"/>
+  <rect x="55" y="72" width="3.5" height="12" rx="1.5" fill="#BDBDBD"/>
+  <rect x="63" y="72" width="3.5" height="12" rx="1.5" fill="#BDBDBD"/>
+  
+  <ellipse cx="28" cy="58" rx="4" ry="3" fill="#FAFAFA"/>
+</svg>

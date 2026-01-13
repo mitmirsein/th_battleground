@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Development files
+*.log
+*.tmp
+
+# Preview/test files
+src/preview-assets.html

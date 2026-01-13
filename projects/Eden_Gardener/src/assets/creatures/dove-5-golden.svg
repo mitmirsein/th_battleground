@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Dove - Stage 5: Golden (황금) - Heavenly dove with halo -->
+  <defs>
+    <radialGradient id="glowEffect" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#FFF8E1" stop-opacity="0.8"/>
+      <stop offset="60%" stop-color="#FFD54F" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#FFD54F" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="goldenDove" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="30%" stop-color="#FFF8E1"/>
+      <stop offset="100%" stop-color="#FFD54F"/>
+    </radialGradient>
+    <linearGradient id="goldenWing" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#FFF8E1"/>
+      <stop offset="100%" stop-color="#FFD54F"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Divine glow behind -->
+  <circle cx="50" cy="50" r="45" fill="url(#glowEffect)"/>
+  
+  <!-- Halo -->
+  <ellipse cx="50" cy="25" rx="15" ry="5" fill="none" stroke="#FFD54F" stroke-width="2"/>
+  <ellipse cx="50" cy="25" rx="15" ry="5" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Body -->
+  <ellipse cx="50" cy="55" rx="16" ry="12" fill="url(#goldenDove)" transform="rotate(-10, 50, 55)"/>
+  
+  <!-- Head -->
+  <circle cx="62" cy="45" r="10" fill="url(#goldenDove)"/>
+  
+  <!-- Left wing (spread, glowing) -->
+  <path d="M45 50 Q30 30 20 25 Q30 35 35 45 Q40 50 45 50" fill="url(#goldenWing)"/>
+  <path d="M35 45 Q25 30 18 28" stroke="#FFD54F" stroke-width="1" fill="none"/>
+  <path d="M38 48 Q30 38 25 35" stroke="#FFD54F" stroke-width="1" fill="none"/>
+  
+  <!-- Right wing (spread, glowing) -->
+  <path d="M55 50 Q70 30 80 25 Q70 35 65 45 Q60 50 55 50" fill="url(#goldenWing)"/>
+  <path d="M65 45 Q75 30 82 28" stroke="#FFD54F" stroke-width="1" fill="none"/>
+  <path d="M62 48 Q70 38 75 35" stroke="#FFD54F" stroke-width="1" fill="none"/>
+  
+  <!-- Tail -->
+  <path d="M35 60 L25 70 L30 65 L28 72 L35 65 L32 73 L40 60" fill="#FFE082"/>
+  
+  <!-- Eye -->
+  <circle cx="66" cy="43" r="2.5" fill="#5D4037"/>
+  <circle cx="67" cy="42" r="0.8" fill="white"/>
+  
+  <!-- Beak -->
+  <path d="M70 47 L76 48 L70 50" fill="#FF8F00"/>
+  
+  <!-- Divine rays -->
+  <line x1="50" y1="15" x2="50" y2="5" stroke="#FFD54F" stroke-width="1.5" opacity="0.6"/>
+  <line x1="40" y1="18" x2="35" y2="10" stroke="#FFD54F" stroke-width="1" opacity="0.5"/>
+  <line x1="60" y1="18" x2="65" y2="10" stroke="#FFD54F" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Sparkles -->
+  <circle cx="25" cy="35" r="2" fill="white" opacity="0.8"/>
+  <circle cx="75" cy="35" r="2" fill="white" opacity="0.8"/>
+  <circle cx="50" cy="75" r="1.5" fill="white" opacity="0.7"/>
+  
+  <!-- Crown symbol -->
+  <path d="M45 10 L50 5 L55 10 L52 10 L50 7 L48 10 Z" fill="#FFD700" stroke="#FF8F00" stroke-width="0.5"/>
+</svg>

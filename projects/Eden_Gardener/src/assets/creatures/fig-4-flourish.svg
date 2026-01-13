@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Fig Tree - Stage 4: Flourishing with figs -->
+  <defs>
+    <linearGradient id="trunk" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5D4037"/>
+      <stop offset="50%" stop-color="#795548"/>
+      <stop offset="100%" stop-color="#4E342E"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#66BB6A"/>
+      <stop offset="100%" stop-color="#2E7D32"/>
+    </linearGradient>
+    <radialGradient id="figFruit" cx="30%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#8E24AA"/>
+      <stop offset="100%" stop-color="#4A148C"/>
+    </radialGradient>
+  </defs>
+  
+  <ellipse cx="50" cy="90" rx="30" ry="6" fill="#8B6914"/>
+  <path d="M50 88 Q50 65 50 45" stroke="url(#trunk)" stroke-width="6" fill="none"/>
+  <path d="M50 60 Q35 55 28 48" stroke="url(#trunk)" stroke-width="3" fill="none"/>
+  <path d="M50 55 Q65 50 72 42" stroke="url(#trunk)" stroke-width="3" fill="none"/>
+  <path d="M50 45 Q42 40 38 32" stroke="url(#trunk)" stroke-width="2" fill="none"/>
+  
+  <path d="M25 48 Q20 35 30 25 Q38 36 35 48 Q30 54 25 48" fill="url(#leaf)"/>
+  <path d="M68 42 Q63 28 73 18 Q81 30 78 42 Q73 48 68 42" fill="url(#leaf)"/>
+  <path d="M35 32 Q30 20 40 12 Q48 22 45 32 Q40 38 35 32" fill="url(#leaf)"/>
+  <path d="M55 28 Q50 16 60 8 Q68 18 65 28 Q60 34 55 28" fill="url(#leaf)"/>
+  
+  <ellipse cx="32" cy="58" rx="4" ry="5" fill="url(#figFruit)"/>
+  <ellipse cx="65" cy="52" rx="4" ry="5" fill="url(#figFruit)"/>
+  <ellipse cx="48" cy="40" rx="3" ry="4" fill="url(#figFruit)"/>
+</svg>

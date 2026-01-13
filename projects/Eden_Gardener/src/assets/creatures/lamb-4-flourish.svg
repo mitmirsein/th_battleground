@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Lamb - Stage 4: Flourishing (Lamb of God) -->
+  <defs>
+    <radialGradient id="woolGrad" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E0E0E0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Body (fluffy wool) -->
+  <ellipse cx="50" cy="60" rx="25" ry="18" fill="url(#woolGrad)"/>
+  
+  <!-- Wool texture -->
+  <circle cx="35" cy="55" r="8" fill="#FAFAFA"/>
+  <circle cx="50" cy="50" r="9" fill="#FAFAFA"/>
+  <circle cx="65" cy="55" r="8" fill="#FAFAFA"/>
+  <circle cx="40" cy="65" r="7" fill="#F5F5F5"/>
+  <circle cx="60" cy="65" r="7" fill="#F5F5F5"/>
+  
+  <!-- Head -->
+  <ellipse cx="75" cy="45" rx="12" ry="10" fill="#FAFAFA"/>
+  
+  <!-- Ears -->
+  <ellipse cx="68" cy="38" rx="5" ry="3" fill="#FFCCBC" transform="rotate(-30, 68, 38)"/>
+  <ellipse cx="82" cy="38" rx="5" ry="3" fill="#FFCCBC" transform="rotate(30, 82, 38)"/>
+  
+  <!-- Face -->
+  <circle cx="72" cy="43" r="2" fill="#424242"/> <!-- Eye -->
+  <circle cx="73" cy="42" r="0.6" fill="white"/>
+  <ellipse cx="80" cy="48" rx="3" ry="2" fill="#FFAB91"/> <!-- Nose -->
+  
+  <!-- Legs -->
+  <rect x="35" y="72" width="4" height="15" rx="2" fill="#BDBDBD"/>
+  <rect x="45" y="72" width="4" height="15" rx="2" fill="#BDBDBD"/>
+  <rect x="55" y="72" width="4" height="15" rx="2" fill="#BDBDBD"/>
+  <rect x="65" y="72" width="4" height="15" rx="2" fill="#BDBDBD"/>
+  
+  <!-- Hooves -->
+  <rect x="35" y="85" width="4" height="3" rx="1" fill="#5D4037"/>
+  <rect x="45" y="85" width="4" height="3" rx="1" fill="#5D4037"/>
+  <rect x="55" y="85" width="4" height="3" rx="1" fill="#5D4037"/>
+  <rect x="65" y="85" width="4" height="3" rx="1" fill="#5D4037"/>
+  
+  <!-- Tail -->
+  <ellipse cx="25" cy="58" rx="5" ry="4" fill="#FAFAFA"/>
+</svg>

@@ -1,0 +1,71 @@
+{
+    "name": "markdown-to-document-cli",
+    "version": "1.2.8",
+    "description": "Professional-grade EPUB/PDF conversion tool for Markdown files. 8 validation modules, auto-fix, typography presets, font subsetting (99% size reduction), ISBN validation, copyright page generation.",
+    "main": "dist/index.js",
+    "bin": {
+        "m2d": "dist/cli.js",
+        "markdown-to-document": "dist/cli.js"
+    },
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch",
+        "start": "node dist/cli.js",
+        "test": "node --test",
+        "lint": "eslint src --ext .ts",
+        "format": "prettier --write \"src/**/*.ts\"",
+        "prepublishOnly": "npm run build"
+    },
+    "keywords": [
+        "markdown",
+        "epub",
+        "pdf",
+        "ebook",
+        "pandoc",
+        "converter",
+        "publishing",
+        "document",
+        "typography",
+        "cli",
+        "npx"
+    ],
+    "author": "잘생김프로쌤 <edulovesai@gmail.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/goodlookingprokim/markdown-to-document-cli.git"
+    },
+    "homepage": "https://github.com/goodlookingprokim/markdown-to-document-cli#readme",
+    "bugs": {
+        "url": "https://github.com/goodlookingprokim/markdown-to-document-cli/issues"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "dependencies": {
+        "chalk": "^5.3.0",
+        "commander": "^12.0.0",
+        "fontkit": "^2.0.4",
+        "glob": "^10.3.10",
+        "inquirer": "^9.2.12",
+        "ora": "^8.0.1",
+        "yaml": "^2.3.4"
+    },
+    "devDependencies": {
+        "@types/fontkit": "^2.0.8",
+        "@types/glob": "^8.1.0",
+        "@types/inquirer": "^9.0.7",
+        "@types/node": "^20.19.27",
+        "@typescript-eslint/eslint-plugin": "^6.15.0",
+        "@typescript-eslint/parser": "^6.15.0",
+        "eslint": "^8.56.0",
+        "prettier": "^3.1.1",
+        "typescript": "^5.3.3"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ]
+}

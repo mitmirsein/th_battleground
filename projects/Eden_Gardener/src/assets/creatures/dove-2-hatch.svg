@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Dove - Stage 2: Hatchling (부화) -->
+  <defs>
+    <linearGradient id="nestGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#A1887F"/>
+      <stop offset="100%" stop-color="#6D4C41"/>
+    </linearGradient>
+    <radialGradient id="chickGrad" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFF9C4"/>
+      <stop offset="100%" stop-color="#F0E68C"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Nest base -->
+  <ellipse cx="50" cy="78" rx="30" ry="10" fill="url(#nestGrad)"/>
+  
+  <!-- Nest texture -->
+  <path d="M25 76 Q35 72 45 77" stroke="#5D4037" stroke-width="1.5" fill="none"/>
+  <path d="M55 77 Q65 72 75 76" stroke="#5D4037" stroke-width="1.5" fill="none"/>
+  
+  <!-- Baby chick body -->
+  <ellipse cx="50" cy="62" rx="14" ry="12" fill="url(#chickGrad)"/>
+  
+  <!-- Fluffy head -->
+  <circle cx="50" cy="48" r="10" fill="url(#chickGrad)"/>
+  
+  <!-- Fluffy texture -->
+  <circle cx="45" cy="46" r="3" fill="#FFFDE7" opacity="0.7"/>
+  <circle cx="55" cy="46" r="3" fill="#FFFDE7" opacity="0.7"/>
+  <circle cx="50" cy="42" r="2" fill="#FFFDE7" opacity="0.6"/>
+  
+  <!-- Eyes (closed, sleepy) -->
+  <path d="M45 48 Q47 47 49 48" stroke="#5D4037" stroke-width="1.5" fill="none"/>
+  <path d="M51 48 Q53 47 55 48" stroke="#5D4037" stroke-width="1.5" fill="none"/>
+  
+  <!-- Tiny beak -->
+  <path d="M48 52 L50 55 L52 52" fill="#FF9800"/>
+  
+  <!-- Broken eggshell pieces -->
+  <path d="M35 70 L38 65 L40 70 Z" fill="#E0E0E0"/>
+  <path d="M60 70 L63 65 L65 70 Z" fill="#E0E0E0"/>
+</svg>

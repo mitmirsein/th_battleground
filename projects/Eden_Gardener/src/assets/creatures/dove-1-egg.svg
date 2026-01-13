@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Dove - Stage 1: Egg (알) -->
+  <defs>
+    <linearGradient id="nestGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#A1887F"/>
+      <stop offset="100%" stop-color="#6D4C41"/>
+    </linearGradient>
+    <radialGradient id="eggGrad" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#F5F5F5"/>
+      <stop offset="100%" stop-color="#E0E0E0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Nest base -->
+  <ellipse cx="50" cy="75" rx="30" ry="12" fill="url(#nestGrad)"/>
+  
+  <!-- Nest texture (twigs) -->
+  <path d="M25 72 Q35 68 45 73" stroke="#5D4037" stroke-width="1.5" fill="none"/>
+  <path d="M55 73 Q65 68 75 72" stroke="#5D4037" stroke-width="1.5" fill="none"/>
+  <path d="M30 75 Q50 70 70 75" stroke="#5D4037" stroke-width="1" fill="none"/>
+  
+  <!-- Egg -->
+  <ellipse cx="50" cy="60" rx="12" ry="16" fill="url(#eggGrad)" transform="rotate(-5, 50, 60)"/>
+  
+  <!-- Subtle egg shine -->
+  <ellipse cx="46" cy="52" rx="4" ry="2" fill="white" opacity="0.5"/>
+</svg>

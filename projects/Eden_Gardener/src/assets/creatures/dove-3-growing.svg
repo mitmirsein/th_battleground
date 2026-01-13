@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Dove - Stage 3: Growing (성장) -->
+  <defs>
+    <linearGradient id="branchGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6D4C41"/>
+      <stop offset="50%" stop-color="#8D6E63"/>
+      <stop offset="100%" stop-color="#5D4037"/>
+    </linearGradient>
+    <radialGradient id="doveGrad" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FAFAFA"/>
+      <stop offset="50%" stop-color="#E0E0E0"/>
+      <stop offset="100%" stop-color="#BDBDBD"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Branch -->
+  <path d="M20 75 Q50 70 80 75" stroke="url(#branchGrad)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Body (sitting) -->
+  <ellipse cx="50" cy="55" rx="18" ry="14" fill="url(#doveGrad)"/>
+  
+  <!-- Head -->
+  <circle cx="55" cy="40" r="12" fill="url(#doveGrad)"/>
+  
+  <!-- Small wing (folded) -->
+  <ellipse cx="42" cy="55" rx="10" ry="8" fill="#BDBDBD" transform="rotate(-15, 42, 55)"/>
+  
+  <!-- Eye -->
+  <circle cx="60" cy="38" r="3" fill="#424242"/>
+  <circle cx="61" cy="37" r="1" fill="white"/>
+  
+  <!-- Beak -->
+  <path d="M66 42 L72 44 L66 46" fill="#FF9800"/>
+  
+  <!-- Tail (short) -->
+  <path d="M32 60 L25 65 L28 58 Z" fill="#9E9E9E"/>
+  
+  <!-- Feet on branch -->
+  <path d="M45 68 L45 72 M45 72 L42 75 M45 72 L48 75" stroke="#FF9800" stroke-width="1.5" fill="none"/>
+  <path d="M55 68 L55 72 M55 72 L52 75 M55 72 L58 75" stroke="#FF9800" stroke-width="1.5" fill="none"/>
+</svg>

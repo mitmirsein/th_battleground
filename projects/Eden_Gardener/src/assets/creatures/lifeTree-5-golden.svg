@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Tree of Life - Stage 5: Golden (Full revelation) -->
+  <defs>
+    <radialGradient id="divineGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#FFF8E1" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFD54F" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldenTrunk" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4AF37"/>
+      <stop offset="50%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#B8860B"/>
+    </linearGradient>
+    <radialGradient id="goldenCanopy" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFEB3B"/>
+      <stop offset="70%" stop-color="#FFC107"/>
+      <stop offset="100%" stop-color="#FF8F00"/>
+    </radialGradient>
+    <radialGradient id="lifeFruit" cx="30%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#E1F5FE"/>
+      <stop offset="100%" stop-color="#81D4FA"/>
+    </radialGradient>
+  </defs>
+  
+  <circle cx="50" cy="45" r="45" fill="url(#divineGlow)"/>
+  
+  <ellipse cx="50" cy="92" rx="25" ry="4" fill="#8B6914"/>
+  <path d="M50 90 Q50 70 50 50" stroke="url(#goldenTrunk)" stroke-width="6" fill="none"/>
+  <path d="M50 60 Q35 55 25 50" stroke="url(#goldenTrunk)" stroke-width="3" fill="none"/>
+  <path d="M50 60 Q65 55 75 50" stroke="url(#goldenTrunk)" stroke-width="3" fill="none"/>
+  <path d="M50 50 Q40 45 32 38" stroke="url(#goldenTrunk)" stroke-width="2" fill="none"/>
+  <path d="M50 50 Q60 45 68 38" stroke="url(#goldenTrunk)" stroke-width="2" fill="none"/>
+  
+  <ellipse cx="50" cy="32" rx="32" ry="25" fill="url(#goldenCanopy)"/>
+  <circle cx="35" cy="32" r="10" fill="#FFD54F" opacity="0.9"/>
+  <circle cx="65" cy="32" r="10" fill="#FFD54F" opacity="0.9"/>
+  <circle cx="50" cy="20" r="12" fill="#FFEB3B" opacity="0.95"/>
+  <circle cx="25" cy="45" r="8" fill="#FFC107" opacity="0.8"/>
+  <circle cx="75" cy="45" r="8" fill="#FFC107" opacity="0.8"/>
+  
+  <!-- 12 fruits (Rev 22:2) -->
+  <circle cx="35" cy="28" r="3" fill="url(#lifeFruit)"/>
+  <circle cx="50" cy="22" r="3" fill="url(#lifeFruit)"/>
+  <circle cx="65" cy="28" r="3" fill="url(#lifeFruit)"/>
+  <circle cx="28" cy="38" r="2.5" fill="url(#lifeFruit)"/>
+  <circle cx="72" cy="38" r="2.5" fill="url(#lifeFruit)"/>
+  <circle cx="40" cy="40" r="2.5" fill="url(#lifeFruit)"/>
+  <circle cx="60" cy="40" r="2.5" fill="url(#lifeFruit)"/>
+  
+  <!-- Divine rays -->
+  <line x1="50" y1="5" x2="50" y2="-5" stroke="#FFD54F" stroke-width="2" opacity="0.8"/>
+  <line x1="35" y1="8" x2="28" y2="0" stroke="#FFD54F" stroke-width="1.5" opacity="0.6"/>
+  <line x1="65" y1="8" x2="72" y2="0" stroke="#FFD54F" stroke-width="1.5" opacity="0.6"/>
+  
+  <!-- Crown -->
+  <path d="M45 -2 L50 -8 L55 -2 L52 -2 L50 -5 L48 -2 Z" fill="#FFD700" stroke="#FF8F00" stroke-width="0.5"/>
+  
+  <!-- Sparkles -->
+  <circle cx="20" cy="25" r="2" fill="white" opacity="0.9"/>
+  <circle cx="80" cy="25" r="2" fill="white" opacity="0.9"/>
+  <circle cx="50" cy="55" r="1.5" fill="white" opacity="0.8"/>
+</svg>

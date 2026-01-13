@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 100" width="80" height="100">
+  <!-- Leather Apron - Brown leather garden/work style -->
+  <defs>
+    <linearGradient id="leather" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B4513"/>
+      <stop offset="30%" stop-color="#A0522D"/>
+      <stop offset="70%" stop-color="#8B4513"/>
+      <stop offset="100%" stop-color="#654321"/>
+    </linearGradient>
+    <linearGradient id="strap" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#654321"/>
+      <stop offset="50%" stop-color="#8B4513"/>
+      <stop offset="100%" stop-color="#654321"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Neck strap -->
+  <path d="M28 8 Q40 0 52 8" stroke="url(#strap)" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- Main apron body - leather style -->
+  <path d="M18 15 
+           L18 85 
+           Q40 95 62 85 
+           L62 15 
+           Q40 10 18 15" 
+        fill="url(#leather)" stroke="#4A2C0A" stroke-width="1.5"/>
+  
+  <!-- Leather texture lines -->
+  <path d="M25 25 L25 75" stroke="#654321" stroke-width="0.5" opacity="0.4"/>
+  <path d="M55 25 L55 75" stroke="#654321" stroke-width="0.5" opacity="0.4"/>
+  
+  <!-- Chest piece reinforcement -->
+  <path d="M25 20 Q40 15 55 20 L55 35 Q40 40 25 35 Z" fill="#7A3E0D" opacity="0.5"/>
+  
+  <!-- Waist tie strap - left -->
+  <path d="M18 48 L5 52" stroke="url(#strap)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Waist tie strap - right -->
+  <path d="M62 48 L75 52" stroke="url(#strap)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Tool pocket outline -->
+  <rect x="28" y="55" width="24" height="20" rx="2" fill="#7A3E0D" stroke="#4A2C0A" stroke-width="1"/>
+  
+  <!-- Pocket divider -->
+  <line x1="40" y1="55" x2="40" y2="75" stroke="#4A2C0A" stroke-width="0.5"/>
+  
+  <!-- Brass/metal rivets -->
+  <circle cx="22" cy="48" r="2" fill="#B8860B"/>
+  <circle cx="58" cy="48" r="2" fill="#B8860B"/>
+  <circle cx="28" cy="55" r="1.5" fill="#B8860B"/>
+  <circle cx="52" cy="55" r="1.5" fill="#B8860B"/>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Dove - Stage 4: Flourishing (성숙) - Flying with olive branch -->
+  <defs>
+    <radialGradient id="doveGrad" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#F5F5F5"/>
+      <stop offset="100%" stop-color="#E0E0E0"/>
+    </radialGradient>
+    <linearGradient id="wingGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FAFAFA"/>
+      <stop offset="100%" stop-color="#BDBDBD"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Body -->
+  <ellipse cx="50" cy="55" rx="16" ry="12" fill="url(#doveGrad)" transform="rotate(-10, 50, 55)"/>
+  
+  <!-- Head -->
+  <circle cx="62" cy="45" r="10" fill="url(#doveGrad)"/>
+  
+  <!-- Left wing (spread, up) -->
+  <path d="M45 50 Q30 30 20 25 Q30 35 35 45 Q40 50 45 50" fill="url(#wingGrad)"/>
+  <path d="M35 45 Q25 30 18 28" stroke="#E0E0E0" stroke-width="1" fill="none"/>
+  <path d="M38 48 Q30 38 25 35" stroke="#E0E0E0" stroke-width="1" fill="none"/>
+  
+  <!-- Right wing (spread, up) -->
+  <path d="M55 50 Q70 30 80 25 Q70 35 65 45 Q60 50 55 50" fill="url(#wingGrad)"/>
+  <path d="M65 45 Q75 30 82 28" stroke="#E0E0E0" stroke-width="1" fill="none"/>
+  <path d="M62 48 Q70 38 75 35" stroke="#E0E0E0" stroke-width="1" fill="none"/>
+  
+  <!-- Tail -->
+  <path d="M35 60 L25 70 L30 65 L28 72 L35 65 L32 73 L40 60" fill="#E0E0E0"/>
+  
+  <!-- Eye -->
+  <circle cx="66" cy="43" r="2.5" fill="#424242"/>
+  <circle cx="67" cy="42" r="0.8" fill="white"/>
+  
+  <!-- Beak with olive branch -->
+  <path d="M70 47 L76 48 L70 50" fill="#FF9800"/>
+  
+  <!-- Olive branch in beak -->
+  <path d="M75 48 Q82 45 88 48" stroke="#558B2F" stroke-width="1.5" fill="none"/>
+  <ellipse cx="82" cy="44" rx="4" ry="2" fill="#8BC34A" transform="rotate(-20, 82, 44)"/>
+  <ellipse cx="86" cy="46" rx="3" ry="1.5" fill="#8BC34A" transform="rotate(10, 86, 46)"/>
+  <ellipse cx="78" cy="46" rx="3" ry="1.5" fill="#8BC34A" transform="rotate(-30, 78, 46)"/>
+</svg>

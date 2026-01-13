@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Fig Tree - Stage 5: Golden -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#FFF8E1" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFD54F" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="trunk" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6D4C41"/>
+      <stop offset="50%" stop-color="#8D6E63"/>
+      <stop offset="100%" stop-color="#5D4037"/>
+    </linearGradient>
+    <linearGradient id="goldenLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFEB3B"/>
+      <stop offset="100%" stop-color="#FFC107"/>
+    </linearGradient>
+    <radialGradient id="goldenFig" cx="30%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFD54F"/>
+      <stop offset="100%" stop-color="#FF8F00"/>
+    </radialGradient>
+  </defs>
+  
+  <ellipse cx="50" cy="45" rx="40" ry="35" fill="url(#glow)"/>
+  <ellipse cx="50" cy="90" rx="30" ry="6" fill="#8B6914"/>
+  <path d="M50 88 Q50 65 50 45" stroke="url(#trunk)" stroke-width="6" fill="none"/>
+  <path d="M50 60 Q35 55 28 48" stroke="url(#trunk)" stroke-width="3" fill="none"/>
+  <path d="M50 55 Q65 50 72 42" stroke="url(#trunk)" stroke-width="3" fill="none"/>
+  
+  <path d="M25 48 Q20 35 30 25 Q38 36 35 48 Q30 54 25 48" fill="url(#goldenLeaf)"/>
+  <path d="M68 42 Q63 28 73 18 Q81 30 78 42 Q73 48 68 42" fill="url(#goldenLeaf)"/>
+  <path d="M35 32 Q30 20 40 12 Q48 22 45 32 Q40 38 35 32" fill="url(#goldenLeaf)"/>
+  <path d="M55 28 Q50 16 60 8 Q68 18 65 28 Q60 34 55 28" fill="url(#goldenLeaf)"/>
+  
+  <ellipse cx="32" cy="58" rx="4" ry="5" fill="url(#goldenFig)"/>
+  <ellipse cx="65" cy="52" rx="4" ry="5" fill="url(#goldenFig)"/>
+  <ellipse cx="48" cy="40" rx="3" ry="4" fill="url(#goldenFig)"/>
+  
+  <circle cx="22" cy="20" r="2" fill="white" opacity="0.8"/>
+  <circle cx="78" cy="25" r="1.5" fill="white" opacity="0.7"/>
+  <path d="M47 2 L50 -2 L53 2 L51 2 L50 0 L49 2 Z" fill="#FFD700"/>
+</svg>
