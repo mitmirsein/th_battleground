@@ -1,645 +1,240 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>부활 논쟁의 3대 전선: 신학 상황실</title>
+    <title>부활론(Resurrection) 신학 전략 작전 지휘소 v3.1</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-        }
-
-        .slide-in-right {
-            animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .fade-in {
-            animation: fadeIn 0.8s ease-in-out;
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .custom-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .custom-scroll::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-
-        .custom-scroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-
-        .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
-        .step-marker.active {
-            background-color: #4f46e5;
-            border-color: #4f46e5;
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .step-marker.visited {
-            background-color: #e0e7ff;
-            border-color: #4f46e5;
-            color: #4f46e5;
-        }
-
-        .toggle-checkbox:checked {
-            right: 0;
-            border-color: #68D391;
-        }
-
-        .toggle-checkbox:checked+.toggle-label {
-            background-color: #68D391;
-        }
+        body { font-family: 'Outfit', 'Noto Sans KR', sans-serif; background-color: #010413; color: #f8fafc; }
+        .glass-card { background: rgba(10, 15, 30, 0.85); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; }
+        .strategic-btn { transition: all 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.03); }
+        .strategic-btn.active { border-color: currentColor; background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 15px -5px currentColor; }
+        .matchup-btn { transition: all 0.3s ease; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .matchup-btn:hover { background: rgba(168, 85, 247, 0.1); border-color: #a855f7; }
+        .scroll-custom::-webkit-scrollbar { width: 4px; }
+        .scroll-custom::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        .radar-container { filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.6)); }
     </style>
 </head>
+<body class="p-4 md:p-12 min-h-screen">
+    <div class="max-w-[1750px] mx-auto">
+        <!-- Dashboard Header -->
+        <header class="mb-12 border-b border-white/5 pb-10 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
+            <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                    <span class="px-2 py-0.5 bg-purple-600 text-[10px] font-black tracking-widest rounded-sm">TOP SECRET</span>
+                    <h1 class="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-br from-slate-100 to-slate-500 uppercase tracking-tighter">Resurrection Strategic HQ</h1>
+                </div>
+                <p class="text-slate-500 text-sm font-light uppercase tracking-[0.3em]">Theological Eschaton Analysis Platform v3.1</p>
+            </div>
+            <div id="matchupContainer" class="grid grid-cols-2 gap-3">
+                <!-- Matchup buttons will be rendered here -->
+            </div>
+        </header>
 
-<body
-    class="min-h-screen flex flex-col bg-slate-50 text-slate-800 overflow-x-hidden selection:bg-indigo-100 selection:text-indigo-900">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-10">
+            <!-- Left: Unit Deployment -->
+            <div class="xl:col-span-3">
+                <div class="glass-card p-8 sticky top-12">
+                    <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-8 border-l-2 border-purple-600 pl-4">Tactical Units</h2>
+                    <div id="layerSelector" class="space-y-3 pr-2 scroll-custom">
+                        <!-- JS Renders -->
+                    </div>
+                </div>
+            </div>
 
-    <!-- Top Bar -->
-    <header
-        class="h-14 lg:h-auto bg-white border-b border-slate-200 shadow-sm z-10 px-4 lg:px-8 py-2 lg:py-4 flex flex-col md:flex-row justify-between items-center shrink-0">
-        <div class="flex items-center gap-2 lg:gap-3 mb-2 md:mb-0">
-            <span class="text-2xl lg:text-3xl">⚔️</span>
-            <div>
-                <h1 class="text-base lg:text-xl font-extrabold text-slate-900 tracking-tight leading-tight">부활 논쟁의 3대 전선
-                </h1>
-                <p class="text-[10px] text-slate-500 font-medium tracking-wide uppercase hidden sm:block">Theological
-                    Warfare Map</p>
+            <!-- Center: The Radar Battleground -->
+            <div class="xl:col-span-6 flex flex-col gap-8">
+                <div class="glass-card p-12 flex-1 radar-container min-h-[700px] relative">
+                    <canvas id="mainRadarChart"></canvas>
+                    <div class="absolute bottom-6 left-6 text-[10px] text-slate-700 font-mono">GRID SYSTEM ALPHA-9 / SECTOR: RESURRECTION</div>
+                </div>
+            </div>
+
+            <!-- Right: Strategic Command -->
+            <div class="xl:col-span-3">
+                <div id="briefCard" class="glass-card h-full p-10 flex flex-col border-r-2 border-purple-500/20 relative overflow-hidden">
+                    <div class="flex justify-between items-center mb-10 relative z-10">
+                        <h2 class="text-2xl font-black tracking-tighter flex items-center gap-3">
+                            <span id="briefIcon" class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-sm">R</span>
+                            STRATEGIC BRIEF
+                        </h2>
+                    </div>
+                    
+                    <div id="strategicBriefContent" class="flex-1 overflow-y-auto scroll-custom pr-4 space-y-8 relative z-10">
+                        <div class="opacity-20 text-center py-40">
+                            <p class="text-xs uppercase tracking-[0.5em] mb-4 font-black">Waiting for command</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="timeline-wrapper" class="hidden lg:flex items-center gap-1 transition-opacity duration-300">
-            <div id="timeline-container" class="flex gap-2"></div>
-        </div>
-    </header>
-
-    <!-- 모바일 탭 네비게이션 -->
-    <div class="lg:hidden flex border-b border-slate-200 bg-white">
-        <button onclick="showMobileTab('chart')" id="tab-chart"
-            class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-indigo-500 text-indigo-600">차트</button>
-        <button onclick="showMobileTab('right')" id="tab-right"
-            class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-transparent text-slate-400">스토리</button>
     </div>
 
-    <!-- Main Workspace -->
-    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
-
-        <!-- Left Panel: Chart -->
-        <section id="panel-chart"
-            class="flex-1 bg-slate-100/50 flex items-center justify-center p-4 lg:p-8 relative min-h-[50vh] lg:min-h-0">
-            <div
-                class="bg-white rounded-2xl lg:rounded-3xl shadow-xl border border-slate-100 p-2 w-full max-w-sm lg:max-w-[75vh] aspect-square relative transition-all duration-500 hover:shadow-2xl">
-                <div
-                    class="absolute inset-0 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-indigo-50/50 to-pink-50/50 pointer-events-none">
-                </div>
-                <canvas id="theologyChart" class="relative z-10"></canvas>
-            </div>
-            <div
-                class="absolute bottom-4 left-4 lg:bottom-6 lg:left-8 hidden lg:block space-y-2 text-[10px] lg:text-xs font-semibold text-slate-400 bg-white/80 backdrop-blur px-3 lg:px-4 py-2 lg:py-3 rounded-lg border border-slate-200 shadow-sm">
-                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500"></span> 객관 (Fact)
-                </div>
-                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-pink-500"></span> 주관 (Meaning)
-                </div>
-                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-teal-500"></span> 실천 (Action)
-                </div>
-            </div>
-        </section>
-
-        <!-- Right Panel -->
-        <section id="panel-right"
-            class="hidden lg:flex w-full lg:w-[480px] xl:w-[550px] bg-white border-l border-slate-200 flex-col shadow-[0_0_40px_-10px_rgba(0,0,0,0.1)] z-20 max-h-[50vh] lg:max-h-full">
-
-            <!-- Tabs -->
-            <div class="flex border-b border-slate-200 shrink-0">
-                <button onclick="switchMode('story')" id="mode-tab-story"
-                    class="flex-1 py-3 lg:py-4 text-xs lg:text-sm font-bold uppercase tracking-wide border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50 transition-colors">
-                    📖 스토리
-                </button>
-                <button onclick="switchMode('custom')" id="mode-tab-custom"
-                    class="flex-1 py-3 lg:py-4 text-xs lg:text-sm font-bold uppercase tracking-wide border-b-2 border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors">
-                    🛠️ 실험실
-                </button>
-            </div>
-
-            <!-- Content Area (Scrollable) -->
-            <div class="flex-1 overflow-y-auto custom-scroll relative bg-slate-50/30">
-
-                <!-- STORY MODE -->
-                <div id="story-panel" class="flex flex-col min-h-full transition-opacity duration-300">
-                    <div class="p-4 lg:p-8 pb-2 lg:pb-4">
-                        <div class="flex items-center gap-2 mb-2">
-                            <span id="step-badge"
-                                class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-700">Intel
-                                Report</span>
-                            <span id="step-counter" class="text-xs font-mono text-slate-400">01 / 16</span>
-                        </div>
-                        <h2 id="step-title"
-                            class="text-xl lg:text-2xl xl:text-3xl font-bold text-slate-900 leading-tight"></h2>
-                        <p id="step-subtitle" class="text-base lg:text-lg text-slate-500 font-medium mt-2"></p>
-                    </div>
-                    <div class="px-4 lg:px-8 pb-4 lg:pb-8">
-                        <div id="step-desc"
-                            class="prose prose-slate prose-sm lg:prose-lg max-w-none text-slate-600 leading-relaxed">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CUSTOM MODE -->
-                <div id="custom-panel" class="hidden flex flex-col min-h-full transition-opacity duration-300">
-                    <div class="p-4 lg:p-6 pb-2">
-                        <h2 class="text-xl lg:text-2xl font-bold text-slate-900">레이어 실험실</h2>
-                        <p class="text-slate-500 text-sm mt-1">원하는 지층과 신학자를 선택하세요.</p>
-                    </div>
-                    <div class="p-4 lg:p-6 space-y-4 lg:space-y-6">
-                        <div>
-                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">고대 배경</h3>
-                            <div class="space-y-2" id="controls-roots"></div>
-                        </div>
-                        <div>
-                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">교부 & 중세</h3>
-                            <div class="space-y-2" id="controls-medieval"></div>
-                        </div>
-                        <div>
-                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">종교개혁</h3>
-                            <div class="space-y-2" id="controls-reformation"></div>
-                        </div>
-                        <div>
-                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">근현대</h3>
-                            <div class="space-y-2" id="controls-moderns"></div>
-                        </div>
-                    </div>
-                    <div class="h-20"></div>
-                </div>
-            </div>
-
-            <!-- SHARED FOOTER -->
-            <div class="border-t border-slate-200 bg-white shrink-0 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)] z-30">
-
-                <!-- Insight Panel -->
-                <div id="insight-panel"
-                    class="px-4 lg:px-6 py-3 lg:py-5 bg-indigo-50/50 border-b border-indigo-100 transition-all">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center gap-2">
-                            <span
-                                class="text-[10px] lg:text-xs font-bold uppercase tracking-wider text-indigo-600 bg-white border border-indigo-100 px-2 py-1 rounded shadow-sm">⚡
-                                AI Insight</span>
-                        </div>
-                        <button onclick="resetCustom()" id="btn-reset"
-                            class="hidden text-xs text-slate-400 hover:text-red-500 underline">초기화</button>
-                    </div>
-                    <div id="insight-text" class="text-slate-700 text-sm leading-relaxed font-medium"></div>
-                </div>
-
-                <!-- Navigation -->
-                <div id="nav-controls" class="p-3 lg:p-4 flex gap-2 lg:gap-3">
-                    <button onclick="prevStep()" id="btn-prev"
-                        class="flex-1 px-3 lg:px-4 py-2 lg:py-3 rounded-lg font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 hover:text-slate-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm">이전</button>
-                    <button onclick="nextStep()" id="btn-next"
-                        class="flex-[2] px-3 lg:px-4 py-2 lg:py-3 rounded-lg font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm">다음
-                        분석</button>
-                </div>
-            </div>
-
-        </section>
-    </main>
-
     <script>
-        // 모바일 탭 전환
-        function showMobileTab(tab) {
-            const tabs = ['chart', 'right'];
-            tabs.forEach(t => {
-                const panel = document.getElementById('panel-' + t);
-                const tabBtn = document.getElementById('tab-' + t);
-                if (t === tab) {
-                    panel.classList.remove('hidden');
-                    panel.classList.add('flex');
-                    tabBtn.classList.add('border-indigo-500', 'text-indigo-600');
-                    tabBtn.classList.remove('border-transparent', 'text-slate-400');
-                } else {
-                    if (window.innerWidth < 1024) {
-                        panel.classList.add('hidden');
-                        panel.classList.remove('flex');
-                    }
-                    tabBtn.classList.remove('border-indigo-500', 'text-indigo-600');
-                    tabBtn.classList.add('border-transparent', 'text-slate-400');
-                }
-            });
-        }
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) {
-                document.getElementById('panel-chart').classList.remove('hidden');
-                document.getElementById('panel-chart').classList.add('flex');
-                document.getElementById('panel-right').classList.remove('hidden');
-                document.getElementById('panel-right').classList.add('flex');
-            } else {
-                // 모바일로 전환 시: 차트만 보이고 우측 패널 숨김
-                document.getElementById('panel-right').classList.add('hidden');
-                document.getElementById('panel-right').classList.remove('flex');
-                document.getElementById('panel-chart').classList.remove('hidden');
-                document.getElementById('panel-chart').classList.add('flex');
-                // 탭 상태 초기화
-                document.getElementById('tab-chart').classList.add('border-indigo-500', 'text-indigo-600');
-                document.getElementById('tab-chart').classList.remove('border-transparent', 'text-slate-400');
-                document.getElementById('tab-right').classList.remove('border-indigo-500', 'text-indigo-600');
-                document.getElementById('tab-right').classList.add('border-transparent', 'text-slate-400');
+        const scholars = [
+            { 
+                id: 0, name: '볼프하르트 판넨베르크', color: '#10b981', data: [10, 6, 2, 9, 3, 5, 10], group: 'History',
+                strategy: "[Strategic Core: Universal History] 부활을 '일반 역사의 지평에서 검증 가능한 사실'로 취급합니다. 역사의 끝(종말)이 그리스도의 부활에서 미리 일어났다는 '종말론적 선취(Axis 4: 9점)'를 통해, 신학을 이성적 역사학의 심판대 위에 당당히 세우는 공격적 전술입니다."
+            },
+            { 
+                id: 1, name: 'N.T. 라이트', color: '#38bdf8', data: [9, 10, 3, 8, 4, 9, 8], group: 'Anglican',
+                strategy: "[Strategy: Physical Realism] 유대교적 맥락 속에서 '육체적 부활(Axis 2: 10점)'의 역사적 필연성을 변증합니다. 부활은 단순히 영혼의 불멸이 아니라, 일그러진 창조 세계를 혁신하시려는 하나님의 새로운 창조(Axis 6: 9점)의 시작임을 선포하는 구체적 존재론 전략입니다."
+            },
+            { 
+                id: 2, name: '루돌프 불트만', color: '#94a3b8', data: [1, 2, 10, 3, 8, 2, 2], group: 'Existentialist',
+                strategy: "[Strategy: Existential Interpretation] 빈 무덤과 같은 역사적 정보(Axis 1: 1점)를 부활의 본질에서 제거합니다. 부활은 과거의 사건이 아니라, 지금 말씀(케리그마)을 듣는 자 안에서 일어나는 '자아의 새로운 이해(Axis 3: 10점)'입니다. 역사적 회의주의를 실존적 타격력으로 전환하는 게릴라 전술입니다."
+            },
+            { 
+                id: 3, name: '칼 바르트', color: '#ec4899', data: [4, 7, 7, 8, 10, 8, 5], group: 'Neo-Orthodox',
+                strategy: "[Strategy: Sovereign Event] 부활은 역사의 산물이 아니라, 역사 안으로 틈입해 들어온 '하나님의 전적인 사건(Axis 5: 10점)'입니다. 역사학자의 렌즈(Historie)로는 보이지 않는, 오직 믿음의 눈(Geschichte)으로만 파악되는 초월적 실재를 기독론적 주권 안에서 구축합니다."
+            },
+            { 
+                id: 4, name: '위르겐 몰트만', color: '#f59e0b', data: [6, 8, 5, 10, 7, 10, 6], group: 'Political/Hope',
+                strategy: "[Strategy: Future of Hope] 부활을 고통받는 현실을 변혁시키는 '미래의 희망'으로 해석합니다. 십자가에 못 박히신 하나님이 만물을 새롭게 하시는 우주적 변혁(Axis 6: 10점)의 동력을 부활에서 찾아내어, 이를 정치적-윤리적 해방의 동력으로 연결하는 희망의 전술입니다."
             }
-        });
-        // --- Data ---
-        const labels = [['신체/물질성', 'Somatic'], ['역사적 새로움', 'Novum'], ['미래 선취', 'Proleptic'], ['정치적 전복성', 'Political'], ['실존적 전유', 'Existential'], ['케리그마', 'Kerygma'], ['우주적 범위', 'Cosmic']];
-        const COLOR_JUDAISM = 'rgba(234, 179, 8, 0.9)';
-
-        const allLayers = {
-            hellenism: { id: 'hellenism', label: '지층 1 (헬라 철학)', desc: '육체 탈출, 내면 도피', data: [1, 1, 1, 2, 4, 1, 5], backgroundColor: 'rgba(100, 116, 139, 0.15)', borderColor: 'rgba(100, 116, 139, 0.6)', borderWidth: 1, borderDash: [5, 5], type: 'root' },
-            judaism: { id: 'judaism', label: '지층 2 (유대교)', desc: '몸의 부활, 정의 회복', data: [5, 4, 5, 5, 3, 2, 5], backgroundColor: 'rgba(234, 179, 8, 0.1)', borderColor: COLOR_JUDAISM, borderWidth: 1.5, borderDash: [5, 5], type: 'root' },
-            irenaeus: { id: 'irenaeus', label: '이레네우스', desc: '총괄갱신', data: [5, 4, 4, 2, 3, 3, 5], borderColor: '#8B4513', backgroundColor: 'rgba(139, 69, 19, 0.1)', borderWidth: 2, type: 'medieval' },
-            origen: { id: 'origen', label: '오리겐', desc: '만유회복', data: [2, 3, 3, 1, 4, 3, 5], borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.1)', borderWidth: 2, type: 'medieval' },
-            augustine: { id: 'augustine', label: '아우구스티누스', desc: '신국론', data: [4.5, 4, 4, 3, 5, 4, 4], borderColor: '#d97706', backgroundColor: 'rgba(217, 119, 6, 0.1)', borderWidth: 2, type: 'medieval' },
-            aquinas: { id: 'aquinas', label: '토마스 아퀴나스', desc: '은총과 자연', data: [5, 3, 3, 2, 2, 3, 5], borderColor: '#1e3a8a', backgroundColor: 'rgba(30, 58, 138, 0.1)', borderWidth: 2, type: 'medieval' },
-            luther: { id: 'luther', label: '마르틴 루터', desc: '오직 믿음', data: [4, 3, 2, 3, 5, 5, 2], borderColor: '#be123c', backgroundColor: 'rgba(190, 18, 60, 0.1)', borderWidth: 2.5, type: 'reformation' },
-            calvin: { id: 'calvin', label: '장 칼뱅', desc: '주권과 영광', data: [4, 3, 3, 4, 4, 5, 5], borderColor: '#155e75', backgroundColor: 'rgba(21, 94, 117, 0.1)', borderWidth: 2.5, type: 'reformation' },
-            schleiermacher: { id: 'schleiermacher', label: '슐라이어마허', desc: '감정 의존', data: [2, 2, 2, 2, 5, 3, 3], backgroundColor: 'rgba(236, 72, 153, 0.1)', borderColor: 'rgba(236, 72, 153, 0.6)', borderWidth: 1, borderDash: [5, 5], type: 'modern' },
-            barth: { id: 'barth', label: '칼 바르트', desc: '객관적 말씀', data: [4, 5, 3, 4, 2, 5, 3.5], borderColor: '#16a34a', backgroundColor: 'rgba(22, 163, 74, 0.1)', borderWidth: 2.5, type: 'modern' },
-            bultmann: { id: 'bultmann', label: '루돌프 불트만', desc: '실존적 결단', data: [1, 2, 1, 1, 5, 5, 1], borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderWidth: 3.5, type: 'modern' },
-            bonhoeffer: { id: 'bonhoeffer', label: '디트리히 본회퍼', desc: '윤리적 실천', data: [4.5, 3, 2, 5, 4, 3, 3], borderColor: '#9333ea', backgroundColor: 'rgba(147, 51, 234, 0.1)', borderWidth: 3.5, borderDash: [4, 4], type: 'modern' },
-            moltmann: { id: 'moltmann', label: '위르겐 몰트만', desc: '희망과 변혁', data: [4.5, 5, 5, 5, 3, 2, 5], borderColor: '#f97316', backgroundColor: 'rgba(249, 115, 22, 0.1)', borderWidth: 3.5, type: 'modern' },
-            pannenberg: { id: 'pannenberg', label: '볼프하르트 판넨베르크', desc: '이성과 역사', data: [5, 4, 5, 3, 1, 2, 5], borderColor: '#dc2626', backgroundColor: 'rgba(220, 38, 38, 0.1)', borderWidth: 2.5, borderDash: [10, 5], type: 'modern' }
-        };
-
-        function getDataset(key) {
-            const raw = allLayers[key];
-            return {
-                label: raw.label,
-                data: raw.data,
-                backgroundColor: raw.backgroundColor,
-                borderColor: raw.borderColor,
-                borderWidth: raw.borderWidth,
-                borderDash: raw.borderDash || [],
-                pointRadius: raw.type === 'root' ? 0 : 3
-            };
-        }
-
-        // --- Insight Engine (Super Ultra Think Hard) ---
-        const axisMeanings = [
-            { name: "신체/물질성", desc: "육체와 물질 세계의 구체적 회복", group: "객관" },
-            { name: "역사적 새로움", desc: "역사를 뚫고 들어오는 종말론적 사건", group: "객관" },
-            { name: "미래 선취", desc: "미래의 희망을 현재로 앞당겨 옴", group: "실천" },
-            { name: "정치적 전복성", desc: "사회 구조와 불의에 대한 저항", group: "실천" },
-            { name: "실존적 전유", desc: "개인의 내면적 결단과 주관적 믿음", group: "주관" },
-            { name: "케리그마", desc: "선포된 말씀의 언어적 사건", group: "주관" },
-            { name: "우주적 범위", desc: "인간을 넘어선 자연과 우주 전체의 구원", group: "객관" }
         ];
 
-        // 1. Dual Comparison Logic (2 Layers)
-        function generateDetailedInsight(ids) {
-            if (ids.length !== 2) return null;
-            const l1 = allLayers[ids[0]];
-            const l2 = allLayers[ids[1]];
-
-            // Calculate differences
-            let maxDiff = 0; let maxIndex = -1;
-            let secondDiff = 0; let secondIndex = -1;
-
-            for (let i = 0; i < 7; i++) {
-                const diff = Math.abs(l1.data[i] - l2.data[i]);
-                if (diff > maxDiff) { secondDiff = maxDiff; secondIndex = maxIndex; maxDiff = diff; maxIndex = i; }
-                else if (diff > secondDiff) { secondDiff = diff; secondIndex = i; }
+        const matchups = [
+            { 
+                title: "역사적 사실인가, 실존적 결단인가?", ids: [0, 2], 
+                analysis: "판넨베르크 vs 불트만. 부활론의 가장 고전적인 전선입니다. 부활이 '역사적으로 증명되어야 하는 사건'인가, 아니면 '나를 무너뜨리는 의미의 사건'인가를 두고 격돌합니다. 전략 포인트: Axis 1(역사적 사실성)과 Axis 3(실존적 의미)의 극단적 대비를 확인하십시오."
+            },
+            { 
+                title: "새 창조의 몸인가, 초역사적 사건인가?", ids: [1, 3], 
+                analysis: "N.T. 라이트 vs 바르트. 부활의 '장소'를 묻습니다. 라이트는 이 땅의 흙으로 빚어진 몸의 갱신(Axis 2)을 강조하고, 바르트는 인간의 시간 체계를 넘어서는 하나님의 단독적 사건(Axis 5)임을 강조합니다."
             }
-
-            const highLayer = l1.data[maxIndex] > l2.data[maxIndex] ? l1 : l2;
-            const lowLayer = l1.data[maxIndex] > l2.data[maxIndex] ? l2 : l1;
-            const axis = axisMeanings[maxIndex];
-
-            let html = `<p class="mb-2 text-indigo-900 font-bold">1:1 정밀 대조 분석</p>`;
-            html += `<p class="mb-3 text-sm text-slate-700 leading-relaxed">두 입장이 가장 극명하게 갈리는 '결정적 전선'은 <strong>[${axis.name}]</strong>입니다.<br>`;
-            html += `<strong>${highLayer.label}</strong>은(는) 이를 핵심 가치로 강조(${Math.round(highLayer.data[maxIndex])}점)하는 반면, <strong>${lowLayer.label}</strong>은(는) 상대적으로 소홀히 다루거나 부정(${Math.round(lowLayer.data[maxIndex])}점)합니다.</p>`;
-
-            if (secondIndex !== -1 && secondDiff >= 1.5) {
-                const h2 = l1.data[secondIndex] > l2.data[secondIndex] ? l1 : l2;
-                const ax2 = axisMeanings[secondIndex];
-                html += `<p class="text-sm text-slate-600 bg-slate-50 p-2 rounded">➕ <strong>추가 관전 포인트:</strong> <strong>[${ax2.name}]</strong>에서도 ${h2.label}의 강조점이 더 뚜렷합니다. 이 두 지표의 차이가 두 신학의 성격을 가릅니다.</p>`;
-            }
-            return html;
-        }
-
-        // 2. Multi-Layer Analysis Logic (3+ Layers)
-        function generateMultiInsight(ids) {
-            const layers = ids.map(id => allLayers[id]);
-            const numLayers = layers.length;
-            const numAxes = 7;
-
-            const avgs = new Array(numAxes).fill(0);
-            const ranges = new Array(numAxes).fill(0);
-
-            for (let i = 0; i < numAxes; i++) {
-                let sum = 0;
-                let min = 10, max = 0;
-                layers.forEach(l => {
-                    const val = l.data[i];
-                    sum += val;
-                    if (val < min) min = val;
-                    if (val > max) max = val;
-                });
-                avgs[i] = sum / numLayers;
-                ranges[i] = max - min;
-            }
-
-            const maxAvgIndex = avgs.indexOf(Math.max(...avgs));
-            const minAvgIndex = avgs.indexOf(Math.min(...avgs));
-            const maxRangeIndex = ranges.indexOf(Math.max(...ranges));
-
-            const strongAxis = axisMeanings[maxAvgIndex];
-            const weakAxis = axisMeanings[minAvgIndex];
-            const conflictAxis = axisMeanings[maxRangeIndex];
-
-            let html = `<p class="mb-3 text-indigo-900 font-bold">다차원 종합 분석 (${numLayers}개 레이어)</p>`;
-
-            // 1. Consensus
-            html += `<div class="mb-2 p-2 bg-indigo-50 border-l-4 border-indigo-400 rounded-r">
-                <strong class="text-indigo-800 text-xs uppercase tracking-wide">Shared Identity (공통 정체성)</strong>
-                <p class="text-sm text-slate-700 mt-1">이 그룹은 <strong>[${strongAxis.name}]</strong>을 가장 중요하게 여깁니다. "${strongAxis.desc}"에 대해 높은 합의(${avgs[maxAvgIndex].toFixed(1)}점)를 보이고 있습니다.</p>
-            </div>`;
-
-            // 2. Conflict
-            if (ranges[maxRangeIndex] >= 2.0) {
-                html += `<div class="mb-2 p-2 bg-red-50 border-l-4 border-red-400 rounded-r">
-                    <strong class="text-red-800 text-xs uppercase tracking-wide">Battleground (최대 쟁점)</strong>
-                    <p class="text-sm text-slate-700 mt-1">가장 의견이 갈리는 지점은 <strong>[${conflictAxis.name}]</strong>입니다. 그룹 내에서 이 가치를 두고 입장이 첨예하게 대립하고 있습니다.</p>
-                </div>`;
-            } else {
-                html += `<div class="mb-2 p-2 bg-green-50 border-l-4 border-green-400 rounded-r">
-                    <strong class="text-green-800 text-xs uppercase tracking-wide">High Cohesion (높은 일치도)</strong>
-                    <p class="text-sm text-slate-700 mt-1">이 조합은 전반적으로 신학적 지향점이 매우 유사하여 큰 내부 갈등이 없습니다.</p>
-                </div>`;
-            }
-
-            // 3. Blindspot
-            html += `<div class="p-2 bg-slate-100 border-l-4 border-slate-400 rounded-r">
-                <strong class="text-slate-600 text-xs uppercase tracking-wide">Collective Blindspot (집단적 약점)</strong>
-                <p class="text-sm text-slate-600 mt-1">상대적으로 <strong>[${weakAxis.name}]</strong> 부분이 취약합니다(${avgs[minAvgIndex].toFixed(1)}점). "${weakAxis.desc}"에 대한 관심이 부족할 수 있습니다.</p>
-            </div>`;
-
-            return html;
-        }
-
-        // Handcrafted Story Insights
-        const storyInsights = [
-            "부활 논쟁은 단순히 '믿느냐 마느냐'의 문제가 아닙니다. 신학의 역사는 <strong>객관(사실), 주관(의미), 실천(행동)</strong>이라는 세 가지 영토를 차지하기 위한 치열한 쟁탈전이었습니다. 이 지도를 통해 당신의 신학적 좌표를 찾아보세요.",
-            "<strong>헬라적 이원론의 한계:</strong> 플라톤주의는 영혼의 불멸을 위해 육체를 감옥으로 격하시켰습니다. 이는 부활을 '역사적 사건'이 아닌 '영적 해방'으로 축소시키는 결과를 낳았으며, 훗날 불트만의 실존론적 해석에 지대한 영향을 미칩니다.",
-            "<strong>유대적 유산의 복원:</strong> 기독교 부활 신앙의 뿌리는 유대 묵시 사상입니다. 이는 죽음조차 이기는 <strong>'몸의 구체성'</strong>과 억울한 자를 신원하시는 <strong>'하나님의 정의'</strong>를 강조합니다. 몰트만과 판넨베르크가 회복하려 했던 것이 바로 이 지층입니다.",
-            "<strong>이레네우스의 승부수:</strong> 영지주의자들은 물질 세계를 악하게 보았지만, 이레네우스는 '총괄갱신(Recapitulation)'을 통해 <strong>그리스도가 타락한 육체와 물질 세계까지도 구속하셨음</strong>을 선포합니다. 이는 현대 생태 신학의 중요한 뿌리가 됩니다.",
-            "<strong>오리겐의 영적 승화:</strong> 오리겐은 성경을 알레고리(영적)로 해석하며 부활체를 에테르와 같은 영적 실체로 보았습니다. 그의 <strong>'만유회복설'</strong>은 모든 존재가 결국 구원에 이른다는 보편적 희망을 제시했지만, 역사적 구체성은 약화되었습니다.",
-            "<strong>아우구스티누스의 거대한 종합:</strong> 그는 바울의 은총론과 플라톤 철학을 융합했습니다. 『고백록』의 내면적 성찰과 『신국론』의 거시적 역사관은 이후 서구 신학이 <strong>'개인의 구원'과 '역사의 종말'</strong>을 동시에 다룰 수 있는 토대를 마련했습니다.",
-            "<strong>아퀴나스의 체계화:</strong> 신앙과 이성, 은총과 자연은 모순되지 않습니다. 아퀴나스는 아리스토텔레스 철학을 통해 <strong>'부활이 이성적으로도 타당한 사건'</strong>임을 논증하려 했습니다. 이는 훗날 판넨베르크의 이성적 역사 증명에 영감을 줍니다.",
-            "<strong>루터의 혁명, '오직 믿음':</strong> 루터는 중세의 영광스러운 교회 체제를 거부하고, 십자가에 달리신 하나님을 만나는 <strong>'개인의 실존적 믿음'</strong>으로 돌아갔습니다. 그의 그래프가 '실존(7시)'과 '말씀(8시)'으로 쏠린 것은 현대 주관주의 신학의 서막을 알립니다.",
-            "<strong>칼뱅의 확장, '우주의 무대':</strong> 칼뱅은 루터의 내면적 신앙을 <strong>'우주적 영광의 무대'</strong>로 확장했습니다. 하나님은 교회뿐 아니라 세상 모든 영역(정치, 사회, 자연)의 주권자이십니다. 이는 훗날 변혁적 신학(몰트만)의 중요한 자원이 됩니다.",
-            "<strong>슐라이어마허의 감정 신학:</strong> 계몽주의의 공격 속에서 기독교를 지키기 위해 그는 교리와 기적(객관성)을 포기하고 <strong>'절대 의존의 감정'</strong>이라는 주관적 요새로 후퇴했습니다. 이는 현대 자유주의 신학의 출발점이자 바르트가 평생 싸운 대상입니다.",
-            "<strong>바르트의 반격, '말씀의 사건':</strong> 바르트는 인간의 종교적 감정을 거부하고 <strong>'위로부터 내려꽂히는 말씀'</strong>의 객관성을 회복했습니다. 그는 부활을 인간이 이해하거나 입증할 수 있는 사건이 아니라, 오직 하나님만이 일으키시는 주권적 기적(원역사)으로 선포했습니다.",
-            "<strong>불트만의 결단, '비신화화':</strong> '전기 스위치를 켜는 현대인이 빈 무덤을 믿을 수 있는가?' 불트만은 과감하게 껍데기(신화)를 버리고 알맹이(케리그마)를 취했습니다. 그에게 부활은 <strong>'지금 여기서 십자가의 의미를 깨닫고 결단하는 사건'</strong>입니다.",
-            "<strong>본회퍼의 질문, '비종교적 기독교':</strong> 그는 히틀러 암살 음모에 가담하며 옥중에서 묻습니다. '부활을 믿는다면 저 악에 침묵할 수 있는가?' 그는 내세의 소망이 아닌 <strong>'성인된 세계에서의 윤리적 책임'</strong>을 통해 부활을 증명하려 했습니다.",
-            "<strong>몰트만의 희망, '약속의 성취':</strong> '절망은 죄다.' 몰트만은 부활을 죽은 교리가 아니라 불의한 세상을 뒤집는 <strong>'변혁의 동력'</strong>으로 삼았습니다. 그의 신학은 십자가의 고통과 부활의 희망을 연결하여 정치 신학의 문을 열었습니다.",
-            "<strong>판넨베르크의 증명, '보편사':</strong> '신앙은 맹목적이지 않다.' 그는 부활이 단지 신자들의 언어가 아니라, 일반 역사학으로도 검증 가능한 <strong>'사실'</strong>임을 입증하려 했습니다. 이성의 언어로 기독교의 객관성을 변호한 현대의 호교론자입니다.",
-            "<strong>당신의 신학은 어디에 있습니까?</strong> 이 지도는 정답이 아닙니다. 하지만 보여줍니다. 신학이 내면(불트만)에 갇히면 세상과 단절되고, 세상(몰트만)으로만 향하면 내면이 메마를 수 있음을. 이 긴장 속에서 당신만의 균형점을 찾으시길 바랍니다."
         ];
 
-        // --- Insight Controller ---
-        function generateInsight(selection) {
-            const ids = Array.from(selection).sort();
-            const count = ids.length;
-            const insightText = document.getElementById('insight-text');
+        let activeLayers = [true, true, true, true, true];
+        let chart;
 
-            insightText.classList.remove('animate-pulse');
-            void insightText.offsetWidth;
-            insightText.classList.add('animate-pulse');
-
-            if (count === 0) return "분석할 레이어를 선택해주세요.";
-
-            // 1. Single Selection
-            if (count === 1) {
-                return `<strong>👤 ${allLayers[ids[0]].label} 프로필:</strong><br>${allLayers[ids[0]].desc}.<br><br><span class="text-xs text-slate-500">다른 학자를 추가하면 비교 분석이 시작됩니다.</span>`;
-            }
-
-            // 2. Dual Comparison
-            if (count === 2) {
-                return generateDetailedInsight(ids);
-            }
-
-            // 3. Multi-Layer Analysis
-            return generateMultiInsight(ids);
-        }
-
-        // --- Story Steps Configuration ---
-        const steps = [
-            { title: "전쟁의 서막: 3대 전선", subtitle: "전황 분석 개요", badge: "Overview", layers: [], desc: `<p class="font-medium text-lg text-slate-800">신학의 역사는 이 3가지 영토를 차지하기 위한 쟁탈전입니다.</p> <div class="grid gap-4 mt-6"> <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 shadow-sm"> <strong class="text-blue-900">제1전선: 객관성 (Objectivity)</strong> <p class="text-sm text-blue-700 ml-5">"부활은 진짜 몸과 역사의 사건인가?"</p> </div> <div class="p-4 bg-pink-50 rounded-xl border border-pink-100 shadow-sm"> <strong class="text-pink-900">제2전선: 주관성 (Subjectivity)</strong> <p class="text-sm text-pink-700 ml-5">"부활은 나에게 어떤 의미인가?"</p> </div> <div class="p-4 bg-teal-50 rounded-xl border border-teal-100 shadow-sm"> <strong class="text-teal-900">제3전선: 실천성 (Practice)</strong> <p class="text-sm text-teal-700 ml-5">"세상을 뒤집을 힘이 있는가?"</p> </div> </div>` },
-            { title: "헬라: 내면으로의 후퇴", subtitle: "지층 1 (헬라 철학)", badge: "Hellenism", layers: ['hellenism'], desc: `<div class="bg-slate-100 p-4 rounded-lg mb-4 text-sm"><strong>헬라적 세계관:</strong> 육체는 감옥이다. 내면으로 도피하라.</div><p>제1전선(객관)을 포기하고 제2전선(주관)에 요새를 구축합니다.</p>` },
-            { title: "유대교: 반격의 시작", subtitle: "지층 2 (유대교)", badge: "Judaism", layers: ['hellenism', 'judaism'], desc: `<div class="bg-yellow-50 p-4 rounded-lg mb-4 text-sm text-yellow-900"><strong>유대 묵시 사상:</strong> 몸과 정의를 회복하라.</div><p>헬라가 버린 제1전선(신체)과 제3전선(정치)을 강력하게 사수합니다.</p>` },
-            { title: "이레네우스: 총괄갱신", subtitle: "교부 신학 1", badge: "Irenaeus", layers: ['hellenism', 'judaism', 'irenaeus'], desc: `<p><strong>영지주의와의 대결:</strong></p><p>육체를 부정하는 영지주의에 맞서 <strong>'육체의 구원'</strong>을 가장 강력하게 변호합니다. 그리스도 안에서 만물이 통일(Recapitulation)됨을 강조합니다.</p>` },
-            { title: "오리겐: 만유회복", subtitle: "교부 신학 2", badge: "Origen", layers: ['hellenism', 'judaism', 'irenaeus', 'origen'], desc: `<p><strong>영적 해석의 심화:</strong></p><p>육체보다는 영혼의 교육과 상승을 중시합니다. 모든 존재가 결국 하나님께 돌아간다는 <strong>'만유회복'</strong>을 통해 우주적 범위를 넓힙니다.</p>` },
-            { title: "아우구스티누스: 두 도성", subtitle: "교부 신학 3", badge: "Augustine", layers: ['hellenism', 'judaism', 'irenaeus', 'origen', 'augustine'], desc: `<p><strong>서구 신학의 기초:</strong></p><p>내면의 깊은 성찰(고백록)과 거대한 역사관(신국론)을 결합합니다. 헬라적 내면성과 유대적 역사성을 종합하는 거대한 흐름을 만듭니다.</p>` },
-            { title: "토마스 아퀴나스: 은총과 자연", subtitle: "중세 신학", badge: "Aquinas", layers: ['hellenism', 'judaism', 'irenaeus', 'origen', 'augustine', 'aquinas'], desc: `<p><strong>이성의 체계화:</strong></p><p>아리스토텔레스를 수용하여 신앙과 이성, 은총과 자연의 조화를 이룹니다. 부활 신앙을 이성적 체계 안에서 정립하려 했습니다.</p>` },
-            { title: "마르틴 루터: 십자가와 믿음", subtitle: "종교개혁 1", badge: "Luther", layers: ['hellenism', 'judaism', 'luther'], desc: `<p class="bg-red-50 text-red-900 p-3 rounded mb-2"><strong>오직 믿음 (Sola Fide)</strong></p><p>루터(붉은색)는 중세의 영광을 거부하고, <strong>십자가 신학</strong>과 <strong>개인의 실존적 믿음(7시)</strong>에 집중합니다. 말씀(8시)의 권위를 세우며 내면적 확신을 강조합니다.</p>` },
-            { title: "장 칼뱅: 영광의 무대", subtitle: "종교개혁 2", badge: "Calvin", layers: ['hellenism', 'judaism', 'luther', 'calvin'], desc: `<p class="bg-cyan-50 text-cyan-900 p-3 rounded mb-2"><strong>하나님의 절대 주권</strong></p><p>칼뱅(청록색)은 루터의 신앙을 <strong>우주적 영광의 무대(Theatrum Gloriae)</strong>로 확장합니다. <strong>이성/우주(6시)</strong>와 <strong>정치/사회(10시)</strong> 영역으로 하나님의 통치를 넓힙니다.</p>` },
-            { title: "슐라이어마허: 감정의 참호", subtitle: "근현대신학자 1", badge: "Liberalism", layers: ['hellenism', 'judaism', 'schleiermacher'], desc: `<p>19세기 자유주의는 제2전선을 '이성'에서 '감정'으로 바꾸어 더욱 깊은 참호를 팝니다.</p>` },
-            { title: "바르트: 객관성의 공중 폭격", subtitle: "근현대신학자 2", badge: "Barth", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth'], desc: `<p><strong>제1전선 탈환 작전:</strong></p><p>인간의 감정이 아닌, 위로부터 내려꽂히는 하나님 말씀의 객관성을 선포합니다.</p>` },
-            { title: "불트만: 실존의 요새", subtitle: "근현대신학자 3", badge: "Bultmann", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth', 'bultmann'], desc: `<p><strong>헬라와의 완벽한 일치:</strong></p><p>현대인에게 빈 무덤은 신화입니다. 그래프가 회색(헬라) 영토와 겹치는 것을 확인하세요.</p>` },
-            { title: "본회퍼: 실천으로의 돌격", subtitle: "근현대신학자 4", badge: "Bonhoeffer", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth', 'bultmann', 'bonhoeffer'], desc: `<p><strong>제3전선으로 진격:</strong></p><p>미래보다 현재의 윤리적 행동(10시)을 선택한 굵은 선을 주목하세요.</p>` },
-            { title: "몰트만: 희망의 영토 수복", subtitle: "근현대신학자 5", badge: "Moltmann", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth', 'bultmann', 'bonhoeffer', 'moltmann'], desc: `<p><strong>유대적 지층의 부활:</strong></p><p>불트만이 포기했던 역사(2시)와 정치(10시)를 전면적으로 수복하여 '희망의 신학'을 완성합니다.</p>` },
-            { title: "판넨베르크: 이성의 요새", subtitle: "근현대신학자 6", badge: "Pannenberg", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth', 'bultmann', 'bonhoeffer', 'moltmann', 'pannenberg'], desc: `<p><strong>보편사적 증명:</strong></p><p>몰트만이 실천에 주력했다면, 판넨베르크는 제1전선(객관성)을 이성의 언어로 요새화합니다.</p>` },
-            { title: "종합 전황 보고", subtitle: "최종 결론", badge: "Conclusion", layers: Object.keys(allLayers).filter(k => !['irenaeus', 'origen', 'augustine', 'aquinas'].includes(k)), desc: `<h3 class="font-bold mb-2">당신의 전선은 어디입니까?</h3><ul class="text-sm space-y-2"><li>🛑 주관주의: 의미를 선택 (불트만, 슐라이어마허)</li><li>🌍 역사/희망: 사실과 변혁 (몰트만, 판넨베르크, 칼뱅)</li><li>⚖️ 균형: 말씀과 실천 (바르트, 본회퍼, 루터)</li></ul>` }
-        ];
-
-        // --- Core Functions ---
-        let currentStep = 0;
-        let chartInstance = null;
-        let currentMode = 'story';
-        const customSelection = new Set();
-
-        function initCustomControls() {
-            const rootContainer = document.getElementById('controls-roots');
-            const medievalContainer = document.getElementById('controls-medieval');
-            const reformationContainer = document.getElementById('controls-reformation');
-            const modernContainer = document.getElementById('controls-moderns');
-
-            Object.values(allLayers).forEach(layer => {
-                const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 bg-white border border-slate-100 rounded-lg shadow-sm hover:border-indigo-200 transition-colors cursor-pointer';
-                el.onclick = (e) => {
-                    if (e.target.type !== 'checkbox') toggleCustomLayer(layer.id);
-                };
-
-                el.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <span class="w-3 h-3 rounded-full shadow-sm" style="background-color: ${layer.borderColor}"></span>
-                        <div>
-                            <div class="font-bold text-sm text-slate-800">${layer.label}</div>
-                            <div class="text-xs text-slate-500">${layer.desc}</div>
-                        </div>
-                    </div>
-                    <input type="checkbox" id="check-${layer.id}" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500 cursor-pointer" onchange="toggleCustomLayer('${layer.id}')">
-                `;
-
-                if (layer.type === 'root') rootContainer.appendChild(el);
-                else if (layer.type === 'medieval') medievalContainer.appendChild(el);
-                else if (layer.type === 'reformation') reformationContainer.appendChild(el);
-                else modernContainer.appendChild(el);
-            });
-        }
-
-        function switchMode(mode) {
-            currentMode = mode;
-            const storyTab = document.getElementById('mode-tab-story');
-            const customTab = document.getElementById('mode-tab-custom');
-            const storyPanel = document.getElementById('story-panel');
-            const customPanel = document.getElementById('custom-panel');
-            const timeline = document.getElementById('timeline-wrapper');
-            const navControls = document.getElementById('nav-controls');
-            const btnReset = document.getElementById('btn-reset');
-
-            if (mode === 'story') {
-                storyTab.className = "flex-1 py-3 lg:py-4 text-xs lg:text-sm font-bold uppercase tracking-wide border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50 transition-colors";
-                customTab.className = "flex-1 py-3 lg:py-4 text-xs lg:text-sm font-bold uppercase tracking-wide border-b-2 border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors";
-                storyPanel.classList.remove('hidden');
-                customPanel.classList.add('hidden');
-                timeline.style.opacity = '1';
-                navControls.style.display = 'flex';
-                btnReset.style.display = 'none';
-                updateView();
-            } else {
-                customTab.className = "flex-1 py-3 lg:py-4 text-xs lg:text-sm font-bold uppercase tracking-wide border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50 transition-colors";
-                storyTab.className = "flex-1 py-3 lg:py-4 text-xs lg:text-sm font-bold uppercase tracking-wide border-b-2 border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors";
-                storyPanel.classList.add('hidden');
-                customPanel.classList.remove('hidden');
-                timeline.style.opacity = '0';
-                navControls.style.display = 'none';
-                btnReset.style.display = 'block';
-                updateCustomChart();
-            }
-        }
-
-        function toggleCustomLayer(id) {
-            const checkbox = document.getElementById(`check-${id}`);
-            if (checkbox.checked !== customSelection.has(id)) checkbox.checked = !checkbox.checked;
-            if (customSelection.has(id)) { customSelection.delete(id); checkbox.checked = false; }
-            else { customSelection.add(id); checkbox.checked = true; }
-            updateCustomChart();
-        }
-
-        function resetCustom() {
-            customSelection.clear();
-            document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
-            updateCustomChart();
-        }
-
-        function updateCustomChart() {
-            const datasets = Array.from(customSelection).map(id => getDataset(id));
-            chartInstance.data.datasets = datasets;
-            chartInstance.update();
-            const insightText = generateInsight(customSelection);
-            document.getElementById('insight-text').innerHTML = insightText;
-        }
+        const ctx = document.getElementById('mainRadarChart').getContext('2d');
 
         function initChart() {
-            const ctx = document.getElementById('theologyChart').getContext('2d');
-            const fontConfig = { family: "'Noto Sans KR', sans-serif", size: 11, weight: '600' };
-
-            chartInstance = new Chart(ctx, {
+            chart = new Chart(ctx, {
                 type: 'radar',
-                data: { labels: labels, datasets: [] },
+                data: {
+                    labels: ['역사적 사실성', '육체적 연속성', '실존적 의미', '종말론적 선취', '초역사적 사건', '우주적 변혁', '변증학적 비중'],
+                    datasets: scholars.map((s, idx) => ({
+                        label: s.name,
+                        data: s.data,
+                        borderColor: s.color,
+                        backgroundColor: s.color + '10',
+                        fill: true,
+                        hidden: !activeLayers[idx],
+                        pointRadius: 4,
+                        borderWidth: 2
+                    }))
+                },
                 options: {
-                    responsive: true, maintainAspectRatio: false, layout: { padding: 10 },
                     scales: {
                         r: {
-                            min: 0, max: 5, ticks: { display: false, stepSize: 1 },
-                            pointLabels: {
-                                font: fontConfig,
-                                color: (ctx) => {
-                                    const i = ctx.index;
-                                    if ([0, 1, 6].includes(i)) return '#2563eb';
-                                    if ([4, 5].includes(i)) return '#db2777';
-                                    if ([2, 3].includes(i)) return '#0d9488';
-                                    return '#64748b';
-                                }
-                            },
-                            grid: { color: 'rgba(203, 213, 225, 0.4)', circular: true }
+                            angleLines: { color: 'rgba(255,255,255,0.05)' },
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            pointLabels: { color: '#475569', font: { size: 10, weight: '700' } },
+                            ticks: { display: false, max: 10, min: 0 }
                         }
                     },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: true, backgroundColor: 'rgba(255, 255, 255, 0.95)', titleColor: '#1e293b', bodyColor: '#475569', borderColor: '#e2e8f0', borderWidth: 1, usePointStyle: true }
-                    },
-                    animation: { duration: 500, easing: 'easeOutQuad' }
+                    plugins: { legend: { display: false } },
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
+            renderUI();
+            renderMatchups();
         }
 
-        function updateView() {
-            const step = steps[currentStep];
-            document.getElementById('step-title').textContent = step.title;
-            document.getElementById('step-subtitle').textContent = step.subtitle;
-            document.getElementById('step-desc').innerHTML = step.desc;
-            document.getElementById('step-counter').textContent = `0${currentStep + 1} / 16`;
-            document.getElementById('insight-text').innerHTML = `💡 <strong>Insight:</strong> ${storyInsights[currentStep]}`;
-
-            const datasets = step.layers.map(id => getDataset(id));
-            chartInstance.data.datasets = datasets;
-            chartInstance.update();
-
-            const timelineContainer = document.getElementById('timeline-container');
-            timelineContainer.innerHTML = steps.map((_, idx) => `
-                <div id="step-marker-${idx}" class="step-marker w-2 h-2 md:w-3 md:h-3 rounded-full bg-slate-200 border border-slate-300 transition-all duration-300 ${idx === currentStep ? 'active' : (idx < currentStep ? 'visited' : '')}"></div>
+        function renderUI() {
+            const container = document.getElementById('layerSelector');
+            container.innerHTML = scholars.map((s, idx) => `
+                <button onclick="focusScholar(${idx})" 
+                        class="strategic-btn w-full flex items-center gap-4 p-4 rounded-2xl text-left ${activeLayers[idx] ? 'active' : ''}" 
+                        style="color: ${s.color}">
+                    <div class="w-3 h-3 rounded-full shadow-[0_0_10px_currentColor]" style="background-color: ${s.color}"></div>
+                    <div class="flex-1">
+                        <div class="text-[12px] font-bold text-slate-100">${s.name}</div>
+                        <div class="text-[8px] text-slate-500 font-mono uppercase tracking-widest">${s.group}</div>
+                    </div>
+                </button>
             `).join('');
-
-            document.getElementById('btn-prev').disabled = currentStep === 0;
-            const nextBtn = document.getElementById('btn-next');
-            nextBtn.disabled = currentStep === steps.length - 1;
-            nextBtn.innerHTML = currentStep === steps.length - 1 ? '<span>분석 완료</span>' : '<span>다음 분석</span><svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>';
         }
 
-        function nextStep() { if (currentStep < steps.length - 1) { currentStep++; updateView(); } }
-        function prevStep() { if (currentStep > 0) { currentStep--; updateView(); } }
+        function focusScholar(idx) {
+            activeLayers[idx] = !activeLayers[idx];
+            chart.data.datasets[idx].hidden = !activeLayers[idx];
+            chart.update();
+            renderUI();
+            
+            const container = document.getElementById('strategicBriefContent');
+            const icon = document.getElementById('briefIcon');
+            const s = scholars[idx];
 
-        function init() {
-            initCustomControls();
-            initChart();
-            updateView();
+            icon.innerText = "🧐";
+            icon.style.backgroundColor = s.color;
+
+            container.innerHTML = `
+                <div class="space-y-8 animate-in slide-in-from-right-4 duration-500">
+                    <header>
+                        <h3 class="text-xs font-black uppercase tracking-[0.3em] mb-4" style="color: ${s.color}">${s.group} STRATEGIC Intel</h3>
+                        <h4 class="text-5xl font-black text-white leading-none tracking-tighter mb-4">${s.name}</h4>
+                    </header>
+                    <div class="space-y-8">
+                        <section>
+                            <h5 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Theological Doctrine</h5>
+                            <p class="text-slate-200 text-sm leading-[1.8]">${s.strategy}</p>
+                        </section>
+                    </div>
+                </div>
+            `;
         }
 
-        document.addEventListener('DOMContentLoaded', init);
+        function renderMatchups() {
+            const container = document.getElementById('matchupContainer');
+            container.innerHTML = matchups.map((m, idx) => `
+                <button onclick="applyMatchup(${idx})" 
+                        class="matchup-btn px-6 py-3 rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-purple-500 text-left leading-tight">
+                    ${m.title}
+                </button>
+            `).join('');
+        }
+
+        function applyMatchup(idx) {
+            const matchup = matchups[idx];
+            activeLayers = activeLayers.map((_, i) => matchup.ids.includes(i));
+            chart.data.datasets.forEach((d, i) => d.hidden = !matchup.ids.includes(i));
+            chart.update();
+            renderUI();
+            
+            const container = document.getElementById('strategicBriefContent');
+            const icon = document.getElementById('briefIcon');
+            icon.innerText = "⚔️";
+            icon.style.backgroundColor = "#a855f7";
+
+            container.innerHTML = `
+                <div class="space-y-8 animate-in slide-in-from-right-4 duration-700">
+                    <header>
+                        <h3 class="text-purple-500 font-black text-[10px] uppercase tracking-[0.3em] mb-4">Tactical Engagement Report</h3>
+                        <h4 class="text-4xl font-black text-white leading-tight tracking-tighter">${matchup.title}</h4>
+                    </header>
+                    <div class="prose prose-invert">
+                        <p class="text-slate-300 text-sm leading-[1.8]">${matchup.analysis}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleAll(val) {
+            activeLayers = activeLayers.map(() => val);
+            chart.data.datasets.forEach(d => d.hidden = !val);
+            chart.update();
+            renderUI();
+        }
+
+        initChart();
     </script>
 </body>
-
 </html>

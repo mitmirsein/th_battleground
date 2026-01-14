@@ -3,460 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>신학 전쟁 지도: 세례 (Theological Battleground: Baptism)</title>
+    <title>세례론(Baptism) 신학 전략 작전 지휘소 v3.1</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #0f172a; color: #e2e8f0; }
-        .scholar-btn { transition: all 0.2s; border-left: 4px solid transparent; }
-        .scholar-btn:hover { background-color: #334155; }
-        .scholar-btn.active { background-color: #1e293b; border-left-color: #3b82f6; }
-        .scholar-legend { width: 12px; height: 12px; display: inline-block; border-radius: 50%; margin-right: 8px; }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
-        .radar-container { position: relative; height: 50vh; width: 100%; }
-        @media (min-width: 1024px) { .radar-container { height: 600px; } }
+        body { font-family: 'Outfit', 'Noto Sans KR', sans-serif; background-color: #010413; color: #f8fafc; }
+        .glass-card { background: rgba(10, 15, 30, 0.85); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; }
+        .strategic-btn { transition: all 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.03); }
+        .strategic-btn.active { border-color: currentColor; background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 15px -5px currentColor; }
+        .matchup-btn { transition: all 0.3s ease; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .matchup-btn:hover { background: rgba(16, 185, 129, 0.1); border-color: #10b981; }
+        .scroll-custom::-webkit-scrollbar { width: 4px; }
+        .scroll-custom::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        .radar-container { filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.6)); }
     </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden">
+<body class="p-4 md:p-12 min-h-screen">
+    <div class="max-w-[1750px] mx-auto">
+        <!-- Dashboard Header -->
+        <header class="mb-12 border-b border-white/5 pb-10 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
+            <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                    <span class="px-2 py-0.5 bg-emerald-600 text-[10px] font-black tracking-widest rounded-sm">TOP SECRET</span>
+                    <h1 class="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-br from-slate-100 to-slate-500 uppercase tracking-tighter">Baptism Strategic HQ</h1>
+                </div>
+                <p class="text-slate-500 text-sm font-light uppercase tracking-[0.3em]">Theological Sacramentum Analysis Platform v3.1</p>
+            </div>
+            <div id="matchupContainer" class="grid grid-cols-2 gap-3">
+                <!-- Matchup buttons will be rendered here -->
+            </div>
+        </header>
 
-    <header class="bg-slate-900 border-b border-slate-700 p-4 flex justify-between items-center shadow-md z-10 shrink-0">
-        <div class="flex items-center gap-3">
-            <span class="text-2xl">🛡️</span>
-            <div>
-                <h1 class="text-xl font-bold text-white tracking-tight">THEOLOGICAL BATTLEGROUND</h1>
-                <p class="text-xs text-slate-400">Operation: BAPTISM (세례 논쟁)</p>
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-10">
+            <!-- Left: Unit Deployment -->
+            <div class="xl:col-span-3">
+                <div class="glass-card p-8 sticky top-12">
+                    <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-8 border-l-2 border-emerald-600 pl-4">Tactical Units</h2>
+                    <div id="layerSelector" class="space-y-3 pr-2 scroll-custom">
+                        <!-- JS Renders -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center: The Radar Battleground -->
+            <div class="xl:col-span-6 flex flex-col gap-8">
+                <div class="glass-card p-12 flex-1 radar-container min-h-[700px] relative">
+                    <canvas id="mainRadarChart"></canvas>
+                    <div class="absolute bottom-6 left-6 text-[10px] text-slate-700 font-mono">GRID SYSTEM ALPHA-9 / SECTOR: BAPTISM</div>
+                </div>
+            </div>
+
+            <!-- Right: Strategic Command -->
+            <div class="xl:col-span-3">
+                <div id="briefCard" class="glass-card h-full p-10 flex flex-col border-r-2 border-emerald-500/20 relative overflow-hidden">
+                    <div class="flex justify-between items-center mb-10 relative z-10">
+                        <h2 class="text-2xl font-black tracking-tighter flex items-center gap-3">
+                            <span id="briefIcon" class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-sm">B</span>
+                            STRATEGIC BRIEF
+                        </h2>
+                    </div>
+                    
+                    <div id="strategicBriefContent" class="flex-1 overflow-y-auto scroll-custom pr-4 space-y-8 relative z-10">
+                        <div class="opacity-20 text-center py-40">
+                            <p class="text-xs uppercase tracking-[0.5em] mb-4 font-black">Waiting for command</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="flex gap-2">
-            <button id="mode-explore" onclick="setMode('explore')" class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 font-bold">자유 분석</button>
-            <button id="mode-story" onclick="setMode('story')" class="px-4 py-2 text-sm rounded bg-slate-700 text-slate-300 hover:bg-slate-600">스토리 모드</button>
-        </div>
-    </header>
-
-    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
-        
-        <aside class="w-full lg:w-64 bg-slate-800 border-r border-slate-700 flex flex-col z-20 shrink-0 h-1/3 lg:h-auto overflow-y-auto">
-            <div class="p-3 bg-slate-900 font-bold text-xs text-slate-400 uppercase tracking-wider sticky top-0 z-10">Scholars & Traditions</div>
-            <div id="scholar-list" class="flex-1 overflow-y-auto p-2 space-y-1">
-                </div>
-        </aside>
-
-        <section class="flex-1 bg-slate-900 flex flex-col relative overflow-hidden">
-            <div class="absolute top-4 left-4 z-0 opacity-20 pointer-events-none">
-                <div class="text-6xl font-bold text-slate-700">MAP</div>
-            </div>
-            
-            <div class="lg:hidden p-2 text-xs text-center text-slate-500">
-                🔵객관(제도) 🔴주관(응답) 🟢초월(신비)
-            </div>
-
-            <div class="flex-1 flex items-center justify-center p-2 lg:p-8">
-                <div class="radar-container">
-                    <canvas id="theologyChart"></canvas>
-                </div>
-            </div>
-            
-            <div id="story-controls" class="hidden absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-800/90 backdrop-blur rounded-full px-6 py-3 shadow-2xl border border-slate-600 flex items-center gap-4 z-30">
-                <button onclick="prevStep()" class="text-slate-300 hover:text-white">◀ 이전</button>
-                <span id="step-indicator" class="text-sm font-mono text-blue-400 font-bold">Step 1/12</span>
-                <button onclick="nextStep()" class="text-slate-300 hover:text-white">다음 ▶</button>
-            </div>
-        </section>
-
-        <aside class="w-full lg:w-80 bg-slate-800 border-l border-slate-700 flex flex-col z-20 shrink-0 h-1/2 lg:h-auto">
-            <div class="flex-1 overflow-y-auto p-5 border-b border-slate-700 bg-slate-800">
-                <h3 class="text-xs font-bold text-blue-400 uppercase mb-2">Tactical Briefing</h3>
-                <h2 id="info-title" class="text-xl font-bold text-white mb-3">대기 중...</h2>
-                <div id="info-content" class="text-sm text-slate-300 leading-relaxed space-y-3">
-                    <p>좌측 패널에서 신학자를 선택하거나, 상단의 '스토리 모드'를 통해 세례 논쟁의 역사적 흐름을 추적하십시오.</p>
-                </div>
-            </div>
-
-            <div class="h-40 shrink-0 bg-slate-900 p-4 relative">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500"></div>
-                <h3 class="text-xs font-bold text-green-400 uppercase mb-2 flex items-center gap-2">
-                    <span>🤖 AI Analytics</span>
-                </h3>
-                <div id="ai-insight" class="text-xs text-slate-400 leading-relaxed h-full overflow-y-auto pr-1">
-                    데이터 포인트를 선택하면 비교 분석 결과가 표시됩니다.
-                </div>
-            </div>
-        </aside>
-
-    </main>
+    </div>
 
     <script>
-        // === Data: The 7 Axes & 10 Scholars ===
-        const axes = [
-            "🔵성례적 효력", "🔵언약 공동체성", "🔵제도적 필수성", 
-            "🔴수세자의 능동적 신앙", "🔴윤리적 결단", 
-            "🟢중생의 신비", "🟢하나님의 선재적 주권"
-        ];
-
-        // Scale: 0-10
         const scholars = [
-            {
-                id: "judaism", name: "유대교 배경 (Judaism)", group: "고대/배경", color: "rgba(156, 163, 175, 1)", bg: "rgba(156, 163, 175, 0.2)",
-                scores: [2, 9, 8, 3, 5, 2, 8],
-                desc: "기독교 세례의 배경에는 유대교의 '정결례(미크바)'와 '할례'가 있습니다. 미크바는 제의적 부정함을 씻는 반복적 행위였고, 할례는 언약 백성이 되는 단회적이며 지워지지 않는 표지였습니다. 초기 기독교는 이 두 가지 배경 위에서 세례를 '새 언약의 입문식'으로 이해했습니다. 특히 유아세례 논쟁에서 '할례의 기독교적 완성'이라는 개념은 훗날 칼뱅과 언약신학자들에게 결정적인 논거가 됩니다."
+            { 
+                id: 0, name: '마틴 루터', color: '#ef4444', data: [9, 10, 3, 10, 7, 2, 9], group: 'Reformation',
+                strategy: "[Strategic Core: Promise-based Realism] 세례는 하나님의 약속이 물과 결합된 '구원의 도구'입니다. 유아세례를 강력 옹호하며(Axis 2: 10점), 인간의 의지보다 하나님의 객관적 약속(Axis 4: 10점)에 초점을 맞춥니다. 세례는 평생에 걸쳐 돌아가야 할 '복음의 토대'로 기능합니다."
             },
-            {
-                id: "augustine", name: "아우구스티누스 (Augustine)", group: "교부/중세", color: "rgba(234, 179, 8, 1)", bg: "rgba(234, 179, 8, 0.2)",
-                scores: [9, 8, 9, 1, 3, 8, 9],
-                desc: "아우구스티누스는 도나투스파 논쟁을 통해 세례의 효력이 집례자의 거룩함이 아닌, 그리스도의 말씀에 의존한다는 점을 확립했습니다. 결정적으로 그는 '원죄(Original Sin)' 교리를 통해 유아세례를 신학적으로 정당화했습니다. 갓 태어난 유아라도 아담의 죄책을 씻기 위해 세례가 필수적이며, 이는 전적으로 하나님의 선재적 은총에 의한 것임을 강조합니다. 그의 입장은 서방 교회 성례전 신학의 기초석이 되었습니다."
+            { 
+                id: 1, name: '카톨릭 (트렌트)', color: '#3b82f6', data: [10, 8, 2, 10, 4, 3, 6], group: 'Tradition',
+                strategy: "[Strategy: Ex Opere Operato] 세례를 통해 원죄가 씻기고 은혜가 주입되는 실질적 효력을 강조합니다. 사제의 적법한 집행(Axis 1: 10점) 자체가 하나님의 직접적 행동임을 천명하며, 구원을 위한 세례의 절대적 필요성을 주장하는 전통수호 전략입니다."
             },
-            {
-                id: "aquinas", name: "토마스 아퀴나스 (Aquinas)", group: "교부/중세", color: "rgba(217, 119, 6, 1)", bg: "rgba(217, 119, 6, 0.2)",
-                scores: [10, 8, 10, 2, 3, 9, 8],
-                desc: "중세 스콜라 신학의 정점인 아퀴나스는 세례를 '사효적(Ex opere operato)' 은혜의 수단으로 체계화했습니다. 즉, 올바른 형식으로 집례된 세례는 수세자의 주관적 상태와 무관하게 객관적으로 성령의 인침과 은총을 주입합니다. 그에게 세례는 구원에 절대적으로 필요한(necessity of means) 제도이며, 교회라는 신비체에 연합되는 유일한 문입니다. 이는 가톨릭 성례전 체계의 가장 강력한 제도적 형태를 보여줍니다."
+            { 
+                id: 2, name: '울리히 츠빙글리', color: '#10b981', data: [2, 9, 7, 4, 10, 10, 5], group: 'Reformed',
+                strategy: "[Strategy: Covenantal Sign] 세례를 구원의 수단이 아닌 '군대의 충성 맹세(Sacramentum)'와 같은 언약적 표지로 정의합니다. 물 자체가 무언가를 하는 것이 아니라, 공동체 앞에서 신앙을 고백하고 언약 공동체(Axis 5: 10점)의 일원이 됨을 공포하는 사회-정치적 전술을 취합니다."
             },
-            {
-                id: "luther", name: "마르틴 루터 (Luther)", group: "종교개혁", color: "rgba(239, 68, 68, 1)", bg: "rgba(239, 68, 68, 0.2)",
-                scores: [9, 7, 8, 4, 4, 8, 9],
-                desc: "루터는 '오직 믿음'을 외쳤지만, 세례에 있어서는 놀랍도록 객관적 효력을 고수했습니다. 그에게 세례는 단순한 물이 아니라 '하나님의 말씀이 결합된 물'입니다. 그는 재세례파의 주관주의에 맞서, 유아세례가 유효한 이유는 '우리의 믿음이 세례를 만드는 것이 아니라, 하나님의 말씀이 믿음을 창조하기 때문'이라고 역설했습니다. 평생 우울증에 시달릴 때 '나는 세례 받았다(Baptizatus sum)'라고 외치며 객관적 은혜에 매달렸습니다."
+            { 
+                id: 3, name: '칼 바르트 (후기)', color: '#ec4899', data: [3, 2, 10, 4, 8, 9, 10], group: 'Neo-Orthodox',
+                strategy: "[Strategy: Ethical Response] 유아 세례를 비판하며 '신자의 세례'로전향합니다. 세례는 하나님의 구원 사건(계시)에 대한 인간의 자유로운 응답(Axis 3: 10점)이자 윤리적 증언입니다. 세례를 성령의 내적 인침과 철저히 구분하여 인간의 순종으로 재배치하는 급진적 해체 전략입니다."
             },
-            {
-                id: "zwingli", name: "울리히 츠빙글리 (Zwingli)", group: "종교개혁", color: "rgba(16, 185, 129, 1)", bg: "rgba(16, 185, 129, 0.2)",
-                scores: [1, 6, 5, 6, 8, 1, 5],
-                desc: "츠빙글리는 세례의 성례적 효력을 철저히 부인하고 '상징설'로 돌아섰습니다. 그에게 'Sacramentum'은 로마 군인의 충성 맹세와 같은 것이었습니다. 즉, 세례는 하나님이 은혜를 주는 통로가 아니라, 신자가 공동체 앞에서 자신의 신앙을 공적으로 서약하고 입증하는 표지(Badge)입니다. 유아세례는 옹호했지만, 그 근거를 은혜 주입이 아닌 '언약 백성의 소속 확인'이라는 사회적/공동체적 차원에서 찾았습니다."
-            },
-            {
-                id: "calvin", name: "장 칼뱅 (Calvin)", group: "종교개혁", color: "rgba(59, 130, 246, 1)", bg: "rgba(59, 130, 246, 0.2)",
-                scores: [7, 9, 8, 3, 6, 7, 10],
-                desc: "칼뱅은 루터와 츠빙글리의 사이에서 균형을 잡으려 했습니다. 그는 세례를 '은혜의 약속에 대한 인(Seal)이자 표(Sign)'로 정의했습니다. 세례 자체가 구원을 주입하지는 않지만, 성령은 세례라는 도구를 통해 신자의 믿음을 강화하고 그리스도와의 연합을 확증합니다. 특히 구약의 할례와 신약의 세례를 언약의 연속성 안에서 강력하게 연결하여 유아세례를 옹호했으며, 이는 장로교 신학의 뼈대가 되었습니다."
-            },
-            {
-                id: "anabaptist", name: "재세례파/휘브마이어 (Anabaptist)", group: "종교개혁", color: "rgba(168, 85, 247, 1)", bg: "rgba(168, 85, 247, 0.2)",
-                scores: [1, 2, 4, 10, 10, 3, 2],
-                desc: "재세례파(급진 종교개혁)는 1,500년 교회사에서 가장 급진적인 단절을 시도했습니다. '믿지 않는 자는 세례 받을 수 없다'는 원칙 하에 유아세례를 '가증스러운 로마의 발명품'이라며 거부했습니다. 이들에게 진정한 세례는 '선한 양심의 응답'이자, 산상수훈을 따르겠다는 죽음을 각오한 윤리적 결단입니다. 이로 인해 그들은 가톨릭과 개신교 양쪽으로부터 끔찍한 박해를 받았습니다."
-            },
-            {
-                id: "schleiermacher", name: "슐라이어마허 (Schleiermacher)", group: "근현대", color: "rgba(236, 72, 153, 1)", bg: "rgba(236, 72, 153, 0.2)",
-                scores: [2, 8, 6, 5, 4, 2, 5],
-                desc: "근대 신학의 아버지 슐라이어마허에게 종교는 '절대의존의 감정'입니다. 이 관점에서 세례는 개인에게 초자연적 변화를 일으키는 마술적 행위가 아니라, 개인이 그리스도인 공동체의 '집단적 삶'에 참여하게 되는 입문식입니다. 그는 유아세례를 인정하되, 그것이 완전해지기 위해서는 훗날 견신례(Confirmation)를 통한 개인의 주관적 신앙 고백이 반드시 뒤따라야 한다고 보았습니다."
-            },
-            {
-                id: "barth", name: "카를 바르트 (Barth)", group: "근현대", color: "rgba(244, 63, 94, 1)", bg: "rgba(244, 63, 94, 0.2)",
-                scores: [2, 4, 3, 9, 9, 2, 6],
-                desc: "바르트는 말년에 그의 대작 『교회교의학』 IV/4권에서 유아세례를 강력히 비판하며 교계에 충격을 주었습니다. 그는 세례가 은혜를 전달하는 수단(Sacrament)이 아니라, 이미 주어진 은혜에 대한 인간의 '자유로운 응답'이자 '윤리적 순종'이어야 한다고 주장했습니다. 따라서 인지 능력이 없는 유아에게 세례를 베푸는 것은 인간의 자유로운 응답권을 박탈하는 '강제'이며 비성경적이라고 보았습니다."
-            },
-            {
-                id: "cullmann", name: "오스카 쿨만 (Cullmann)", group: "근현대", color: "rgba(14, 165, 233, 1)", bg: "rgba(14, 165, 233, 0.2)",
-                scores: [6, 9, 7, 2, 4, 6, 9],
-                desc: "오스카 쿨만은 바르트의 유아세례 비판에 맞서 『세례와 성령』을 저술했습니다. 그는 '구속사(Heilsgeschichte)'의 관점에서, 세례가 개인의 결단이 아닌 그리스도의 죽음과 부활이라는 객관적 사건에 접붙여지는 것임을 강조했습니다. 모든 인간은 태어나면서 죄의 연대성 안에 있듯, 세례를 통해 그리스도의 몸이라는 은혜의 연대성 안으로 들어오는 것입니다. 그는 유아세례야말로 하나님의 선재적 은총을 가장 잘 드러낸다고 보았습니다."
+            { 
+                id: 4, name: '발타자르 휘브마이어', color: '#f59e0b', data: [4, 1, 10, 5, 9, 8, 7], group: 'Anabaptist',
+                strategy: "[Strategy: Believers' Baptism] 중생한 신자의 자발적 신앙 고백만을 유효한 세례로 인정합니다. 유아세례의 언약적 연속성(Axis 2: 1점)을 철저히 거부하고, 세상을 등지고 그리스도의 통치 아래로 들어가는 분리주의적-근원적 제자도 전술을 구사합니다."
             }
         ];
 
-        // === State Management ===
-        let activeIndices = new Set([3]); // Default: Luther
-        let currentMode = 'explore';
-        let currentStep = 0;
-        let chartInstance = null;
-
-        // === Story Steps ===
-        const storySteps = [
-            {
-                title: "서막: 물과 언약",
-                desc: "기독교 세례 논쟁을 이해하려면 유대교의 두 기둥을 봐야 합니다. '미크바'는 정결함을 위한 반복적 씻음이었고, '할례'는 언약 백성이 되는 지워지지 않는 표지였습니다. 초기 기독교는 이 유산을 어떻게 계승하고 변형했을까요?",
-                layers: [0] // Judaism
+        const matchups = [
+            { 
+                title: "은혜의 도구인가, 충성의 표지인가?", ids: [0, 2], 
+                analysis: "루터 vs 츠빙글리. 세례의 '실재성'을 두고 격돌합니다. 루터는 세례가 구원을 주는 하나님의 행동(Axis 1)이라 보고, 츠빙글리는 우리가 하나님의 군병임을 나타내는 증거(Axis 6)라고 봅니다. 전략 포인트: '통로'와 '간판'의 차이를 관찰하십시오."
             },
-            {
-                title: "제도화: 은총의 주입",
-                desc: "박해 시대가 끝나고 기독교가 제국화되면서, 세례는 구원을 위한 필수 제도로 굳어집니다. 아우구스티누스는 '원죄'를 씻기 위해 유아세례를 정당화했고, 아퀴나스는 이를 '사효적(자동적) 은총 주입'의 수단으로 완성했습니다. 세례는 교회의 독점적 권한이 되었습니다.",
-                layers: [1, 2] // Augustine, Aquinas
-            },
-            {
-                title: "종교개혁 1: 루터의 딜레마",
-                desc: "루터는 '오직 믿음'을 외치며 가톨릭의 공로 사상을 비판했습니다. 그러나 세례에 있어서는 타협하지 않았습니다. 그는 급진파의 주관주의를 막기 위해 '말씀이 약속된 물'의 객관적 효력을 고수하며 유아세례를 강력히 옹호했습니다.",
-                layers: [3] // Luther
-            },
-            {
-                title: "종교개혁 2: 상징으로의 급선회",
-                desc: "스위스의 츠빙글리는 루터와 결별합니다. 그는 '물질은 영적인 것을 전달할 수 없다'고 믿었습니다. 그에게 세례는 하나님이 주시는 은혜가 아니라, 군인의 맹세(Sacramentum)처럼 인간이 바치는 충성 서약이자 상징이었습니다.",
-                layers: [3, 4] // Luther vs Zwingli
-            },
-            {
-                title: "종교개혁 3: 칼뱅의 종합",
-                desc: "칼뱅은 루터의 객관성과 츠빙글리의 상징론 사이에서 길을 찾습니다. 그는 세례를 '은혜의 인(Seal)'으로 정의하며, 성령이 이 도구를 통해 신앙을 확증한다고 보았습니다. 언약 신학을 통해 유아세례를 체계적으로 방어했습니다.",
-                layers: [3, 5] // Luther, Calvin
-            },
-            {
-                title: "급진적 단절: 재세례파의 도전",
-                desc: "종교개혁의 좌파, 재세례파는 폭탄을 던집니다. '믿음 없는 세례는 무효다.' 그들은 유아세례를 거부하고 성인 신자의 세례(재세례)를 감행했습니다. 이는 당시 사회의 근간을 흔드는 반역 행위로 간주되어 피의 박해를 받았습니다.",
-                layers: [6, 1, 3] // Anabaptist vs Augustine/Aquinas (Comparison)
-            },
-            {
-                title: "근대의 주관적 전환",
-                desc: "계몽주의 이후 슐라이어마허는 세례를 초자연적 사건에서 '공동체 입문식'으로 재해석합니다. 교리는 감정으로, 객관적 효력은 주관적 신앙 공유로 대체되었습니다.",
-                layers: [7] // Schleiermacher
-            },
-            {
-                title: "현대의 충격: 바르트의 반란",
-                desc: "20세기 최고의 신학자 칼 바르트는 말년에 유아세례를 '비성경적'이라며 거부하는 충격적인 입장을 취합니다. 그는 세례가 은혜의 수단이 아니라, 인간의 자유로운 윤리적 응답이어야 한다고 주장하며 재세례파의 통찰을 현대적으로 되살렸습니다.",
-                layers: [8, 3] // Barth vs Luther
-            },
-            {
-                title: "구속사의 반격: 쿨만",
-                desc: "쿨만은 바르트에 맞서 '구속사'를 들고 나옵니다. 세례는 내 결단이 아니라, 그리스도의 죽음과 부활이라는 객관적 사건에 편입되는 것입니다. 그는 유아세례야말로 하나님의 선재적 은총을 가장 잘 보여준다고 변증했습니다.",
-                layers: [9, 8] // Cullmann vs Barth
-            },
-             {
-                title: "전장 요약: 세례의 스펙트럼",
-                desc: "오늘날 세례 논쟁은 크게 '성례전적 객관주의(가톨릭/루터/성공회)'와 '신앙고백적 주관주의(침례교/재세례파/현대복음주의)', 그리고 그 사이의 '언약적 종합(장로교/개혁파)'으로 나뉩니다. 당신의 세례관은 어디에 위치합니까?",
-                layers: [3, 5, 6] // Reformers view
+            { 
+                title: "언약적 계승인가, 주체적 결단인가?", ids: [0, 3], 
+                analysis: "루터 vs 바르트. 현대 장로교/성결교/침례교의 복합적 갈등 축입니다. 유아세례의 객관적 은혜(Axis 2)를 붙잡을 것인가, 아니면 성숙한 인간의 인격적 응답(Axis 3)으로 세례를 고도화할 것인가의 대결입니다."
             }
         ];
 
-        // === Initialization ===
-        document.addEventListener('DOMContentLoaded', () => {
-            renderScholarList();
-            initChart();
-            updateUI();
-        });
+        let activeLayers = [true, true, true, true, true];
+        let chart;
 
-        // === Core Functions ===
-        function setMode(mode) {
-            currentMode = mode;
-            document.getElementById('mode-explore').className = mode === 'explore' ? 
-                "px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 font-bold" : 
-                "px-4 py-2 text-sm rounded bg-slate-700 text-slate-300 hover:bg-slate-600";
-            document.getElementById('mode-story').className = mode === 'story' ? 
-                "px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 font-bold" : 
-                "px-4 py-2 text-sm rounded bg-slate-700 text-slate-300 hover:bg-slate-600";
-
-            const storyControls = document.getElementById('story-controls');
-            if (mode === 'story') {
-                storyControls.classList.remove('hidden');
-                storyControls.classList.add('flex');
-                currentStep = 0;
-                loadStoryStep();
-            } else {
-                storyControls.classList.add('hidden');
-                storyControls.classList.remove('flex');
-                activeIndices = new Set([3]); // Reset to Luther
-                updateUI();
-            }
-        }
-
-        function toggleScholar(index) {
-            if (currentMode === 'story') return; // Locked in story mode
-            if (activeIndices.has(index)) {
-                if (activeIndices.size > 1) activeIndices.delete(index); // Keep at least one
-            } else {
-                if (activeIndices.size >= 3) {
-                    const it = activeIndices.values();
-                    activeIndices.delete(it.next().value); // Remove oldest
-                }
-                activeIndices.add(index);
-            }
-            updateUI();
-        }
-
-        function renderScholarList() {
-            const list = document.getElementById('scholar-list');
-            list.innerHTML = '';
-            
-            let lastGroup = "";
-            scholars.forEach((s, i) => {
-                if (s.group !== lastGroup) {
-                    const groupHeader = document.createElement('div');
-                    groupHeader.className = "px-3 py-1 mt-2 text-xs font-bold text-slate-500 border-b border-slate-700";
-                    groupHeader.innerText = s.group;
-                    list.appendChild(groupHeader);
-                    lastGroup = s.group;
-                }
-
-                const btn = document.createElement('button');
-                btn.id = `btn-${i}`;
-                btn.className = "scholar-btn w-full text-left px-4 py-3 text-sm flex items-center justify-between text-slate-300";
-                btn.onclick = () => toggleScholar(i);
-                btn.innerHTML = `
-                    <div class="flex items-center">
-                        <span class="scholar-legend" style="background-color: ${s.color}"></span>
-                        <span>${s.name}</span>
-                    </div>
-                `;
-                list.appendChild(btn);
-            });
-        }
+        const ctx = document.getElementById('mainRadarChart').getContext('2d');
 
         function initChart() {
-            const ctx = document.getElementById('theologyChart').getContext('2d');
-            Chart.defaults.color = '#94a3b8';
-            Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
-            
-            chartInstance = new Chart(ctx, {
+            chart = new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: axes,
-                    datasets: []
+                    labels: ['성례적 실재론', '언약적 연속성', '주관적 신앙 필수성', '객관적 효력', '교회론적 가시성', '상징/기념적 성격', '성령의 인침'],
+                    datasets: scholars.map((s, idx) => ({
+                        label: s.name,
+                        data: s.data,
+                        borderColor: s.color,
+                        backgroundColor: s.color + '10',
+                        fill: true,
+                        hidden: !activeLayers[idx],
+                        pointRadius: 4,
+                        borderWidth: 2
+                    }))
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
                     scales: {
                         r: {
-                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            pointLabels: {
-                                font: { size: 11, weight: 'bold' },
-                                color: (ctx) => {
-                                    const text = ctx.label;
-                                    if (text.startsWith('🔵')) return '#60a5fa'; // Blue
-                                    if (text.startsWith('🔴')) return '#f87171'; // Red
-                                    if (text.startsWith('🟢')) return '#4ade80'; // Green
-                                    return '#94a3b8';
-                                }
-                            },
-                            suggestedMin: 0,
-                            suggestedMax: 10,
-                            ticks: { display: false, stepSize: 2 }
+                            angleLines: { color: 'rgba(255,255,255,0.05)' },
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            pointLabels: { color: '#475569', font: { size: 10, weight: '700' } },
+                            ticks: { display: false, max: 10, min: 0 }
                         }
                     },
-                    plugins: {
-                        legend: { display: false }
-                    }
+                    plugins: { legend: { display: false } },
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
+            renderUI();
+            renderMatchups();
         }
 
-        function updateUI() {
-            // 1. Update List Styles
-            scholars.forEach((s, i) => {
-                const btn = document.getElementById(`btn-${i}`);
-                if (activeIndices.has(i)) {
-                    btn.classList.add('active', 'bg-slate-800', 'text-white');
-                    btn.classList.remove('text-slate-300');
-                } else {
-                    btn.classList.remove('active', 'bg-slate-800', 'text-white');
-                    btn.classList.add('text-slate-300');
-                }
-            });
-
-            // 2. Update Chart
-            const selectedScholars = Array.from(activeIndices).map(i => scholars[i]);
-            chartInstance.data.datasets = selectedScholars.map(s => ({
-                label: s.name,
-                data: s.scores,
-                backgroundColor: s.bg,
-                borderColor: s.color,
-                borderWidth: 2,
-                pointBackgroundColor: s.color,
-                pointRadius: 3
-            }));
-            chartInstance.update();
-
-            // 3. Update Text & Insights
-            updateInfoPanel(selectedScholars);
-        }
-
-        function updateInfoPanel(selected) {
-            const titleEl = document.getElementById('info-title');
-            const contentEl = document.getElementById('info-content');
-            const insightEl = document.getElementById('ai-insight');
-
-            if (currentMode === 'story') {
-                // Story mode content is handled by loadStoryStep
-                return;
-            }
-
-            // Explore Mode Logic
-            if (selected.length === 1) {
-                const s = selected[0];
-                titleEl.innerText = s.name;
-                contentEl.innerHTML = `<p>${s.desc}</p>`;
-                
-                // Insight for single scholar
-                const highAxes = s.scores.map((v, i) => ({val:v, idx:i})).sort((a,b) => b.val - a.val).slice(0,2);
-                const axisNames = highAxes.map(x => axes[x.idx].substring(1)).join(", ");
-                insightEl.innerHTML = `
-                    <p class="font-bold text-white mb-1">🔍 단일 분석</p>
-                    <p>${s.name.split('(')[0]}의 신학은 <strong>${axisNames}</strong> 측면에서 가장 강한 강조점을 보입니다. 이는 해당 전통이 세례를 정의하는 핵심 키워드입니다.</p>
-                `;
-            } else if (selected.length === 2) {
-                titleEl.innerText = "비교 분석 (Comparative Analysis)";
-                contentEl.innerHTML = `
-                    <p class="mb-4"><span class="font-bold text-blue-400">${selected[0].name.split('(')[0]}</span>: ${selected[0].desc}</p>
-                    <hr class="border-slate-600 my-2">
-                    <p><span class="font-bold text-red-400">${selected[1].name.split('(')[0]}</span>: ${selected[1].desc}</p>
-                `;
-
-                // Insight for 2 scholars (Gap analysis)
-                let maxDiff = 0;
-                let maxDiffIdx = -1;
-                selected[0].scores.forEach((val, i) => {
-                    const diff = Math.abs(val - selected[1].scores[i]);
-                    if (diff > maxDiff) {
-                        maxDiff = diff;
-                        maxDiffIdx = i;
-                    }
-                });
-                
-                insightEl.innerHTML = `
-                    <p class="font-bold text-white mb-1">⚔️ 핵심 전선</p>
-                    <p>두 입장이 가장 첨예하게 대립하는 지점은 <strong>'${axes[maxDiffIdx].substring(1)}'</strong>입니다. (격차: ${maxDiff}점). 이는 세례의 정의를 둘러싼 근본적인 세계관의 차이를 보여줍니다.</p>
-                `;
-            } else {
-                titleEl.innerText = "다면 분석 (Multi-perspective)";
-                contentEl.innerHTML = selected.map(s => `
-                    <div class="mb-3 border-l-2 pl-3" style="border-color:${s.color}">
-                        <strong class="text-white block">${s.name.split('(')[0]}</strong>
-                        <span class="text-xs text-slate-400">${s.desc.substring(0, 100)}...</span>
+        function renderUI() {
+            const container = document.getElementById('layerSelector');
+            container.innerHTML = scholars.map((s, idx) => `
+                <button onclick="focusScholar(${idx})" 
+                        class="strategic-btn w-full flex items-center gap-4 p-4 rounded-2xl text-left ${activeLayers[idx] ? 'active' : ''}" 
+                        style="color: ${s.color}">
+                    <div class="w-3 h-3 rounded-full shadow-[0_0_10px_currentColor]" style="background-color: ${s.color}"></div>
+                    <div class="flex-1">
+                        <div class="text-[12px] font-bold text-slate-100">${s.name}</div>
+                        <div class="text-[8px] text-slate-500 font-mono uppercase tracking-widest">${s.group}</div>
                     </div>
-                `).join('');
-
-                // Insight for 3+
-                insightEl.innerHTML = `
-                    <p class="font-bold text-white mb-1">📊 종합 관측</p>
-                    <p>세 가지 이상의 관점이 교차하고 있습니다. 차트의 넓은 면적은 이 주제가 역사적으로 얼마나 다양한 강조점을 가졌는지 보여줍니다.</p>
-                `;
-            }
+                </button>
+            `).join('');
         }
 
-        // === Story Mode Functions ===
-        function loadStoryStep() {
-            const step = storySteps[currentStep];
-            document.getElementById('step-indicator').innerText = `Step ${currentStep + 1}/${storySteps.length}`;
+        function focusScholar(idx) {
+            activeLayers[idx] = !activeLayers[idx];
+            chart.data.datasets[idx].hidden = !activeLayers[idx];
+            chart.update();
+            renderUI();
             
-            // Set active layers
-            activeIndices = new Set(step.layers);
-            
-            // Update Text manually for Story Mode
-            const titleEl = document.getElementById('info-title');
-            const contentEl = document.getElementById('info-content');
-            const insightEl = document.getElementById('ai-insight');
-            
-            titleEl.innerText = step.title;
-            contentEl.innerHTML = `<p>${step.desc}</p>`;
-            
-            // Contextual Insight based on the active scholars
-            const names = Array.from(activeIndices).map(i => scholars[i].name.split('(')[0]).join(", ");
-            insightEl.innerHTML = `
-                <p class="font-bold text-yellow-400 mb-1">📜 역사적 맥락</p>
-                <p>현재 전장: <strong>${names}</strong>. 차트의 형태 변화를 통해 신학적 무게중심이 이동하는 것을 확인하십시오.</p>
+            const container = document.getElementById('strategicBriefContent');
+            const icon = document.getElementById('briefIcon');
+            const s = scholars[idx];
+
+            icon.innerText = "🧐";
+            icon.style.backgroundColor = s.color;
+
+            container.innerHTML = `
+                <div class="space-y-8 animate-in slide-in-from-right-4 duration-500">
+                    <header>
+                        <h3 class="text-xs font-black uppercase tracking-[0.3em] mb-4" style="color: ${s.color}">${s.group} STRATEGIC Intel</h3>
+                        <h4 class="text-5xl font-black text-white leading-none tracking-tighter mb-4">${s.name}</h4>
+                    </header>
+                    <div class="space-y-8">
+                        <section>
+                            <h5 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Theological Doctrine</h5>
+                            <p class="text-slate-200 text-sm leading-[1.8]">${s.strategy}</p>
+                        </section>
+                    </div>
+                </div>
             `;
-
-            updateUI(); // Updates chart and list highlights
         }
 
-        function nextStep() {
-            if (currentStep < storySteps.length - 1) {
-                currentStep++;
-                loadStoryStep();
-            }
+        function renderMatchups() {
+            const container = document.getElementById('matchupContainer');
+            container.innerHTML = matchups.map((m, idx) => `
+                <button onclick="applyMatchup(${idx})" 
+                        class="matchup-btn px-6 py-3 rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-emerald-500 text-left leading-tight">
+                    ${m.title}
+                </button>
+            `).join('');
         }
 
-        function prevStep() {
-            if (currentStep > 0) {
-                currentStep--;
-                loadStoryStep();
-            }
+        function applyMatchup(idx) {
+            const matchup = matchups[idx];
+            activeLayers = activeLayers.map((_, i) => matchup.ids.includes(i));
+            chart.data.datasets.forEach((d, i) => d.hidden = !matchup.ids.includes(i));
+            chart.update();
+            renderUI();
+            
+            const container = document.getElementById('strategicBriefContent');
+            const icon = document.getElementById('briefIcon');
+            icon.innerText = "⚔️";
+            icon.style.backgroundColor = "#10b981";
+
+            container.innerHTML = `
+                <div class="space-y-8 animate-in slide-in-from-right-4 duration-700">
+                    <header>
+                        <h3 class="text-emerald-500 font-black text-[10px] uppercase tracking-[0.3em] mb-4">Tactical Engagement Report</h3>
+                        <h4 class="text-4xl font-black text-white leading-tight tracking-tighter">${matchup.title}</h4>
+                    </header>
+                    <div class="prose prose-invert">
+                        <p class="text-slate-300 text-sm leading-[1.8]">${matchup.analysis}</p>
+                    </div>
+                </div>
+            `;
         }
+
+        function toggleAll(val) {
+            activeLayers = activeLayers.map(() => val);
+            chart.data.datasets.forEach(d => d.hidden = !val);
+            chart.update();
+            renderUI();
+        }
+
+        initChart();
     </script>
 </body>
 </html>
