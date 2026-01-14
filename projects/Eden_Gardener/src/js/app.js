@@ -573,15 +573,15 @@ async function completeDailyLoop() {
 
         // On first completion, update care UI to reveal new creature
         if (isFirstCareToday) {
-            console.log('🎉 First care today! Triggering unlock reveal...');
-            // Refresh the creature display to show revealed creature
-            await updateCareUI();
+            console.log('🎉 First care today! Playing success sound...');
             playSound('success');
         }
+
+        // Always refresh UI to ensure unlock state is shown
+        await updateCareUI();
     }
 
     // Stay on daily screen (shows revealed creature)
-    // UI already updated by updateCareUI()
 }
 
 // ============================================
