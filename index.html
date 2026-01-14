@@ -7,83 +7,230 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&family=Noto+Sans+KR:wght@300;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Outfit', 'Noto Sans KR', sans-serif; background-color: #020617; color: #f8fafc; }
+        body { 
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif; 
+            background-color: #020617; 
+            color: #f8fafc; 
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor used */
+        }
+        
+        /* Interactive Background Glow */
+        #glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(56, 189, 248, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+
+        /* Custom Cursor */
+        #cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(56, 189, 248, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out, border-color 0.3s;
+        }
+
         .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .card-grad { background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card-grad:hover { transform: translateY(-8px); border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 20px 40px -20px rgba(56, 189, 248, 0.3); }
-        .neon-text { text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+        
+        .card-grad { 
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.7) 100%); 
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-grad::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(56, 189, 248, 0.03) 3px);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .card-grad:hover { 
+            transform: translateY(-12px) scale(1.02); 
+            border-color: rgba(56, 189, 248, 0.6); 
+            box-shadow: 0 30px 60px -15px rgba(56, 189, 248, 0.4); 
+            z-index: 10;
+        }
+        
+        .card-grad:hover::before {
+            opacity: 1;
+        }
+
+        .entrance-anim {
+            animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stagger-1 { animation-delay: 0.2s; }
+        .stagger-2 { animation-delay: 0.4s; }
+        .stagger-3 { animation-delay: 0.6s;Stagger-4 { animation-delay: 0.8s; }
+        .stagger-5 { animation-delay: 1.0s; }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 2;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(56, 189, 248, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
     </style>
 </head>
-<body class="min-h-screen selection:bg-sky-500/30 overflow-x-hidden">
+<body class="min-h-screen selection:bg-sky-500/30">
+    <div id="glow"></div>
+    <div id="cursor"></div>
+
     <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-sky-500/10 blur-[120px] rounded-full"></div>
-        <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-purple-500/10 blur-[120px] rounded-full"></div>
+        <div class="scanline"></div>
+        <div class="absolute -top-[15%] -left-[10%] w-[50%] h-[50%] bg-sky-500/10 blur-[150px] rounded-full"></div>
+        <div class="absolute -bottom-[15%] -right-[10%] w-[50%] h-[50%] bg-purple-600/10 blur-[150px] rounded-full"></div>
     </div>
 
-    <div class="relative max-w-6xl mx-auto px-6 py-20">
-        <header class="mb-24 text-center">
-            <h1 class="text-6xl md:text-8xl font-black mb-8 tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-500">
-                THEOLOGICAL<br>BATTLEGROUNDS
+    <div class="relative max-w-6xl mx-auto px-6 py-24 z-10">
+        <header class="mb-24 text-center entrance-anim">
+            <h1 class="text-7xl md:text-9xl font-black mb-8 tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-600 leading-none">
+                THEOLOGICAL<br>STRATEGIST
             </h1>
-            <p class="text-sky-400 font-mono tracking-[0.3em] uppercase text-sm">Principium Cognoscendi & Strategic Archive</p>
+            <p class="text-sky-400 font-mono tracking-[0.5em] uppercase text-xs opacity-80 mb-2">INTELLIGENCE GATEWAY ALPHA-V3</p>
+            <div class="h-[1px] w-24 bg-sky-500/50 mx-auto mt-6"></div>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Revelation v3.1 (Main) -->
-            <a href="revelation.html" class="card-grad p-8 rounded-3xl border border-white/5 flex flex-col justify-between h-[340px]">
-                <div>
-                    <span class="text-[10px] font-black bg-sky-600 px-2 py-0.5 rounded tracking-widest text-white uppercase mb-4 inline-block">Primary Sector</span>
-                    <h2 class="text-3xl font-black mb-2 tracking-tight">계시론 (Revelation)</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed">하나님을 아는 지식의 제1원리. 7인의 거장이 대결하는 최종 전략 지휘소 v3.1</p>
+            <!-- Revelation -->
+            <a href="revelation.html" class="card-grad entrance-anim stagger-1 p-10 rounded-3xl border border-white/5 flex flex-col justify-between h-[380px] group">
+                <div class="relative">
+                    <span class="text-[9px] font-black bg-sky-600/20 text-sky-400 px-3 py-1 rounded-full tracking-widest uppercase mb-6 inline-block border border-sky-500/30">Sector: Revelation</span>
+                    <h2 class="text-4xl font-black mb-3 tracking-tight group-hover:text-sky-400 transition-colors">계시론</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">The First Principle of Divine Knowledge. 하나님을 아는 지식의 제1원리. 7인의 대가들이 펼치는 전략적 계시론 분석.</p>
                 </div>
-                <div class="text-sky-400 font-bold text-xs flex items-center gap-2">DEPLOY COMMAND CENTER →</div>
+                <div class="flex items-center justify-between mt-8">
+                    <span class="text-sky-500 font-bold text-[10px] tracking-[0.2em] group-hover:translate-x-2 transition-transform">INITIALIZE SYSTEM →</span>
+                    <span class="text-[10px] font-mono text-slate-600 tracking-tighter">V3.1-STABLE</span>
+                </div>
             </a>
 
             <!-- Baptism -->
-            <a href="baptism_battleground.html" class="card-grad p-8 rounded-3xl border border-white/5 flex flex-col justify-between h-[340px]">
-                <div>
-                    <span class="text-[10px] font-black bg-emerald-600 px-2 py-0.5 rounded tracking-widest text-white uppercase mb-4 inline-block">Active Sector</span>
-                    <h2 class="text-3xl font-black mb-2 tracking-tight">세례론 (Baptism)</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed">성례전적 표징과 신학적 실재의 충돌. 언약 신학의 최전방 지형도 분석.</p>
+            <a href="baptism_battleground.html" class="card-grad entrance-anim stagger-2 p-10 rounded-3xl border border-white/5 flex flex-col justify-between h-[380px] group">
+                <div class="relative">
+                    <span class="text-[9px] font-black bg-emerald-600/20 text-emerald-400 px-3 py-1 rounded-full tracking-widest uppercase mb-6 inline-block border border-emerald-500/30">Sector: Sacramentum</span>
+                    <h2 class="text-4xl font-black mb-3 tracking-tight group-hover:text-emerald-400 transition-colors">세례론</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Covenantal Tokens & Spiritual Reality. 성례전적 표징과 신학적 실재의 격전지. 언약과 구원의 가시적 통로 분석.</p>
                 </div>
-                <div class="text-emerald-400 font-bold text-xs flex items-center gap-2">OPEN BATTLEGROUND →</div>
+                <div class="flex items-center justify-between mt-8">
+                    <span class="text-emerald-500 font-bold text-[10px] tracking-[0.2em] group-hover:translate-x-2 transition-transform">DEPLOY BATTLEGROUND →</span>
+                    <span class="text-[10px] font-mono text-slate-600 tracking-tighter">RE-ENACTED</span>
+                </div>
             </a>
 
             <!-- Justification -->
-            <a href="justification_debate.html" class="card-grad p-8 rounded-3xl border border-white/5 flex flex-col justify-between h-[340px]">
-                <div>
-                    <span class="text-[10px] font-black bg-rose-600 px-2 py-0.5 rounded tracking-widest text-white uppercase mb-4 inline-block">Conflict Zone</span>
-                    <h2 class="text-3xl font-black mb-2 tracking-tight">칭의론 (Justification)</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed">바울 신학의 핵심 쟁점. 법정적 선언과 실재적 변화 사이의 신학적 텐션 분석.</p>
+            <a href="justification_debate.html" class="card-grad entrance-anim stagger-3 p-10 rounded-3xl border border-white/5 flex flex-col justify-between h-[380px] group">
+                <div class="relative">
+                    <span class="text-[9px] font-black bg-rose-600/20 text-rose-400 px-3 py-1 rounded-full tracking-widest uppercase mb-6 inline-block border border-rose-500/30">Sector: Soteriologia</span>
+                    <h2 class="text-4xl font-black mb-3 tracking-tight group-hover:text-rose-400 transition-colors">칭의론</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Forensic Imputation vs Interior Infusion. 칭의의 법정적 성격과 실재적 주입 사이의 신학적 전술 대결.</p>
                 </div>
-                <div class="text-rose-400 font-bold text-xs flex items-center gap-2">ANALYZE DOCTRINE →</div>
+                <div class="flex items-center justify-between mt-8">
+                    <span class="text-rose-500 font-bold text-[10px] tracking-[0.2em] group-hover:translate-x-2 transition-transform">ANALYZE DOCTRINE →</span>
+                    <span class="text-[10px] font-mono text-slate-600 tracking-tighter">CORE DEPLOYED</span>
+                </div>
             </a>
 
             <!-- Resurrection -->
-            <a href="resurrection_battleground.html" class="card-grad p-8 rounded-3xl border border-white/5 flex flex-col justify-between h-[340px]">
-                <div>
-                    <span class="text-[10px] font-black bg-purple-600 px-2 py-0.5 rounded tracking-widest text-white uppercase mb-4 inline-block">Hope Vector</span>
-                    <h2 class="text-3xl font-black mb-2 tracking-tight">부활론 (Resurrection)</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed">역사적 사실성과 종말론적 희망의 교차점. 새로운 창조의 지형도.</p>
+            <a href="resurrection_battleground.html" class="card-grad entrance-anim stagger-4 p-10 rounded-3xl border border-white/5 flex flex-col justify-between h-[380px] group">
+                <div class="relative">
+                    <span class="text-[9px] font-black bg-purple-600/20 text-purple-400 px-3 py-1 rounded-full tracking-widest uppercase mb-6 inline-block border border-purple-500/30">Sector: Eschaton</span>
+                    <h2 class="text-4xl font-black mb-3 tracking-tight group-hover:text-purple-400 transition-colors">부활론</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">History vs Existential Faith. 역사적 사실성과 실존적 자아 이해의 교차점. 새로운 창조의 지평도 분석.</p>
                 </div>
-                <div class="text-purple-400 font-bold text-xs flex items-center gap-2">RECONNAISSANCE →</div>
+                <div class="flex items-center justify-between mt-8">
+                    <span class="text-purple-500 font-bold text-[10px] tracking-[0.2em] group-hover:translate-x-2 transition-transform">INTEL RETRIEVAL →</span>
+                    <span class="text-[10px] font-mono text-slate-600 tracking-tighter">BETA-V1</span>
+                </div>
             </a>
             
             <!-- Pending -->
-            <div class="card-grad p-8 rounded-3xl border border-white/5 opacity-40 flex flex-col justify-between h-[340px]">
-                <div>
-                    <h2 class="text-2xl font-black mb-2 tracking-tight text-slate-500 italic uppercase">More Sectors Pending</h2>
-                    <p class="text-slate-600 text-[11px] italic tracking-tighter">새로운 신학적 전선들이 구축 대기 중입니다. 지휘체계가 수립되는 대로 공개됩니다.</p>
+            <div class="card-grad entrance-anim stagger-5 p-10 rounded-3xl border border-white/5 opacity-40 flex flex-col justify-between h-[380px]">
+                <div class="relative">
+                    <h2 class="text-2xl font-black mb-3 tracking-tight text-slate-500 italic uppercase">More Units Incoming...</h2>
+                    <p class="text-slate-600 text-xs italic leading-relaxed">지휘 통제 시스템에 신규 섹터 데이터가 전송되고 있습니다. 구축 완료까지 대기하십시오.</p>
                 </div>
-                <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                    <div class="w-1/3 h-full bg-slate-700"></div>
+                <div class="space-y-2 mt-8">
+                    <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+                        <div class="w-[65%] h-full bg-slate-700"></div>
+                    </div>
+                    <span class="text-[8px] font-mono text-slate-800 tracking-widest">ENCRYPTING DATA... 65%</span>
                 </div>
             </div>
         </div>
 
-        <footer class="mt-40 pt-10 border-t border-white/5 text-center text-slate-600">
-            <p class="text-[10px] font-mono tracking-widest uppercase">© 2026 KERYGMA STRATEGIC ARCHIVE | INTELLIGENCE GATEWAY</p>
+        <footer class="mt-40 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-600">
+            <p class="text-[10px] font-mono tracking-[0.4em] uppercase">© 2026 KERYGMA STRATEGIC ARCHIVE // UNIFIED COMMAND</p>
+            <div class="flex gap-8 text-[9px] font-bold tracking-widest uppercase">
+                <span class="hover:text-sky-500 cursor-pointer transition-colors">Documentation</span>
+                <span class="hover:text-sky-500 cursor-pointer transition-colors">Protocols</span>
+                <span class="hover:text-sky-500 cursor-pointer transition-colors">System Status</span>
+            </div>
         </footer>
     </div>
+
+    <script>
+        const glow = document.getElementById('glow');
+        const cursor = document.getElementById('cursor');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // Update glow position with slight delay for smoothness
+            glow.style.left = x + 'px';
+            glow.style.top = y + 'px';
+
+            // Update custom cursor
+            cursor.style.left = x + 'px';
+            cursor.style.top = y + 'px';
+
+            // Glow interaction when hovering links
+            const target = e.target.closest('a');
+            if (target) {
+                glow.style.width = '800px';
+                glow.style.height = '800px';
+                cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
+                cursor.style.borderColor = 'rgba(56, 189, 248, 0.8)';
+                cursor.style.background = 'rgba(56, 189, 248, 0.1)';
+            } else {
+                glow.style.width = '600px';
+                glow.style.height = '600px';
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.borderColor = 'rgba(56, 189, 248, 0.5)';
+                cursor.style.background = 'transparent';
+            }
+        });
+    </script>
 </body>
 </html>
