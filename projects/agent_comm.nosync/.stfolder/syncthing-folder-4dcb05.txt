@@ -1,5 +1,0 @@
-# This directory is a Syncthing folder marker.
-# Do not delete.
-
-folderID: agent-comm
-created: 2025-12-25T23:27:59+09:00

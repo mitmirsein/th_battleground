@@ -1,7 +1,0 @@
-# msn_th_db - Vector DB-less RAG System
-# Python 3.11+ required
-
-mcp>=0.1.0
-pydantic>=2.0
-PyMuPDF>=1.23
-pyyaml>=6.0
