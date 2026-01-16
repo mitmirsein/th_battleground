@@ -44,3 +44,9 @@ google_params.pkl
 
 # Logs
 *.log
+
+projects/Eden_Gardener/
+projects/gs-semantic-search/
+projects/devotional-voice/
+projects/Kerygma_Daily/
+Theology_AI_Lab_v4/

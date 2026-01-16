@@ -1,33 +1,43 @@
 # ============================================
-# 🏛️ Secretariat Hub Configuration
+# 🏛️ Secretariat Hub Configuration (v2.1)
 # ============================================
-keywords:
-  "#신학": theologian
-  "#연구": theologian
-  "#theo": theologian
-  "#rag": researcher
-  "#검색": researcher
-  "#arc": scribe
-  "#노트": scribe
-  "#분석": analyst
-  "#코딩": vibe_coder
-  "#개발": vibe_coder
-  "#vibe": vibe_coder
-  "#dev": vibe_coder
-  "#점검": steward
-  "#인프라": steward
-  "#정리": librarian
-  "#위생": gardener
 
-masters:
-  theologian:
-    description: "신학 연구 총괄"
-    sub_agents: [researcher, analyst, scribe]
-  vibe_coder:
-    description: "개발 작업 총괄"
-    sub_agents: [steward, gardener]
-
+# 🛠️ System Paths
 paths:
+  # 개발 및 에이전트 실행 경로
   agents_dir: "/Users/msn/Desktop/MS_Dev.nosync/agents"
-  vault_root: "/Users/msn/Desktop/MS_Brain.nosync"
+  dev_root: "/Users/msn/Desktop/MS_Dev.nosync"
   venv: "/Users/msn/Desktop/MS_Dev.nosync/shared_venv"
+  
+  # 지식 저장소 (Knowledge Vault) - iCloud Sync
+  vault_root: "/Users/msn/Desktop/MS_Brain"
+  
+  # 에이전트 공유 메모리 (Agent Synapse) - Syncthing
+  memory_root: "/Users/msn/Desktop/MS_Memory.nosync"
+
+# 🔑 Magic Keywords -> Agent Routing
+keywords:
+  # 관리/순찰 (Deacon Family)
+  "#점검": deacon
+  "#순찰": deacon
+  "#인프라": steward
+  "#위생": gardener
+  
+  # 수집/자료 (Gatherers)
+  "#수집": journal_collector
+  "#저널": journal_collector
+  
+  # 스킬 호출 (Antigravity Skills)
+  "#묵상": bible-meditation
+  "#번역": theology-translator
+  "#설교": rise-exegesis-sermon
+  "#코딩": tech-architect
+  "#개발": tech-architect
+
+# 👥 Agent Roles
+roles:
+  deacon:
+    description: "시스템 총괄 부제 (Watchdog)"
+    components: [steward, gardener]
+  journal_collector:
+    description: "자료 수집가 (Hunter)"
