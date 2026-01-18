@@ -33,7 +33,9 @@ pip install \
     playwright \
     langchain-text-splitters \
     tiktoken \
-    pydantic-settings
+    pydantic-settings \
+    PyYAML \
+    google-genai
 
 # Playwright install (optional check)
 # playwright install chromium 

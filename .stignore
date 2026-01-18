@@ -4,6 +4,8 @@
 (?d)venv/
 (?d).venv/
 (?d)agents/experiment_env/
+(?d)experiment_env/
+(?d).agents/
 (?d)__pycache__/
 (?d)*.pyc
 

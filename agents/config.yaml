@@ -4,16 +4,16 @@
 
 # 🛠️ System Paths
 paths:
-  # 개발 및 에이전트 실행 경로
-  agents_dir: "/Users/msn/Desktop/MS_Dev.nosync/agents"
-  dev_root: "/Users/msn/Desktop/MS_Dev.nosync"
-  venv: "/Users/msn/Desktop/MS_Dev.nosync/shared_venv"
+  # 개발 및 에이전트 실행 경로 (~ = 홈 디렉토리, 양쪽 머신 호환)
+  agents_dir: "~/Desktop/MS_Dev.nosync/agents"
+  dev_root: "~/Desktop/MS_Dev.nosync"
+  venv: "~/Desktop/MS_Dev.nosync/shared_venv"
   
-  # 지식 저장소 (Knowledge Vault) - iCloud Sync
-  vault_root: "/Users/msn/Desktop/MS_Brain"
+  # 지식 저장소 (Knowledge Vault) - Syncthing (No iCloud)
+  vault_root: "~/Desktop/MS_Brain.nosync"
   
   # 에이전트 공유 메모리 (Agent Synapse) - Syncthing
-  memory_root: "/Users/msn/Desktop/MS_Memory.nosync"
+  memory_root: "~/Desktop/MS_Memory.nosync"
 
 # 🔑 Magic Keywords -> Agent Routing
 keywords:
