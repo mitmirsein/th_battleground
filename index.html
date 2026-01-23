@@ -1,117 +1,183 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>계시 논쟁의 3대 전선: 신학 상황실</title>
+    <title>계시 논쟁의 3대 전선: 신학 상황실 (Dark Ops)</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;600;800&display=swap"
         rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Noto Sans KR', 'sans-serif'],
+                    },
+                    colors: {
+                        'neon-blue': '#00f3ff',
+                        'neon-pink': '#ff00ff',
+                        'neon-green': '#00ff9d',
+                        'dark-bg': '#0f172a',
+                        'glass-bg': 'rgba(30, 41, 59, 0.7)',
+                        'glass-border': 'rgba(255, 255, 255, 0.1)',
+                    },
+                    boxShadow: {
+                        'neon': '0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3)',
+                        'neon-pink': '0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body {
-            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #020617;
+            background-image: 
+                radial-gradient(circle at 50% 0%, #1e1b4b 0%, transparent 40%),
+                radial-gradient(circle at 0% 90%, #312e81 0%, transparent 30%);
+            color: #e2e8f0;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         .custom-scroll::-webkit-scrollbar {
-            width: 5px;
+            width: 4px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
         }
 
         .custom-scroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
+            background: #475569;
+            border-radius: 2px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
         }
 
         .layer-item {
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .layer-item.inactive {
-            opacity: 0.35;
+            opacity: 0.4;
+            filter: grayscale(0.8);
         }
 
         .layer-item:hover {
-            background: #f1f5f9;
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(4px);
         }
 
         .layer-item.selected {
-            background: #e0e7ff;
+            background: rgba(0, 243, 255, 0.1);
+            border-left: 2px solid #00f3ff;
         }
 
         .step-pill {
-            transition: all 0.3s;
-            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step-pill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
         }
 
-        .step-pill:hover {
-            background: #e0e7ff;
+        .step-pill:hover::after {
+            transform: translateX(100%);
         }
 
         .step-pill.active {
-            background: #4f46e5;
-            color: white;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.5);
+            border: 1px solid rgba(129, 140, 248, 0.4);
+        }
+
+        /* Chart Animation */
+        canvas {
+            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.2));
         }
     </style>
 </head>
 
-<body
-    class="min-h-screen flex flex-col bg-gradient-to-br from-slate-100 via-slate-50 to-indigo-50 text-slate-800 overflow-x-hidden">
+<body class="min-h-screen flex flex-col overflow-x-hidden">
 
     <!-- 헤더 -->
-    <header
-        class="h-14 lg:h-16 bg-white/80 backdrop-blur-lg border-b border-slate-200/50 z-50 px-4 lg:px-6 flex justify-between items-center shrink-0">
-        <div class="flex items-center gap-2 lg:gap-3">
-            <span class="text-xl lg:text-2xl">📖</span>
+    <header class="h-16 glass-panel border-b-0 border-b-slate-700/50 z-50 px-6 flex justify-between items-center shrink-0 mb-1 mx-2 mt-2 rounded-2xl">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30 text-2xl shadow-neon">
+                🛸
+            </div>
             <div>
-                <h1 class="text-sm lg:text-lg font-extrabold text-slate-900 tracking-tight">계시 논쟁의 3대 전선</h1>
-                <p class="text-[10px] text-slate-400 font-medium tracking-widest uppercase hidden sm:block">Revelation
-                    Warfare Map</p>
+                <h1 class="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400 tracking-tight">THEOLOGY OPS</h1>
+                <p class="text-[10px] text-slate-500 font-bold tracking-[0.2em] uppercase">Revelation Warfare Map v2.0</p>
             </div>
         </div>
-        <div id="progress-bar" class="hidden lg:flex items-center gap-1 bg-slate-100 rounded-full px-2 py-1"></div>
-        <div class="flex items-center gap-2">
-            <button onclick="switchMode('story')" id="btn-mode-story"
-                class="px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm font-bold rounded-full bg-indigo-600 text-white shadow-md">스토리</button>
-            <button onclick="switchMode('custom')" id="btn-mode-custom"
-                class="px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm font-bold rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300">비교</button>
+        
+        <div id="progress-bar" class="hidden lg:flex items-center gap-1 bg-slate-900/50 rounded-full px-2 py-1.5 border border-slate-700/50"></div>
+        
+        <div class="flex items-center gap-3">
+            <div class="flex bg-slate-900/50 rounded-full p-1 border border-slate-700/50">
+                <button onclick="switchMode('story')" id="btn-mode-story"
+                    class="px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-300">STORY</button>
+                <button onclick="switchMode('custom')" id="btn-mode-custom"
+                    class="px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-300">COMPARE</button>
+            </div>
         </div>
     </header>
 
-    <!-- 모바일 탭 네비게이션 -->
-    <div class="lg:hidden flex border-b border-slate-200 bg-white/90">
-        <button onclick="showMobileTab('chart')" id="tab-chart"
-            class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-indigo-500 text-indigo-600">차트</button>
-        <button onclick="showMobileTab('layers')" id="tab-layers"
-            class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-transparent text-slate-400">레이어</button>
-        <button onclick="showMobileTab('story')" id="tab-story"
-            class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-transparent text-slate-400">스토리</button>
+    <!-- 모바일 탭 -->
+    <div class="lg:hidden flex glass-panel mx-2 mt-2 rounded-xl border-b-0 mb-1">
+        <button onclick="showMobileTab('chart')" id="tab-chart" class="flex-1 py-3 text-xs font-bold text-center border-b-2 border-cyan-500 text-cyan-400">RADAR</button>
+        <button onclick="showMobileTab('layers')" id="tab-layers" class="flex-1 py-3 text-xs font-bold text-center border-b-2 border-transparent text-slate-500">LAYERS</button>
+        <button onclick="showMobileTab('story')" id="tab-story" class="flex-1 py-3 text-xs font-bold text-center border-b-2 border-transparent text-slate-500">INTEL</button>
     </div>
 
-    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden p-2 gap-2">
         <!-- 좌측: 레이어 선택 패널 -->
         <aside id="panel-layers"
-            class="hidden lg:flex w-full lg:w-72 bg-white/95 backdrop-blur-md border-r border-slate-200 flex-col shrink-0 overflow-hidden">
-            <div class="p-4 border-b border-slate-100 shrink-0">
-                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">레이어 선택</h3>
-                <p id="layer-mode-hint" class="text-[10px] text-slate-400 mt-1">스토리 모드: 자동 진행</p>
+            class="hidden lg:flex w-full lg:w-72 glass-panel rounded-2xl flex-col shrink-0 overflow-hidden">
+            <div class="p-5 border-b border-slate-700/30 shrink-0 bg-slate-800/20">
+                <h3 class="text-xs font-extrabold text-cyan-500 uppercase tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+                    Layer Control
+                </h3>
+                <p id="layer-mode-hint" class="text-[10px] text-slate-500 mt-2 font-mono">STATUS: AUTO_PILOT_ENGAGED</p>
             </div>
-            <div class="flex-1 overflow-y-auto custom-scroll p-3 space-y-4">
+            <div class="flex-1 overflow-y-auto custom-scroll p-4 space-y-6">
                 <div>
-                    <h4 class="text-[10px] font-bold text-slate-300 uppercase mb-2">고대 배경</h4>
+                    <h4 class="text-[10px] font-bold text-slate-500 uppercase mb-3 px-2 border-l-2 border-slate-600">Ancient Origins</h4>
                     <div id="layer-roots" class="space-y-1"></div>
                 </div>
                 <div>
-                    <h4 class="text-[10px] font-bold text-slate-300 uppercase mb-2">교부 & 중세</h4>
+                    <h4 class="text-[10px] font-bold text-slate-500 uppercase mb-3 px-2 border-l-2 border-slate-600">Medieval Era</h4>
                     <div id="layer-medieval" class="space-y-1"></div>
                 </div>
                 <div>
-                    <h4 class="text-[10px] font-bold text-slate-300 uppercase mb-2">종교개혁</h4>
+                    <h4 class="text-[10px] font-bold text-slate-500 uppercase mb-3 px-2 border-l-2 border-slate-600">Reformation</h4>
                     <div id="layer-reformation" class="space-y-1"></div>
                 </div>
                 <div>
-                    <h4 class="text-[10px] font-bold text-slate-300 uppercase mb-2">근현대</h4>
+                    <h4 class="text-[10px] font-bold text-slate-500 uppercase mb-3 px-2 border-l-2 border-slate-600">Modern Theology</h4>
                     <div id="layer-modern" class="space-y-1"></div>
                 </div>
             </div>
@@ -119,13 +185,15 @@
 
         <!-- 중앙: 차트 -->
         <div id="panel-chart"
-            class="flex-1 flex items-center justify-center p-4 lg:p-6 relative min-h-[50vh] lg:min-h-0">
+            class="flex-1 flex items-center justify-center p-4 lg:p-8 relative min-h-[50vh] lg:min-h-0 glass-panel rounded-2xl">
+            <!-- Grid Background -->
+            <div class="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+            
             <div class="relative w-full max-w-sm lg:max-w-[75vh] aspect-square">
-                <div
-                    class="absolute inset-0 bg-gradient-to-br from-indigo-200/30 to-pink-200/30 rounded-[24px] lg:rounded-[40px] blur-2xl">
-                </div>
-                <div
-                    class="relative bg-white rounded-[20px] lg:rounded-[32px] shadow-2xl border border-slate-100 p-3 lg:p-4 h-full">
+                <!-- Outer Glow -->
+                <div class="absolute inset-0 bg-indigo-500/10 rounded-full blur-3xl animate-pulse"></div>
+                
+                <div class="relative z-10 p-2 h-full">
                     <canvas id="theologyChart" class="w-full h-full"></canvas>
                 </div>
             </div>
@@ -133,36 +201,39 @@
 
         <!-- 우측: 스토리 + 인사이트 -->
         <aside id="panel-story"
-            class="hidden lg:flex w-full lg:w-96 bg-white border-l border-slate-200 flex-col shrink-0 overflow-hidden max-h-[50vh] lg:max-h-full">
-            <div class="flex-[7] flex flex-col overflow-hidden border-b border-slate-200">
-                <div class="p-3 lg:p-4 border-b border-slate-100 shrink-0 flex items-center gap-2">
+            class="hidden lg:flex w-full lg:w-96 glass-panel rounded-2xl flex-col shrink-0 overflow-hidden max-h-[50vh] lg:max-h-full">
+            <div class="flex-[7] flex flex-col overflow-hidden border-b border-slate-700/30">
+                <div class="p-5 border-b border-slate-700/30 shrink-0 flex items-center gap-3 bg-slate-800/20">
                     <span id="detail-badge"
-                        class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">Overview</span>
-                    <h2 id="detail-title" class="text-base lg:text-lg font-bold text-slate-900"></h2>
+                        class="px-3 py-1 rounded border border-indigo-500/50 text-[10px] font-bold bg-indigo-500/20 text-indigo-300 uppercase tracking-wider shadow-neon">Overview</span>
+                    <h2 id="detail-title" class="text-lg font-bold text-white tracking-tight"></h2>
                 </div>
                 <div id="detail-desc"
-                    class="flex-1 overflow-y-auto custom-scroll p-4 prose prose-slate prose-sm max-w-none"></div>
+                    class="flex-1 overflow-y-auto custom-scroll p-6 prose prose-invert prose-sm max-w-none leading-relaxed text-slate-300"></div>
             </div>
-            <div class="flex-[3] flex flex-col overflow-hidden bg-gradient-to-b from-indigo-50/50 to-purple-50/50">
-                <div class="flex items-center justify-between px-3 lg:px-4 py-2 border-b border-indigo-100 shrink-0">
+            
+            <div class="flex-[3] flex flex-col overflow-hidden bg-slate-900/30">
+                <div class="flex items-center justify-between px-5 py-3 border-b border-slate-700/30 shrink-0 bg-slate-800/40">
                     <div class="flex items-center gap-2">
-                        <span class="text-lg">💡</span>
-                        <span class="text-[10px] lg:text-xs font-bold text-indigo-600 uppercase">AI Insight</span>
+                        <span class="text-sm">⚡</span>
+                        <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest">Tactical Analysis</span>
                     </div>
                     <span id="insight-badge"
-                        class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Step
-                        1/14</span>
+                        class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">STEP 01</span>
                 </div>
-                <div class="flex-1 overflow-y-auto custom-scroll p-3 lg:p-4 min-h-0">
-                    <div id="insight-text" class="text-sm text-slate-700 leading-relaxed"></div>
+                <div class="flex-1 overflow-y-auto custom-scroll p-5 min-h-0">
+                    <div id="insight-text" class="text-sm text-slate-300 leading-relaxed font-light border-l-2 border-amber-500/50 pl-3"></div>
                 </div>
-                <div id="story-nav" class="flex border-t border-indigo-100 shrink-0">
+                <div id="story-nav" class="flex border-t border-slate-700/30 shrink-0 h-12">
                     <button onclick="prevStep()" id="btn-prev"
-                        class="flex-1 py-2 text-sm font-semibold text-slate-400 hover:bg-white/50 disabled:opacity-30">←
-                        이전</button>
+                        class="flex-1 text-xs font-bold text-slate-400 hover:bg-white/5 hover:text-white transition-colors disabled:opacity-20 disabled:hover:bg-transparent">
+                        &larr; PREV
+                    </button>
+                    <div class="w-px bg-slate-700/30"></div>
                     <button onclick="nextStep()" id="btn-next"
-                        class="flex-1 py-2 text-sm font-semibold text-indigo-600 hover:bg-white/50 border-l border-indigo-100">다음
-                        →</button>
+                        class="flex-1 text-xs font-bold text-cyan-400 hover:bg-cyan-950/30 transition-colors border-l border-slate-700/30">
+                        NEXT &rarr;
+                    </button>
                 </div>
             </div>
         </aside>
@@ -178,15 +249,15 @@
                 if (t === tab) {
                     panel.classList.remove('hidden');
                     panel.classList.add('flex');
-                    tabBtn.classList.add('border-indigo-500', 'text-indigo-600');
-                    tabBtn.classList.remove('border-transparent', 'text-slate-400');
+                    tabBtn.classList.add('border-cyan-500', 'text-cyan-400');
+                    tabBtn.classList.remove('border-transparent', 'text-slate-500');
                 } else {
                     if (window.innerWidth < 1024) {
                         panel.classList.add('hidden');
                         panel.classList.remove('flex');
                     }
-                    tabBtn.classList.remove('border-indigo-500', 'text-indigo-600');
-                    tabBtn.classList.add('border-transparent', 'text-slate-400');
+                    tabBtn.classList.remove('border-cyan-500', 'text-cyan-400');
+                    tabBtn.classList.add('border-transparent', 'text-slate-500');
                 }
             });
         }
@@ -200,32 +271,25 @@
                 document.getElementById('panel-story').classList.remove('hidden');
                 document.getElementById('panel-story').classList.add('flex');
             } else {
-                // 모바일로 전환 시: 차트만 보이고 나머지 숨김
                 document.getElementById('panel-layers').classList.add('hidden');
                 document.getElementById('panel-layers').classList.remove('flex');
                 document.getElementById('panel-story').classList.add('hidden');
                 document.getElementById('panel-story').classList.remove('flex');
                 document.getElementById('panel-chart').classList.remove('hidden');
                 document.getElementById('panel-chart').classList.add('flex');
-                // 탭 상태 초기화
-                document.getElementById('tab-chart').classList.add('border-indigo-500', 'text-indigo-600');
-                document.getElementById('tab-chart').classList.remove('border-transparent', 'text-slate-400');
-                document.getElementById('tab-layers').classList.remove('border-indigo-500', 'text-indigo-600');
-                document.getElementById('tab-layers').classList.add('border-transparent', 'text-slate-400');
-                document.getElementById('tab-story').classList.remove('border-indigo-500', 'text-indigo-600');
-                document.getElementById('tab-story').classList.add('border-transparent', 'text-slate-400');
             }
         });
-        // 카테고리별 그룹화된 7축
+
         const labels = [
-            ['🔵 자연 계시', '12시'],
-            ['🔵 역사적 객관성', '2시'],
-            ['🔵 우주적 범위', '4시'],
-            ['🔴 실존적 만남', '5시'],
-            ['🔴 현재적 말씀', '7시'],
-            ['🟢 성경 중심성', '9시'],
-            ['🟢 신비/초월', '11시']
+            ['자연 계시', 'NATURAL'],
+            ['역사성', 'HISTORY'],
+            ['우주적', 'COSMIC'],
+            ['실존적', 'EXISTENTIAL'],
+            ['현재적', 'PRESENT'],
+            ['성경', 'SCRIPTURE'],
+            ['초월', 'TRANSCEND']
         ];
+        
         const axisMeanings = [
             { name: "자연 계시", desc: "이성과 자연을 통한 앎", cat: "객관" },
             { name: "역사적 객관성", desc: "검증 가능한 역사적 사건", cat: "객관" },
@@ -237,94 +301,108 @@
         ];
 
         const allLayers = {
-            // data 순서: [자연계시, 역사적객관성, 우주적범위, 실존적만남, 현재적말씀, 성경중심성, 신비초월]
-            hellenism: { id: 'hellenism', label: '헬라 철학', desc: '로고스와 이성', data: [5, 2, 4, 3, 1, 1, 2], borderColor: '#64748b', type: 'root' },
-            judaism: { id: 'judaism', label: '유대교', desc: '토라와 역사', data: [2, 5, 3, 2, 3, 5, 5], borderColor: '#eab308', type: 'root' },
-            irenaeus: { id: 'irenaeus', label: '이레네우스', desc: '총괄갱신', data: [3, 4, 5, 3, 3, 5, 4], borderColor: '#8B4513', type: 'medieval' },
-            augustine: { id: 'augustine', label: '아우구스티누스', desc: '내면의 빛', data: [4, 4, 3, 5, 4, 5, 5], borderColor: '#d97706', type: 'medieval' },
-            aquinas: { id: 'aquinas', label: '아퀴나스', desc: '자연과 은총', data: [5, 4, 5, 2, 2, 4, 3], borderColor: '#1e3a8a', type: 'medieval' },
-            luther: { id: 'luther', label: '루터', desc: '오직 말씀', data: [1, 3, 2, 5, 5, 5, 4], borderColor: '#be123c', type: 'reformation' },
-            calvin: { id: 'calvin', label: '칼뱅', desc: '성령의 증거', data: [2, 4, 4, 4, 4, 5, 5], borderColor: '#155e75', type: 'reformation' },
-            schleiermacher: { id: 'schleiermacher', label: '슐라이어마허', desc: '감정 의존', data: [3, 1, 2, 5, 4, 2, 3], borderColor: '#ec4899', type: 'modern' },
-            barth: { id: 'barth', label: '바르트', desc: '말씀의 삼중형태', data: [1, 3, 3, 3, 5, 5, 5], borderColor: '#16a34a', type: 'modern' },
-            bultmann: { id: 'bultmann', label: '불트만', desc: '실존적 해석', data: [1, 1, 1, 5, 4, 3, 2], borderColor: '#2563eb', type: 'modern' },
-            bonhoeffer: { id: 'bonhoeffer', label: '본회퍼', desc: '비종교적 해석', data: [2, 3, 3, 5, 5, 4, 4], borderColor: '#9333ea', type: 'modern' },
-            pannenberg: { id: 'pannenberg', label: '판넨베르크', desc: '역사로서의 계시', data: [4, 5, 5, 1, 2, 4, 2], borderColor: '#dc2626', type: 'modern' }
+            hellenism: { id: 'hellenism', label: '헬라 철학', desc: 'LOGOS & REASON', data: [5, 2, 4, 3, 1, 1, 2], borderColor: '#94a3b8', type: 'root' },
+            judaism: { id: 'judaism', label: '유대교', desc: 'TORAH & HISTORY', data: [2, 5, 3, 2, 3, 5, 5], borderColor: '#fbbf24', type: 'root' },
+            irenaeus: { id: 'irenaeus', label: '이레네우스', desc: 'RECAPITULATION', data: [3, 4, 5, 3, 3, 5, 4], borderColor: '#a3e635', type: 'medieval' },
+            augustine: { id: 'augustine', label: '아우구스티누스', desc: 'INNER LIGHT', data: [4, 4, 3, 5, 4, 5, 5], borderColor: '#f97316', type: 'medieval' },
+            aquinas: { id: 'aquinas', label: '아퀴나스', desc: 'NATURE + GRACE', data: [5, 4, 5, 2, 2, 4, 3], borderColor: '#3b82f6', type: 'medieval' },
+            luther: { id: 'luther', label: '루터', desc: 'SOLA SCRIPTURA', data: [1, 3, 2, 5, 5, 5, 4], borderColor: '#f43f5e', type: 'reformation' },
+            calvin: { id: 'calvin', label: '칼뱅', desc: 'HS WITNESS', data: [2, 4, 4, 4, 4, 5, 5], borderColor: '#06b6d4', type: 'reformation' },
+            schleiermacher: { id: 'schleiermacher', label: '슐라이어마허', desc: 'DEPENDENCE', data: [3, 1, 2, 5, 4, 2, 3], borderColor: '#d946ef', type: 'modern' },
+            barth: { id: 'barth', label: '바르트', desc: 'NEIN!', data: [1, 3, 3, 3, 5, 5, 5], borderColor: '#22c55e', type: 'modern' },
+            bultmann: { id: 'bultmann', label: '불트만', desc: 'EXISTENTIAL', data: [1, 1, 1, 5, 4, 3, 2], borderColor: '#6366f1', type: 'modern' },
+            bonhoeffer: { id: 'bonhoeffer', label: '본회퍼', desc: 'RELIGIONLESS', data: [2, 3, 3, 5, 5, 4, 4], borderColor: '#a855f7', type: 'modern' },
+            pannenberg: { id: 'pannenberg', label: '판넨베르크', desc: 'REV. AS HISTORY', data: [4, 5, 5, 1, 2, 4, 2], borderColor: '#ef4444', type: 'modern' }
         };
 
         function getDataset(key) {
             const l = allLayers[key];
-            return { label: l.label, data: l.data, backgroundColor: l.borderColor + '15', borderColor: l.borderColor, borderWidth: l.type === 'root' ? 1.5 : 2.5, borderDash: l.type === 'root' ? [5, 5] : [], pointRadius: 3 };
+            const isRoot = l.type === 'root';
+            // Neon Effect Colors
+            return { 
+                label: l.label, 
+                data: l.data, 
+                backgroundColor: l.borderColor + '15', // very transparent
+                borderColor: l.borderColor, 
+                borderWidth: isRoot ? 1 : 2, 
+                borderDash: isRoot ? [4, 4] : [], 
+                pointBackgroundColor: '#0f172a',
+                pointBorderColor: l.borderColor,
+                pointBorderWidth: 2,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointHoverBackgroundColor: l.borderColor,
+                pointHoverBorderColor: '#fff',
+                tension: 0.1
+            };
         }
 
-        // 인사이트 엔진
         function generateInsight(ids) {
-            if (ids.length === 0) return "레이어를 선택하세요.";
-            if (ids.length === 1) return '<strong>' + allLayers[ids[0]].label + ':</strong> ' + allLayers[ids[0]].desc;
+            if (ids.length === 0) return "분석할 데이터 레이어를 선택하십시오.";
+            if (ids.length === 1) return '<strong class="text-white">' + allLayers[ids[0]].label + ':</strong> ' + allLayers[ids[0]].desc + '<br><span class="text-xs text-slate-400">단일 레이어 분석 모드</span>';
             if (ids.length === 2) {
                 const l1 = allLayers[ids[0]], l2 = allLayers[ids[1]];
                 let maxDiff = 0, maxIdx = 0;
                 for (let i = 0; i < 7; i++) { const d = Math.abs(l1.data[i] - l2.data[i]); if (d > maxDiff) { maxDiff = d; maxIdx = i; } }
-                return '<strong>결정적 전선 [' + axisMeanings[maxIdx].name + ']:</strong> ' + l1.label + '(' + l1.data[maxIdx] + '점) vs ' + l2.label + '(' + l2.data[maxIdx] + '점)';
+                return '<strong class="text-cyan-400">격전지 감지 [' + axisMeanings[maxIdx].name + ']:</strong><br>' + l1.label + ' (' + l1.data[maxIdx] + ') vs ' + l2.label + ' (' + l2.data[maxIdx] + ')';
             }
             const layers = ids.map(id => allLayers[id]);
             const avgs = new Array(7).fill(0);
             for (let i = 0; i < 7; i++) { layers.forEach(l => avgs[i] += l.data[i]); avgs[i] /= layers.length; }
             const maxIdx = avgs.indexOf(Math.max(...avgs));
             const minIdx = avgs.indexOf(Math.min(...avgs));
-            return '<strong>공통점:</strong> ' + axisMeanings[maxIdx].name + '(' + avgs[maxIdx].toFixed(1) + '점). <strong>맹점:</strong> ' + axisMeanings[minIdx].name + '(' + avgs[minIdx].toFixed(1) + '점).';
+            return '<strong class="text-emerald-400">공통 분모:</strong> ' + axisMeanings[maxIdx].name + '<br><strong class="text-rose-400">전략적 맹점:</strong> ' + axisMeanings[minIdx].name;
         }
 
-        // 스토리 데이터
         const storyInsights = [
-            "계시 논쟁은 <strong>🔵객관, 🔴주관, 🟢초월</strong>의 세 전선에서 벌어집니다.",
-            "헬라 철학: <strong>이성(Logos)</strong>으로 신적인 것을 파악할 수 있다.",
-            "유대교: 하나님은 <strong>역사 속에서 말씀하시는 분</strong>입니다.",
-            "이레네우스: 영지주의에 맞서 <strong>공적 사도 전승</strong>을 강조.",
-            "아우구스티누스: <strong>내면의 빛</strong>을 통한 계시.",
-            "아퀴나스: <strong>자연과 은총의 조화</strong>.",
-            "루터: <strong>오직 말씀!</strong>",
-            "칼뱅: <strong>성령의 내적 증거</strong>.",
-            "슐라이어마허: <strong>절대 의존의 감정</strong>.",
-            "바르트: <strong>Nein!</strong> 오직 예수 그리스도 안에서만.",
-            "불트만: <strong>케리그마와의 실존적 만남</strong>.",
-            "본회퍼: <strong>비종교적 해석</strong>.",
-            "판넨베르크: <strong>역사로서의 계시</strong>.",
-            "12개 레이어가 펼쳐졌습니다. 당신의 좌표는?"
+            "계시 논쟁은 <strong class='text-blue-400'>객관</strong>, <strong class='text-pink-400'>주관</strong>, <strong class='text-emerald-400'>초월</strong>의 3대 전선에서 펼쳐집니다.",
+            "헬라 철학: <strong class='text-white'>LOGOS</strong> - 이성으로 도달하는 신.",
+            "유대교: <strong class='text-amber-400'>HISTORY</strong> - 역사 속에 개입하는 신.",
+            "이레네우스: <strong class='text-lime-400'>TRADITION</strong> - 사도적 전승의 수호.",
+            "아우구스티누스: <strong class='text-orange-400'>INNER LIGHT</strong> - 내면의 빛.",
+            "아퀴나스: <strong class='text-blue-400'>HARMONY</strong> - 자연과 은총의 완벽한 조화.",
+            "루터: <strong class='text-rose-500'>SOLA SCRIPTURA</strong> - 오직 말씀으로 타격하라.",
+            "칼뱅: <strong class='text-cyan-400'>SPIRIT</strong> - 성령의 내적 증거.",
+            "슐라이어마허: <strong class='text-fuchsia-400'>FEELING</strong> - 절대 의존의 감정.",
+            "바르트: <strong class='text-green-500'>NEIN!</strong> - 자연계시 완전 거부. 수직적 침입.",
+            "불트만: <strong class='text-indigo-400'>EXISTENTIAL</strong> - 실존적 결단과 만남.",
+            "본회퍼: <strong class='text-purple-400'>SECULAR</strong> - 성인된 세계에서의 신앙.",
+            "판넨베르크: <strong class='text-red-500'>UNIVERSAL</strong> - 역사가 곧 계시다.",
+            "12개 레이어 전개 완료. 당신의 신학적 좌표는 어디입니까?"
         ];
 
         const stepDescriptions = [
-            '<h3 class="font-bold text-lg mb-3">🗺️ 계시 논쟁의 지형도</h3><p class="mb-4">"하나님은 어떻게 자신을 알리시는가?"</p><div class="space-y-3 mb-4"><div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-400"><strong class="text-blue-800">🔵 객관성</strong><p class="text-sm text-blue-700">이성/역사로 검증 가능한가?</p></div><div class="p-3 bg-pink-50 rounded-lg border-l-4 border-pink-400"><strong class="text-pink-800">🔴 주관성</strong><p class="text-sm text-pink-700">실존적 만남인가?</p></div><div class="p-3 bg-emerald-50 rounded-lg border-l-4 border-emerald-400"><strong class="text-emerald-800">🟢 초월성</strong><p class="text-sm text-emerald-700">신비로 남는가?</p></div></div>',
-            '<h3 class="font-bold text-lg mb-3">🏛️ 헬라 철학</h3><p>플라톤 이래 그리스 철학은 <strong>로고스(이성)</strong>를 통해 신적인 것을 파악할 수 있다고 보았습니다.</p><ul class="list-disc list-inside text-sm mt-3"><li>자연 계시 극대화</li><li>영원한 진리 추구</li><li>내면 중시</li></ul>',
-            '<h3 class="font-bold text-lg mb-3">✡️ 유대교</h3><p>하나님은 <strong>역사 속에서 행동하시는 분</strong>입니다.</p><ul class="list-disc list-inside text-sm mt-3"><li>시내산, 출애굽</li><li>예언자들의 선포</li><li>토라의 권위</li></ul>',
-            '<h3 class="font-bold text-lg mb-3">⚔️ 이레네우스</h3><p>영지주의의 비밀 계시에 맞서 <strong>공적 사도 전승</strong>을 강조했습니다.</p>',
-            '<h3 class="font-bold text-lg mb-3">💡 아우구스티누스</h3><p><strong>내면의 빛(lumen interius)</strong>을 통한 계시를 강조했습니다.</p>',
-            '<h3 class="font-bold text-lg mb-3">⚖️ 아퀴나스</h3><p><strong>자연과 은총의 조화</strong>를 체계화했습니다.</p><ul class="list-disc list-inside text-sm mt-3"><li>자연 계시: 이성으로 하나님 존재 증명</li><li>특별 계시: 삼위일체 등</li></ul>',
-            '<h3 class="font-bold text-lg mb-3">📜 루터</h3><p><strong>Sola Scriptura!</strong> 오직 성경만이 계시의 규범입니다.</p>',
-            '<h3 class="font-bold text-lg mb-3">🕊️ 칼뱅</h3><p><strong>성령의 내적 증거</strong>가 성경의 권위를 확증합니다.</p>',
-            '<h3 class="font-bold text-lg mb-3">💭 슐라이어마허</h3><p>계시를 <strong>절대 의존의 감정</strong>으로 재해석했습니다.</p>',
-            '<h3 class="font-bold text-lg mb-3">🔥 바르트</h3><p>자연 계시에 <strong>"Nein!"</strong>을 선언합니다.</p>',
-            '<h3 class="font-bold text-lg mb-3">🎭 불트만</h3><p>계시를 <strong>케리그마와의 실존적 만남</strong>으로 해석합니다.</p>',
-            '<h3 class="font-bold text-lg mb-3">🌍 본회퍼</h3><p><strong>비종교적 해석</strong>을 탐구합니다.</p>',
-            '<h3 class="font-bold text-lg mb-3">📚 판넨베르크</h3><p><strong>역사로서의 계시</strong>를 주장합니다.</p>',
-            '<h3 class="font-bold text-lg mb-3">📊 최종 전황 보고</h3><div class="space-y-2 text-sm"><p>🔵 <strong>객관주의:</strong> 유대교, 판넨베르크</p><p>🔴 <strong>주관주의:</strong> 불트만, 슐라이어마허</p><p>🟢 <strong>균형파:</strong> 바르트, 칼뱅</p><p>🟡 <strong>자연신학:</strong> 아퀴나스, 헬라</p></div><p class="mt-4 font-medium">👉 당신은 어느 좌표에?</p>'
+            '<h3 class="font-bold text-xl mb-3 text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">🗺️ Operation: Revelation</h3><div class="space-y-4 my-4"><div class="p-3 bg-blue-900/20 border-l-2 border-blue-500 rounded-r"><strong class="text-blue-400 text-xs tracking-widest">OBJECTIVE</strong><p class="text-sm text-slate-300">이성/역사로 검증 가능한가?</p></div><div class="p-3 bg-pink-900/20 border-l-2 border-pink-500 rounded-r"><strong class="text-pink-400 text-xs tracking-widest">SUBJECTIVE</strong><p class="text-sm text-slate-300">실존적 만남인가?</p></div><div class="p-3 bg-emerald-900/20 border-l-2 border-emerald-500 rounded-r"><strong class="text-emerald-400 text-xs tracking-widest">TRANSCENDENT</strong><p class="text-sm text-slate-300">신비로 남는가?</p></div></div>',
+            '<h3 class="font-bold text-xl mb-3 text-slate-200">🏛️ HELLENISM</h3><p>플라톤 이래 그리스 철학은 <strong>로고스(이성)</strong>를 통해 신적인 것을 파악할 수 있다고 보았습니다.</p><ul class="space-y-2 mt-4 text-xs text-slate-400 font-mono"><li class="flex items-center gap-2"><span class="text-slate-600">>></span> 자연 계시 극대화</li><li class="flex items-center gap-2"><span class="text-slate-600">>></span> 영원한 진리 추구</li></ul>',
+            '<h3 class="font-bold text-xl mb-3 text-amber-200">✡️ JUDAISM</h3><p>하나님은 <strong>역사 속에서 행동하시는 분</strong>입니다.</p><ul class="space-y-2 mt-4 text-xs text-slate-400 font-mono"><li class="flex items-center gap-2"><span class="text-amber-600">>></span> 시내산, 출애굽</li><li class="flex items-center gap-2"><span class="text-amber-600">>></span> 예언자들의 선포</li></ul>',
+            '<h3 class="font-bold text-xl mb-3 text-lime-200">⚔️ IRENAEUS</h3><p>영지주의의 비밀 계시에 맞서 <strong>공적 사도 전승</strong>을 강조했습니다.</p>',
+            '<h3 class="font-bold text-xl mb-3 text-orange-200">💡 AUGUSTINE</h3><p><strong>내면의 빛(lumen interius)</strong>을 통한 계시를 강조했습니다.</p>',
+            '<h3 class="font-bold text-xl mb-3 text-blue-200">⚖️ AQUINAS</h3><p><strong>자연과 은총의 조화</strong>를 체계화했습니다. 이성은 신앙의 예비 단계입니다.</p>',
+            '<h3 class="font-bold text-xl mb-3 text-rose-200">📜 LUTHER</h3><p><strong>Sola Scriptura!</strong> 오직 성경만이 계시의 규범입니다.</p>',
+            '<h3 class="font-bold text-xl mb-3 text-cyan-200">🕊️ CALVIN</h3><p><strong>성령의 내적 증거</strong>가 성경의 권위를 확증합니다.</p>',
+            '<h3 class="font-bold text-xl mb-3 text-fuchsia-200">💭 SCHLEIERMACHER</h3><p>계시를 <strong>절대 의존의 감정</strong>으로 재해석했습니다.</p>',
+            '<h3 class="font-bold text-xl mb-3 text-green-200">🔥 BARTH</h3><p>자연 계시에 <strong>"Nein!"</strong>을 선언합니다. 하나님은 전적으로 타자이십니다.</p>',
+            '<h3 class="font-bold text-xl mb-3 text-indigo-200">🎭 BULTMANN</h3><p>계시를 <strong>케리그마와의 실존적 만남</strong>으로 해석합니다. 역사적 사실보다 실존적 의미가 중요합니다.</p>',
+            '<h3 class="font-bold text-xl mb-3 text-purple-200">🌍 BONHOEFFER</h3><p><strong>비종교적 해석</strong>을 탐구합니다. 세상 한복판에서의 그리스도.</p>',
+            '<h3 class="font-bold text-xl mb-3 text-red-200">📚 PANNENBERG</h3><p><strong>역사로서의 계시</strong>를 주장합니다. 역사의 종말(부활)에서 계시가 완성됩니다.</p>',
+            '<h3 class="font-bold text-xl mb-3 text-slate-200">📊 FINAL REPORT</h3><div class="grid grid-cols-2 gap-2 text-xs font-mono mb-4"><div class="p-2 bg-slate-800 rounded border border-slate-700"><span class="text-blue-400">OBJ</span> : Judaism, Pannenberg</div><div class="p-2 bg-slate-800 rounded border border-slate-700"><span class="text-pink-400">SUB</span> : Bultmann, Schleiermacher</div><div class="p-2 bg-slate-800 rounded border border-slate-700"><span class="text-emerald-400">BAL</span> : Barth, Calvin</div><div class="p-2 bg-slate-800 rounded border border-slate-700"><span class="text-amber-400">NAT</span> : Aquinas, Hellenism</div></div><p class="font-medium text-white animate-pulse">👉 AWAITING YOUR COORDINATES...</p>'
         ];
 
         const steps = [
-            { title: "3대 전선", badge: "Overview", layers: [], desc: 0 },
-            { title: "헬라 철학", badge: "Hellenism", layers: ['hellenism'], desc: 1 },
-            { title: "유대교", badge: "Judaism", layers: ['hellenism', 'judaism'], desc: 2 },
-            { title: "이레네우스", badge: "Irenaeus", layers: ['hellenism', 'judaism', 'irenaeus'], desc: 3 },
-            { title: "아우구스티누스", badge: "Augustine", layers: ['hellenism', 'judaism', 'irenaeus', 'augustine'], desc: 4 },
-            { title: "아퀴나스", badge: "Aquinas", layers: ['hellenism', 'judaism', 'irenaeus', 'augustine', 'aquinas'], desc: 5 },
-            { title: "루터", badge: "Luther", layers: ['hellenism', 'judaism', 'luther'], desc: 6 },
-            { title: "칼뱅", badge: "Calvin", layers: ['hellenism', 'judaism', 'luther', 'calvin'], desc: 7 },
-            { title: "슐라이어마허", badge: "Schleiermacher", layers: ['hellenism', 'judaism', 'schleiermacher'], desc: 8 },
-            { title: "바르트", badge: "Barth", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth'], desc: 9 },
-            { title: "불트만", badge: "Bultmann", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth', 'bultmann'], desc: 10 },
-            { title: "본회퍼", badge: "Bonhoeffer", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth', 'bultmann', 'bonhoeffer'], desc: 11 },
-            { title: "판넨베르크", badge: "Pannenberg", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth', 'bultmann', 'bonhoeffer', 'pannenberg'], desc: 12 },
-            { title: "최종 보고", badge: "Summary", layers: Object.keys(allLayers), desc: 13 }
+            { title: "THE FRONTLINES", badge: "00", layers: [], desc: 0 },
+            { title: "HELLENISM", badge: "01", layers: ['hellenism'], desc: 1 },
+            { title: "JUDAISM", badge: "02", layers: ['hellenism', 'judaism'], desc: 2 },
+            { title: "IRENAEUS", badge: "03", layers: ['hellenism', 'judaism', 'irenaeus'], desc: 3 },
+            { title: "AUGUSTINE", badge: "04", layers: ['hellenism', 'judaism', 'irenaeus', 'augustine'], desc: 4 },
+            { title: "AQUINAS", badge: "05", layers: ['hellenism', 'judaism', 'irenaeus', 'augustine', 'aquinas'], desc: 5 },
+            { title: "LUTHER", badge: "06", layers: ['hellenism', 'judaism', 'luther'], desc: 6 },
+            { title: "CALVIN", badge: "07", layers: ['hellenism', 'judaism', 'luther', 'calvin'], desc: 7 },
+            { title: "SCHLEIERMACHER", badge: "08", layers: ['hellenism', 'judaism', 'schleiermacher'], desc: 8 },
+            { title: "BARTH", badge: "09", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth'], desc: 9 },
+            { title: "BULTMANN", badge: "10", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth', 'bultmann'], desc: 10 },
+            { title: "BONHOEFFER", badge: "11", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth', 'bultmann', 'bonhoeffer'], desc: 11 },
+            { title: "PANNENBERG", badge: "12", layers: ['hellenism', 'judaism', 'schleiermacher', 'barth', 'bultmann', 'bonhoeffer', 'pannenberg'], desc: 12 },
+            { title: "MISSION DEBRIEF", badge: "FIN", layers: Object.keys(allLayers), desc: 13 }
         ];
 
         let currentStep = 0;
@@ -340,21 +418,49 @@
         }
 
         function initChart() {
+            Chart.defaults.color = '#94a3b8';
+            Chart.defaults.borderColor = 'rgba(148, 163, 184, 0.1)';
+            
             chartInstance = new Chart(document.getElementById('theologyChart').getContext('2d'), {
                 type: 'radar',
-                data: { labels: labels, datasets: [] },
+                data: { labels: labels.map(l => l[1]), datasets: [] }, // Use English labels for chart
                 options: {
-                    responsive: true, maintainAspectRatio: true,
-                    scales: { r: { min: 0, max: 5, ticks: { display: false }, pointLabels: { font: { family: "'Noto Sans KR'", size: 10, weight: '600' }, color: '#475569' }, grid: { color: 'rgba(148,163,184,0.3)', circular: true } } },
-                    plugins: { legend: { display: false } },
-                    animation: { duration: 400 }
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { 
+                        r: { 
+                            min: 0, max: 5, 
+                            ticks: { display: false, backdropColor: 'transparent' }, 
+                            pointLabels: { 
+                                font: { family: "'Outfit'", size: 10, weight: '700' }, 
+                                color: '#94a3b8' // Slate 400
+                            }, 
+                            grid: { color: 'rgba(148,163,184,0.1)', circular: true },
+                            angleLines: { color: 'rgba(148,163,184,0.1)' }
+                        } 
+                    },
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#cbd5e1',
+                            borderColor: 'rgba(255, 255, 255, 0.1)',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: true,
+                            bodyFont: { family: "'Noto Sans KR'" }
+                        }
+                    },
+                    animation: { duration: 600, easing: 'easeOutQuart' }
                 }
             });
         }
 
         function buildProgressBar() {
             const bar = document.getElementById('progress-bar');
-            bar.innerHTML = steps.map((s, i) => '<button onclick="goToStep(' + i + ')" class="step-pill px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap ' + (i === 0 ? 'active' : '') + '">' + s.badge + '</button>').join('');
+            bar.innerHTML = steps.map((s, i) => 
+                '<button onclick="goToStep(' + i + ')" class="step-pill px-3 py-1 text-[10px] font-mono font-bold whitespace-nowrap text-slate-500 hover:text-slate-300 ' + (i === 0 ? 'active' : '') + '">' + s.badge + '</button>'
+            ).join('');
         }
 
         function buildLayerPanel() {
@@ -363,8 +469,8 @@
                 const container = document.getElementById(groups[l.type]);
                 const el = document.createElement('div');
                 el.id = 'layer-' + l.id;
-                el.className = 'layer-item flex items-center gap-2 px-2 py-1.5 rounded-lg cursor-pointer inactive';
-                el.innerHTML = '<span class="w-2.5 h-2.5 rounded-full shrink-0" style="background:' + l.borderColor + '"></span><span class="text-xs font-medium text-slate-700">' + l.label + '</span>';
+                el.className = 'layer-item flex items-center gap-3 px-3 py-2 rounded border border-transparent cursor-pointer inactive';
+                el.innerHTML = '<span class="w-1.5 h-1.5 rounded-full shrink-0 shadow-[0_0_8px_currentColor]" style="background:' + l.borderColor + '; color:' + l.borderColor + '"></span><div class="flex flex-col"><span class="text-xs font-bold text-slate-300">' + l.label + '</span><span class="text-[9px] text-slate-600 font-mono tracking-wider">' + l.desc + '</span></div>';
                 el.onclick = function () { if (currentMode === 'custom') toggleLayer(l.id); };
                 container.appendChild(el);
             });
@@ -395,10 +501,10 @@
             chartInstance.update();
             updateLayerPanel(ids);
             document.getElementById('insight-text').innerHTML = generateInsight(ids);
-            document.getElementById('insight-badge').textContent = ids.length + '개 선택';
-            // 비교 모드에서도 선택된 첫 번째 레이어의 설명 표시
+            document.getElementById('insight-badge').textContent = ids.length + ' SELECT';
+            
             if (ids.length > 0) {
-                const firstId = ids[ids.length - 1]; // 마지막 선택된 것
+                const firstId = ids[ids.length - 1]; 
                 const idx = Object.keys(allLayers).indexOf(firstId) + 1;
                 if (idx > 0 && idx < stepDescriptions.length) {
                     document.getElementById('detail-badge').textContent = allLayers[firstId].label;
@@ -406,23 +512,37 @@
                     document.getElementById('detail-desc').innerHTML = stepDescriptions[idx];
                 }
             } else {
-                document.getElementById('detail-badge').textContent = '비교 모드';
+                document.getElementById('detail-badge').textContent = 'COMPARE';
                 document.getElementById('detail-title').textContent = '';
-                document.getElementById('detail-desc').innerHTML = '<p class="text-slate-400">좌측에서 레이어를 선택하세요.</p>';
+                document.getElementById('detail-desc').innerHTML = '<p class="text-slate-500 font-mono flex items-center gap-2"><span class="animate-pulse">_</span> SELECT LAYERS TO ANALYZE</p>';
             }
         }
 
         function switchMode(mode) {
             currentMode = mode;
-            document.getElementById('btn-mode-story').className = mode === 'story' ? 'px-4 py-2 text-sm font-bold rounded-full bg-indigo-600 text-white shadow-md' : 'px-4 py-2 text-sm font-bold rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300';
-            document.getElementById('btn-mode-custom').className = mode === 'custom' ? 'px-4 py-2 text-sm font-bold rounded-full bg-indigo-600 text-white shadow-md' : 'px-4 py-2 text-sm font-bold rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300';
-            document.getElementById('story-nav').style.display = mode === 'story' ? 'flex' : 'none';
-            document.getElementById('progress-bar').style.display = mode === 'story' ? 'flex' : 'none';
-            document.getElementById('layer-mode-hint').textContent = mode === 'story' ? '스토리 모드: 자동 진행' : '비교 모드: 클릭하여 선택';
+            const btnStory = document.getElementById('btn-mode-story');
+            const btnCustom = document.getElementById('btn-mode-custom');
+            
             if (mode === 'story') {
+                btnStory.classList.add('bg-indigo-600', 'text-white', 'shadow-neon');
+                btnStory.classList.remove('text-slate-500', 'hover:text-slate-300');
+                btnCustom.classList.remove('bg-indigo-600', 'text-white', 'shadow-neon');
+                btnCustom.classList.add('text-slate-500', 'hover:text-slate-300');
+                
+                document.getElementById('story-nav').style.display = 'flex';
+                document.getElementById('progress-bar').style.display = 'flex';
+                document.getElementById('layer-mode-hint').textContent = 'STATUS: AUTO_PILOT_ENGAGED';
                 customSelection.clear();
                 updateView();
             } else {
+                btnCustom.classList.add('bg-indigo-600', 'text-white', 'shadow-neon');
+                btnCustom.classList.remove('text-slate-500', 'hover:text-slate-300');
+                btnStory.classList.remove('bg-indigo-600', 'text-white', 'shadow-neon');
+                btnStory.classList.add('text-slate-500', 'hover:text-slate-300');
+                
+                document.getElementById('story-nav').style.display = 'none';
+                document.getElementById('progress-bar').style.display = 'none';
+                document.getElementById('layer-mode-hint').textContent = 'STATUS: MANUAL_OVERRIDE';
                 updateCustomView();
             }
         }
@@ -433,7 +553,7 @@
             chartInstance.update();
             updateLayerPanel(step.layers);
             document.getElementById('insight-text').innerHTML = storyInsights[currentStep];
-            document.getElementById('insight-badge').textContent = 'Step ' + (currentStep + 1) + '/' + steps.length;
+            document.getElementById('insight-badge').textContent = '0' + (currentStep + 1) + ' / ' + steps.length;
             document.getElementById('detail-badge').textContent = step.badge;
             document.getElementById('detail-title').textContent = step.title;
             document.getElementById('detail-desc').innerHTML = stepDescriptions[step.desc];
