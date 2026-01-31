@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아포리아 작전 통제실 (Aporia Ops)</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        // Lucide 아이콘을 React 컴포넌트로 변환하는 헬퍼 함수
+        function createLucideIcon(iconName) {
+            return function(props) {
+                const icon = lucide.icons[iconName];
+                if (!icon) return null;
+                
+                // SVG 속성 생성
+                const svgProps = {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    width: props.size || 24,
+                    height: props.size || 24,
+                    viewBox: "0 0 24 24",
+                    fill: "none",
+                    stroke: "currentColor",
+                    strokeWidth: 2,
+                    strokeLinecap: "round",
+                    strokeLinejoin: "round",
+                    className: props.className,
+                    ...props
+                };
+
+                // 아이콘 데이터(배열)를 SVG 요소로 변환
+                // lucide.icons[name]은 [tag, attrs, children] 형태가 아니라
+                // 실제로는 toSvg() 메서드를 가진 객체거나 배열일 수 있음.
+                // CDN 버전의 lucide는 `createIncons` 함수를 주로 씀.
+                // React 환경에서 CDN으로 Lucide 쓰기가 까다로우므로,
+                // 가장 확실한 방법: LucideLab의 React 버전을 쓰거나, SVG 스트링을 dangerouslySetInnerHTML로 렌더링.
+                
+                // 여기서는 최대한 간단하게, 필요한 아이콘만 SVG로 직접 정의해서 에러를 없애겠습니다.
+                return React.createElement('svg', svgProps, ...icon.map(([tag, attrs]) => React.createElement(tag, attrs)));
+            }
+        }
+        
+        // Lucide가 로드되면 React 컴포넌트 래퍼 생성
+        window.lucideIcons = {};
+        window.lucideReact = {};
+    </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', 'Noto Sans KR', sans-serif; background-color: #030712; color: #e5e7eb; overflow: hidden; }
+        .glass-panel { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .neon-blue { box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+        .neon-red { box-shadow: 0 0 15px rgba(239, 68, 68, 0.6); animation: pulse-red 2s infinite; }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        .node-label { font-size: 10px; fill: #94a3b8; pointer-events: none; text-anchor: middle; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        
+        // 아이콘 컴포넌트 생성 (CDN 버전 호환성 해결)
+        const Shield = createLucideIcon('Shield');
+        const AlertTriangle = createLucideIcon('AlertTriangle');
+        const BookOpen = createLucideIcon('BookOpen');
+        const Activity = createLucideIcon('Activity');
+        const X = createLucideIcon('X');
+
+        // Sample Data from Aporia Analysis
+        const initialNodes = [
+            { id: "Divine_Face", name: "하나님의 얼굴 역설", type: "linguistic_limit", group: "Exodus", val: 20 },
+            { id: "Rock_Allegory", name: "반석 알레고리 긴장", type: "linguistic_limit", group: "Exodus", val: 10 },
+            { id: "Unquenchable", name: "채워지지 않는 갈망", type: "self_dissolution", group: "Exodus", val: 15 },
+            { id: "Law_Promise", name: "율법과 약속", type: "unconditionality", group: "Galatians", val: 18 },
+            { id: "Clothing", name: "옷 입음 메타포", type: "mutual_indwelling", group: "Galatians", val: 12 },
+            { id: "Rev_History", name: "계시 vs 역사", type: "identity_paradox", group: "Galatians", val: 14 },
+            { id: "Wordplay", name: "언어유희 긴장", type: "identity_paradox", group: "Amos", val: 10 },
+            { id: "Famine", name: "영적 기근", type: "self_dissolution", group: "Amos", val: 15 },
+            { id: "Autopoiesis", name: "신앙의 자가발전", type: "mutual_indwelling", group: "Amos", val: 16 },
+            { id: "Theodicy", name: "신정론 간격", type: "linguistic_limit", group: "General", val: 18 },
+            { id: "Stigmata", name: "흔적의 역설", type: "self_dissolution", group: "General", val: 12 },
+            { id: "Dead_Faith", name: "죽은 믿음", type: "mutual_indwelling", group: "James", val: 16 },
+            { id: "Tangent", name: "접점 (Tangent)", type: "identity_paradox", group: "James", val: 14 },
+            { id: "Costly_Grace", name: "값비싼 은혜", type: "unconditionality", group: "James", val: 15 },
+            { id: "Golden_Calf", name: "금송아지", type: "linguistic_limit", group: "Exodus", val: 12 },
+            { id: "Jealousy", name: "하나님의 질투", type: "identity_paradox", group: "Exodus", val: 14 }
+        ];
+
+        const initialLinks = [
+            { source: "Divine_Face", target: "Golden_Calf", type: "related" },
+            { source: "Divine_Face", target: "Rock_Allegory", type: "related" },
+            { source: "Law_Promise", target: "Clothing", type: "tension" },
+            { source: "Dead_Faith", target: "Costly_Grace", type: "related" },
+            { source: "Tangent", target: "Stigmata", type: "related" },
+            { source: "Rev_History", target: "Wordplay", type: "contrast" },
+            { source: "Unquenchable", target: "Famine", type: "echo" }
+        ];
+
+        const AporiaDetail = ({ data, onClose, onMeditate }) => {
+            if (!data) return null;
+            
+            const getTypeColor = (type) => {
+                switch(type) {
+                    case 'linguistic_limit': return 'text-purple-400';
+                    case 'identity_paradox': return 'text-amber-400';
+                    case 'self_dissolution': return 'text-rose-500';
+                    case 'unconditionality': return 'text-cyan-400';
+                    default: return 'text-slate-400';
+                }
+            };
+
+            return (
+                <div className="flex-1 flex flex-col h-full">
+                    <div className="flex justify-between items-start mb-6">
+                        <div className="flex items-center gap-2">
+                             <AlertTriangle className={`w-5 h-5 ${getTypeColor(data.type)}`} />
+                             <span className={`text-xs font-bold uppercase tracking-widest ${getTypeColor(data.type)}`}>{data.type.replace('_', ' ')}</span>
+                        </div>
+                        <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors">
+                            <X size={20} />
+                        </button>
+                    </div>
+                    
+                    <h2 className="text-2xl font-extrabold text-white mb-2 leading-tight">{data.name}</h2>
+                    <p className="text-xs text-slate-500 font-mono mb-6 uppercase tracking-wider">Source: {data.group}</p>
+                    
+                    <div className="flex-1 overflow-y-auto custom-scroll space-y-6">
+                        <div className="bg-slate-900/50 p-4 rounded-xl border-l-2 border-slate-700">
+                            <h3 className="text-sm font-bold text-slate-300 mb-2">설명 (DESCRIPTION)</h3>
+                            <p className="text-sm text-slate-400 leading-relaxed">
+                                이 아포리아는 {data.group} 신학의 핵심적 긴장을 나타냅니다. 단순한 논리적 해결을 거부하고 실존적 참여를 요구합니다.
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <h3 className="text-xs font-bold text-slate-500 uppercase mb-3 flex items-center gap-2">
+                                <Activity size={14} /> 저항 계수 (Complexity)
+                            </h3>
+                            <div className="w-full bg-slate-800 rounded-full h-1.5 mb-1">
+                                <div className="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full" style={{width: `${data.val * 5}%`}}></div>
+                            </div>
+                            <span className="text-[10px] text-slate-500 text-right block">{data.val * 5}% Complexity</span>
+                        </div>
+
+                        <div>
+                             <h3 className="text-xs font-bold text-slate-500 uppercase mb-3 flex items-center gap-2">
+                                <BookOpen size={14} /> 신학적 전통 (Tradition)
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                <span className="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 border border-slate-700">변증법적 신학</span>
+                                <span className="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 border border-slate-700">종교개혁</span>
+                                <span className="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 border border-slate-700">신비주의</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button 
+                        onClick={onMeditate}
+                        className="mt-6 w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 active:scale-95"
+                    >
+                        <span>묵상 모드 진입 (INITIATE)</span>
+                    </button>
+                </div>
+            );
+        };
+
+        const GraphCanvas = ({ nodes, links, onSelectNode, layoutMode, activeFilter }) => {
+            const svgRef = useRef(null);
+            const simulationRef = useRef(null);
+
+            useEffect(() => {
+                if (!svgRef.current) return;
+                
+                const width = svgRef.current.clientWidth;
+                const height = svgRef.current.clientHeight;
+
+                // Clear previous D3 elements if first render
+                const svg = d3.select(svgRef.current);
+                svg.selectAll("*").remove();
+
+                svg.attr("viewBox", [0, 0, width, height]);
+
+                const container = svg.append("g");
+
+                const zoom = d3.zoom()
+                    .scaleExtent([0.1, 4])
+                    .on("zoom", (event) => {
+                        container.attr("transform", event.transform);
+                    });
+
+                svg.call(zoom).on("dblclick.zoom", null);
+
+                // Initialize Simulation
+                const simulation = d3.forceSimulation(nodes)
+                    .force("link", d3.forceLink(links).id(d => d.id).distance(100))
+                    .force("charge", d3.forceManyBody().strength(-300))
+                    .force("collide", d3.forceCollide(30));
+
+                // Save simulation ref for updates
+                simulationRef.current = simulation;
+
+                const link = container.append("g")
+                    .attr("stroke", "#334155")
+                    .attr("stroke-opacity", 0.6)
+                    .selectAll("line")
+                    .data(links)
+                    .join("line")
+                    .attr("stroke-width", 1);
+
+                const node = container.append("g")
+                    .selectAll("circle")
+                    .data(nodes)
+                    .join("g")
+                    .call(d3.drag()
+                        .on("start", dragstarted)
+                        .on("drag", dragged)
+                        .on("end", dragended));
+
+                node.append("circle")
+                    .attr("r", d => d.val > 15 ? 12 : 6)
+                    .attr("fill", d => {
+                        if (d.type === 'self_dissolution') return '#ef4444';
+                        if (d.type === 'linguistic_limit') return '#8b5cf6';
+                        if (d.type === 'unconditionality') return '#06b6d4';
+                        return '#eab308';
+                    })
+                    .attr("class", d => d.val > 15 ? "cursor-pointer neon-red" : "cursor-pointer")
+                    .attr("stroke", "#fff")
+                    .attr("stroke-width", d => d.val > 15 ? 0 : 1.5)
+                    .on("click", (event, d) => onSelectNode(d));
+                    
+                node.filter(d => d.val > 15)
+                    .append("circle")
+                    .attr("r", 20)
+                    .attr("fill", "none")
+                    .attr("stroke", "#ef4444")
+                    .attr("stroke-opacity", 0.3)
+                    .attr("stroke-width", 1)
+                    .classed("animate-ping", true)
+                    .style("animation-duration", "3s");
+
+                node.append("text")
+                    .text(d => d.name)
+                    .attr("x", 0)
+                    .attr("y", d => d.val > 15 ? 25 : 15)
+                    .attr("class", "node-label")
+                    .attr("fill", "#94a3b8");
+
+                simulation.on("tick", () => {
+                    link
+                        .attr("x1", d => d.source.x)
+                        .attr("y1", d => d.source.y)
+                        .attr("x2", d => d.target.x)
+                        .attr("y2", d => d.target.y);
+
+                    node.attr("transform", d => `translate(${d.x},${d.y})`);
+                });
+
+                function dragstarted(event) {
+                    if (!event.active) simulation.alphaTarget(0.3).restart();
+                    event.subject.fx = event.subject.x;
+                    event.subject.fy = event.subject.y;
+                }
+
+                function dragged(event) {
+                    event.subject.fx = event.x;
+                    event.subject.fy = event.y;
+                }
+
+                function dragended(event) {
+                    if (!event.active) simulation.alphaTarget(0);
+                    event.subject.fx = null;
+                    event.subject.fy = null;
+                }
+            }, []); // Run once on mount
+
+            // Effect to handle layout/filter changes dynamically
+            useEffect(() => {
+                if (!simulationRef.current || !svgRef.current) return;
+                
+                const width = svgRef.current.clientWidth;
+                const height = svgRef.current.clientHeight;
+                const simulation = simulationRef.current;
+                const svg = d3.select(svgRef.current);
+
+                // Update Visual Opacity based on activeFilter
+                svg.selectAll("circle").transition().duration(500)
+                    .attr("opacity", d => (activeFilter === "ALL" || d.group === activeFilter) ? 1 : 0.1);
+                
+                svg.selectAll("text").transition().duration(500)
+                    .attr("opacity", d => (activeFilter === "ALL" || d.group === activeFilter) ? 1 : 0.1);
+                    
+                svg.selectAll("line").transition().duration(500)
+                    .attr("stroke-opacity", d => {
+                        // Link logic: both ends in active group?
+                        // d.source and d.target are objects now
+                        const sGroup = d.source.group;
+                        const tGroup = d.target.group;
+                        if (activeFilter === "ALL") return 0.6;
+                        if (sGroup === activeFilter && tGroup === activeFilter) return 0.8;
+                        return 0.05;
+                    });
+
+                // Update Simulation Forces
+                simulation.force("center", null).force("x", null).force("y", null).force("radial", null);
+
+                if (activeFilter !== "ALL") {
+                    // Focus Mode: Pull active group to center
+                    simulation
+                        .force("charge", d3.forceManyBody().strength(-300))
+                        .force("x", d3.forceX(width / 2).strength(d => d.group === activeFilter ? 0.3 : 0.05))
+                        .force("y", d3.forceY(height / 2).strength(d => d.group === activeFilter ? 0.3 : 0.05));
+                        
+                } else if (layoutMode === 'radial') {
+                    // Previous Radial Logic
+                    const groups = ["Exodus", "Galatians", "Amos", "James", "General"];
+                    const angleStep = (2 * Math.PI) / groups.length;
+                    
+                    simulation
+                        .force("charge", d3.forceManyBody().strength(-100))
+                        .force("x", d3.forceX(d => {
+                            const index = groups.indexOf(d.group);
+                            const angle = index * angleStep;
+                            return width/2 + Math.cos(angle - Math.PI/2) * 300;
+                        }).strength(0.5))
+                        .force("y", d3.forceY(d => {
+                            const index = groups.indexOf(d.group);
+                            const angle = index * angleStep;
+                            return height/2 + Math.sin(angle - Math.PI/2) * 300;
+                        }).strength(0.5));
+                } else {
+                    // Default Force Layout
+                    simulation
+                        .force("charge", d3.forceManyBody().strength(-300))
+                        .force("center", d3.forceCenter(width / 2, height / 2));
+                }
+                
+                simulation.alpha(0.8).restart();
+
+            }, [layoutMode, activeFilter]); // Re-run when these change
+
+            return (
+                <svg ref={svgRef} className="w-full h-full cursor-grab active:cursor-grabbing"></svg>
+            );
+        };
+
+        const GridView = ({ nodes, onSelectNode }) => {
+            return (
+                <div className="p-8 pt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-y-auto h-full custom-scroll">
+                    {nodes.map(node => (
+                        <div key={node.id} 
+                             onClick={() => onSelectNode(node)}
+                             className="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-slate-600 transition-all cursor-pointer group hover:bg-slate-900/50">
+                            <div className="flex justify-between items-start mb-4">
+                                <span className={`text-[10px] uppercase tracking-widest px-2 py-1 rounded bg-slate-950 border border-slate-800 ${
+                                    node.type === 'self_dissolution' ? 'text-rose-500 border-rose-900' :
+                                    node.type === 'linguistic_limit' ? 'text-purple-500 border-purple-900' :
+                                    node.type === 'unconditionality' ? 'text-cyan-500 border-cyan-900' :
+                                    'text-amber-500 border-amber-900'
+                                }`}>
+                                    {node.type.replace('_', ' ')}
+                                </span>
+                                <div className={`w-2 h-2 rounded-full ${node.val > 15 ? 'bg-rose-500 animate-pulse' : 'bg-slate-700'}`}></div>
+                            </div>
+                            <h3 className="text-xl font-bold text-slate-200 mb-2 group-hover:text-white transition-colors">{node.name}</h3>
+                            <p className="text-xs text-slate-500 font-mono text-right">출처: {node.group}</p>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        const MeditationOverlay = ({ data, onClose }) => {
+            const [breath, setBreath] = useState("들이마시세요 (Inhale)...");
+            
+            useEffect(() => {
+                const cycle = setInterval(() => {
+                    setBreath(b => b.includes("Inhale") ? "내쉬세요 (Exhale)..." : "들이마시세요 (Inhale)...");
+                }, 4000); // 4초 호흡 주기
+                return () => clearInterval(cycle);
+            }, []);
+
+            return (
+                <div className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center animate-fade-in touch-none">
+                    <button onClick={onClose} className="absolute top-8 right-8 text-slate-500 hover:text-white transition-colors">
+                        <X size={32} />
+                    </button>
+                    
+                    <div className="text-center max-w-2xl px-6">
+                        <span className={`text-xs font-bold uppercase tracking-[0.5em] mb-8 block ${
+                            data.type === 'self_dissolution' ? 'text-rose-500' :
+                            data.type === 'linguistic_limit' ? 'text-purple-500' :
+                            'text-cyan-500'
+                        }`}>Thinking into the Void</span>
+                        
+                        <h1 className="text-5xl md:text-6xl font-black text-white mb-12 leading-tight tracking-tight">
+                            {data.name}
+                        </h1>
+                        
+                        <div className="h-px w-24 bg-slate-800 mx-auto mb-12"></div>
+                        
+                        <p className="text-xl text-slate-400 font-serif italic mb-20 leading-loose">
+                            "이 모순 속에서, 당신이 포기해야 할<br/>나의 '정의(Definition)'는 무엇인가?"
+                        </p>
+                        
+                        <div className="animate-pulse text-sm text-slate-600 font-mono">
+                            {breath}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [selectedAporia, setSelectedAporia] = useState(null);
+            const [searchTerm, setSearchTerm] = useState("");
+            const [viewMode, setViewMode] = useState("graph"); 
+            const [layoutMode, setLayoutMode] = useState("force"); 
+            const [activeFilter, setActiveFilter] = useState("ALL");
+            const [isMeditating, setIsMeditating] = useState(false); // 묵상 모드 상태
+
+            // Filter Logic (Modified: Only filter by search, Group filter is visual)
+            const filteredNodes = initialNodes.filter(node => {
+                const matchesSearch = node.name.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchesSearch;
+            });
+            
+            const groups = ["ALL", ...new Set(initialNodes.map(n => n.group))];
+
+            return (
+                <div className="relative w-full h-screen bg-slate-950 overflow-hidden flex flex-col">
+                    {/* Background Grid */}
+                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
+                    
+                    {/* Header */}
+                    <header className="z-20 px-6 py-4 flex items-center justify-between pointer-events-none">
+                        <div className="flex items-center gap-3 glass-panel px-4 py-2 rounded-full pointer-events-auto">
+                            <Shield className="text-cyan-400 w-5 h-5" />
+                            <span className="font-bold text-white tracking-widest text-sm hidden md:block">신학 작전 통제실</span>
+                            <span className="w-px h-4 bg-slate-700 mx-1 hidden md:block"></span>
+                            <span className="text-xs text-slate-400 font-mono">APORIA_NET_V2</span>
+                        </div>
+
+                        <div className="flex items-center gap-4 pointer-events-auto">
+                            {/* Source Filter */}
+                            <div className="hidden md:flex bg-slate-900/80 backdrop-blur rounded-lg p-1 border border-slate-800">
+                                {groups.map(group => (
+                                    <button
+                                        key={group}
+                                        onClick={() => setActiveFilter(group)}
+                                        className={`px-3 py-1.5 text-xs font-medium rounded transition-all ${
+                                            activeFilter === group 
+                                            ? 'bg-slate-700 text-white shadow-sm ring-1 ring-cyan-500/50' 
+                                            : 'text-slate-500 hover:text-slate-300'
+                                        }`}
+                                    >
+                                        {group}
+                                    </button>
+                                ))}
+                            </div>
+                            
+                            {/* Search Input ... */}
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                                    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    placeholder="아포리아 검색..." 
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-48 bg-slate-900/80 border border-slate-800 text-slate-200 text-sm rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 block pl-10 p-2 placeholder-slate-600 transition-all focus:w-64"
+                                />
+                            </div>
+
+                            {/* View Toggle */}
+                            <div className="flex bg-slate-900/80 rounded-lg p-1 border border-slate-800">
+                                <button 
+                                    onClick={() => setViewMode("graph")}
+                                    className={`p-2 rounded ${viewMode === 'graph' ? 'bg-slate-700 text-cyan-400' : 'text-slate-500 hover:text-slate-300'}`}
+                                >
+                                    <Activity size={18} />
+                                </button>
+                                <button 
+                                    onClick={() => setViewMode("grid")}
+                                    className={`p-2 rounded ${viewMode === 'grid' ? 'bg-slate-700 text-cyan-400' : 'text-slate-500 hover:text-slate-300'}`}
+                                >
+                                    <BookOpen size={18} />
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    <main className="flex-1 relative w-full h-full overflow-hidden">
+                        {viewMode === 'graph' ? (
+                            <GraphCanvas 
+                                nodes={filteredNodes} 
+                                links={initialLinks} 
+                                onSelectNode={setSelectedAporia}
+                                layoutMode={layoutMode}
+                                activeFilter={activeFilter}
+                            />
+                        ) : (
+                            <GridView 
+                                nodes={filteredNodes} 
+                                onSelectNode={setSelectedAporia} 
+                            />
+                        )}
+                    </main>
+
+                    {/* Side Panel */}
+                    {selectedAporia && (
+                        <div className="absolute right-4 top-20 bottom-4 w-96 glass-panel rounded-2xl p-6 shadow-2xl flex flex-col transform transition-all duration-300 animate-slide-in pointer-events-auto z-30">
+                             <AporiaDetail 
+                                data={selectedAporia} 
+                                onClose={() => setSelectedAporia(null)}
+                                onMeditate={() => setIsMeditating(true)}
+                            />
+                        </div>
+                    )}
+                    
+                    {/* Meditation Overlay */}
+                    {isMeditating && selectedAporia && (
+                        <MeditationOverlay 
+                            data={selectedAporia} 
+                            onClose={() => setIsMeditating(false)} 
+                        />
+                    )}
+                    
+                    {/* Floating Legend (Only show in graph mode) */}
+                    {viewMode === 'graph' && !isMeditating && (
+                        <div className="absolute bottom-6 left-6 glass-panel rounded-xl p-4 space-y-2 pointer-events-auto z-10">
+                            <div className="flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]"></span>
+                                <span className="text-[10px] text-slate-400 uppercase">자기 해체 (Self Dissolution)</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                 <span className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(139,92,246,0.6)]"></span>
+                                 <span className="text-[10px] text-slate-400 uppercase">언어의 한계 (Linguistic Limit)</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                 <span className="w-2 h-2 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.6)]"></span>
+                                <span className="text-[10px] text-slate-400 uppercase">무조건성 (Unconditionality)</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
